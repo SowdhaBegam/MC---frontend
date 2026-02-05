@@ -1,0 +1,16 @@
+import axios from "axios";
+import { getToken } from "../utils/authStorage";
+
+const instance = axios.create({
+  baseURL: "https://mc-platform-m62bw4ztc-sangeetha-lakshmis-projects.vercel.app/",
+});
+
+instance.interceptors.request.use((config) => {
+  const token = getToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export default instance;

@@ -1,0 +1,30 @@
+.register-page {
+  background-image: url("../assets/Scootyedit.jpeg");
+}
+
+/* Card inside register layout */
+.login-card {
+  max-width: 500px;
+}
+
+.login-title {
+  font-size: 36px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 24px;
+  color: navy;
+  letter-spacing: -0.5px;
+}
+
+
+.or-text {
+  text-align: center;
+  margin: 18px 0;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.owner-btn {
+  width: 100%;
+  margin-top: 6px;
+}

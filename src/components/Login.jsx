@@ -1,0 +1,104 @@
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import { vendorLogin, adminLogin } from "../services/authService";
+
+export default function Login() {
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
+
+  const [pendingMsg, setPendingMsg] = useState("");
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+
+  // ✅ SINGLE, CLEAN LOGIN FUNCTION
+  const handleLogin = async () => {
+  try {
+    let res;
+
+    // 🟢 ADMIN LOGIN
+    if (loginData.email === "admin@gmail.com") {
+      res = await adminLogin(loginData);
+
+      const token = res.data.token;
+      login({ token, role: "admin" });
+      navigate("/admin-dashboard");
+      return;
+    }
+
+    // 🟡 VENDOR LOGIN
+    res = await vendorLogin(loginData);
+
+    const token = res.data.token;
+    login({ token, role: "vendor" });
+    navigate("/shop-dashboard");
+
+  } catch (err) {
+    // ⏳ Vendor pending approval
+    if (err.response?.status === 403) {
+      setPendingMsg("⏳ Your shop is waiting for admin approval.");
+      return;
+    }
+
+    setPendingMsg("");
+    alert(err.response?.data?.message || "Login failed");
+  }
+};
+
+  return (
+    <>
+      <h1 className="login-title">Login</h1>
+
+      <div className="field">
+        <label>Email Address</label>
+        <div className="input-pro">
+          <span className="icon">📧</span>
+          <input
+            type="email"
+            placeholder="admin@nexus.com"
+            value={loginData.email}
+            onChange={(e) =>
+              setLoginData({ ...loginData, email: e.target.value })
+            }
+          />
+        </div>
+      </div>
+
+      <div className="field">
+        <label>Password</label>
+        <div className="input-pro">
+          <span className="icon">🔒</span>
+          <input
+            type="password"
+            placeholder="••••••••"
+            value={loginData.password}
+            onChange={(e) =>
+              setLoginData({ ...loginData, password: e.target.value })
+            }
+          />
+        </div>
+      </div>
+
+      <button className="create-btn login-btn" onClick={handleLogin}>
+        Sign In to Dashboard →
+      </button>
+
+      {pendingMsg && (
+        <div style={{ marginTop: "15px", color: "#b45309", fontWeight: "bold" }}>
+          {pendingMsg}
+        </div>
+      )}
+
+      <div className="or-text">OR</div>
+
+      <button
+        className="back-btn owner-btn"
+        onClick={() => navigate("/register")}
+      >
+        Become a Shop Owner
+      </button>
+    </>
+  );
+}
