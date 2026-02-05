@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Loginpage from "./pages/Loginpage";
-import Registerpage from "./pages/Registerpage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import AdminDashboard from "./components/AdminDashboard";
 import "./App.css";
 import ShopDashboard from "./pages/ShopDashboard";
@@ -18,10 +18,10 @@ export default function App() {
       <Routes>
 
         {/* Login page */}
-        <Route path="/" element={<Loginpage />} />
+        <Route path="/" element={<LoginPage />} />
 
         {/* Register page */}
-        <Route path="/register" element={<Registerpage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
         {/* 🔐 Shop Dashboard */}
 <Route
