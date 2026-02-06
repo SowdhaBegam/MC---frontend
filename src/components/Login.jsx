@@ -42,6 +42,7 @@ export default function Login() {
       res = await adminLogin(loginData);
 
       const token = res.data.token;
+      localStorage.setItem("token", token);
       login({ token, role: "admin" });
       navigate("/admin/dashboard");
       return;
