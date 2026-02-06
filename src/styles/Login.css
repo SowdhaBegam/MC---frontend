@@ -12,19 +12,26 @@
   font-weight: 700;
   text-align: center;
   margin-bottom: 24px;
-  color: navy;
+  color: #3f0607;
   letter-spacing: -0.5px;
+  
 }
 
 
 .or-text {
   text-align: center;
   margin: 18px 0;
-  color: #9ca3af;
-  font-size: 13px;
+  color: #020812;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .owner-btn {
   width: 100%;
   margin-top: 6px;
+}
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
 }

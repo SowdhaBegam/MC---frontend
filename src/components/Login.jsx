@@ -12,9 +12,28 @@ export default function Login() {
     email: "",
     password: "",
   });
+  const [errors, setErrors] = useState({});
+
+  const validateLogin = () => {
+  let newErrors = {};
+
+  if (!loginData.email) {
+    newErrors.email = "Email is required";
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginData.email)) {
+    newErrors.email = "Invalid email format";
+  }
+
+  if (!loginData.password) {
+    newErrors.password = "Password is required";
+  }
+
+  setErrors(newErrors);
+  return Object.keys(newErrors).length === 0;
+};
 
   // ✅ SINGLE, CLEAN LOGIN FUNCTION
   const handleLogin = async () => {
+  if (!validateLogin()) return;
   try {
     let res;
 
@@ -24,7 +43,7 @@ export default function Login() {
 
       const token = res.data.token;
       login({ token, role: "admin" });
-      navigate("/admin-dashboard");
+      navigate("/admin/dashboard");
       return;
     }
 
@@ -52,7 +71,7 @@ export default function Login() {
       <h1 className="login-title">Login</h1>
 
       <div className="field">
-        <label>Email Address</label>
+        <label>Email Address *</label>
         <div className="input-pro">
           <span className="icon">📧</span>
           <input
@@ -63,11 +82,12 @@ export default function Login() {
               setLoginData({ ...loginData, email: e.target.value })
             }
           />
+          {errors.email && <p className="error">{errors.email}</p>}
         </div>
       </div>
 
       <div className="field">
-        <label>Password</label>
+        <label>Password *</label>
         <div className="input-pro">
           <span className="icon">🔒</span>
           <input
@@ -78,6 +98,7 @@ export default function Login() {
               setLoginData({ ...loginData, password: e.target.value })
             }
           />
+          {errors.password && <p className="error">{errors.password}</p>}
         </div>
       </div>
 

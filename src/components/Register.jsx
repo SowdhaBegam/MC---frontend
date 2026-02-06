@@ -21,8 +21,53 @@ export default function Register() {
     closesAt: "22:00",
   });
 
-  const next = () => setStep(step + 1);
+   const [errors, setErrors] = useState({});
+
+  const next = () => {
+  if (validateStep()) {
+    setStep(step + 1);
+  }
+};
+
   const prev = () => setStep(step - 1);
+
+  const validateStep = () => {
+  let newErrors = {};
+
+  // Step 1 validations
+  if (step === 1) {
+    if (!formData.shopName.trim()) newErrors.shopName = "Shop name is required";
+    if (!formData.category) newErrors.category = "Category is required";
+
+    if (!formData.phone) {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^[0-9]{10}$/.test(formData.phone)) {
+      newErrors.phone = "Phone must be 10 digits";
+    }
+  }
+
+  // Step 2 validations
+  if (step === 2) {
+    if (!formData.fullName.trim()) newErrors.fullName = "Full name is required";
+
+    if (!formData.email) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Invalid email format";
+    }
+
+    if (!formData.password) newErrors.password = "Password is required";
+  }
+
+  // Step 3 validations
+  if (step === 3) {
+    if (!formData.address.trim()) newErrors.address = "Address is required";
+  }
+
+  setErrors(newErrors);
+  return Object.keys(newErrors).length === 0;
+};
+
 
   const handleSubmit = async (e) => {
   e.preventDefault();
@@ -73,14 +118,14 @@ export default function Register() {
 
       {step === 1 && (
         <>
-          <h3>Tell us about your shop</h3>
+          <h3 className="step-title">Tell us about your shop</h3>
           <p className="step-sub">
-            This information will be visible to your future customers.
+            Provide essential details to showcase your shop to customers.
           </p>
 
           <div className="field-row">
             <div className="field">
-              <label>SHOP NAME</label>
+              <label>SHOP NAME *</label>
               <div className="input-icon">
                 <span className="icon">🏬</span>
                 <input
@@ -91,30 +136,35 @@ export default function Register() {
                     setFormData({ ...formData, shopName: e.target.value })
                   }
                 />
+                {errors.shopName && <p className="error">{errors.shopName}</p>}
+
               </div>
             </div>
 
             <div className="field">
-              <label>CATEGORY</label>
-              <div className="input-icon">
+              <label>CATEGORY *</label>
+              <div className="input-icon category-select">
                 <select
                   value={formData.category}
                   onChange={(e) =>
                     setFormData({ ...formData, category: e.target.value })
                   }
                 >
-                  <option>Food</option>
-                  <option>Grocery</option>
-                  <option>Pharmacy</option>
-                  <option>Electronics</option>
-                  <option>Cosmetics</option>
+                   <option value="">Select category</option>
+  <option value="Food">🍔 Food</option>
+  <option value="Grocery">🛒 Grocery</option>
+  <option value="Pharmacy">💊 Pharmacy</option>
+  <option value="Electronics">📱 Electronics</option>
+  <option value="Cosmetics">💄 Cosmetics</option>
                 </select>
+                {errors.category && <p className="error">{errors.category}</p>}
+
               </div>
             </div>
           </div>
 
           <div className="field">
-            <label>BUSINESS CONTACT</label>
+            <label>BUSINESS CONTACT *</label>
             <div className="input-icon">
               <span className="icon">📞</span>
               <input
@@ -125,6 +175,8 @@ export default function Register() {
                   setFormData({ ...formData, phone: e.target.value })
                 }
               />
+              {errors.phone && <p className="error">{errors.phone}</p>}
+
             </div>
           </div>
 
@@ -145,10 +197,10 @@ export default function Register() {
 
       {step === 2 && (
         <>
-          <h3>Security & Ownership</h3>
+          <h3 className="step-title">Security & Ownership</h3>
 
           <div className="field">
-            <label>FULL NAME</label>
+            <label>FULL NAME *</label>
             <div className="input-pro">
               <span className="icon">👤</span>
               <input
@@ -159,11 +211,12 @@ export default function Register() {
                   setFormData({ ...formData, fullName: e.target.value })
                 }
               />
+              {errors.fullName && <p className="error">{errors.fullName}</p>}
             </div>
           </div>
 
           <div className="field">
-            <label>EMAIL ADDRESS</label>
+            <label>EMAIL ADDRESS *</label>
             <div className="input-pro">
               <span className="icon">✉️</span>
               <input
@@ -174,11 +227,12 @@ export default function Register() {
                   setFormData({ ...formData, email: e.target.value })
                 }
               />
+              {errors.email && <p className="error">{errors.email}</p>}
             </div>
           </div>
 
           <div className="field">
-            <label>PASSWORD</label>
+            <label>PASSWORD *</label>
             <div className="input-pro">
               <span className="icon">🔒</span>
               <input
@@ -189,6 +243,7 @@ export default function Register() {
                   setFormData({ ...formData, password: e.target.value })
                 }
               />
+              {errors.password && <p className="error">{errors.password}</p>}
             </div>
           </div>
 
@@ -201,10 +256,10 @@ export default function Register() {
 
       {step === 3 && (
         <>
-          <h3>Location & Hours</h3>
+          <h3 className="step-title">Location & Hours</h3>
 
           <div className="field">
-            <label>PHYSICAL ADDRESS</label>
+            <label>PHYSICAL ADDRESS *</label>
             <div className="input-pro">
               <span className="icon">📍</span>
               <input
@@ -215,6 +270,7 @@ export default function Register() {
                   setFormData({ ...formData, address: e.target.value })
                 }
               />
+              {errors.address && <p className="error">{errors.address}</p>}
             </div>
           </div>
 
