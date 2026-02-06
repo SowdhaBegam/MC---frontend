@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../../styles/Shop/orderCard.css";
 
 export default function OrderCard({ name, amount, id }) {
   const [status, setStatus] = useState("received");

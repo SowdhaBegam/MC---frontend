@@ -5,7 +5,10 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import "./App.css";
-import ShopDashboard from "./pages/ShopDashboard/Dashboard";
+import ShopLayout from "./pages/ShopDashboard/ShopLayout";
+import Dashboard from "./pages/ShopDashboard/Dashboard";
+import Orders from "./pages/ShopDashboard/Orders";
+import Products from "./pages/ShopDashboard/Products";
 import AdminLayout from "./layouts/Admin/AdminLayout";
 
 const DashboardHome = () => <h2 style={{color:"white"}}>Dashboard Overview</h2>;
@@ -28,14 +31,13 @@ export default function App() {
         <Route path="/register" element={<RegisterPage />} />
 
         {/* 🔐 Shop Dashboard */}
-<Route
-  path="/shop-dashboard"
-  element={
-    <ProtectedRoute>
-      <ShopDashboard />
-    </ProtectedRoute>
-  }
-/>
+
+<Route path="/shop-dashboard" element={<ProtectedRoute><ShopLayout /></ProtectedRoute>}>
+  <Route index element={<Dashboard />} />
+  <Route path="orders" element={<Orders />} />
+  <Route path="products" element={<Products />} />
+</Route>
+
 
 <Route
   path="/admin"

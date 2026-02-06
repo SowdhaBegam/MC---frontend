@@ -1,114 +1,115 @@
 import { useState } from "react";
-import "../styles/newProductModal.css";
+import "../../styles/Shop/newProductModal.css";
 
 export default function NewProductModal({ open, onClose, onDeploy }) {
-  const [preview, setPreview] = useState(null);
+  const [image, setImage] = useState(null);
   const [name, setName] = useState("");
+  const [desc, setDesc] = useState("");
   const [base, setBase] = useState("");
-  const [discount, setDiscount] = useState("");
-  const [stock, setStock] = useState("");
+  const [rebate, setRebate] = useState("");
+  const [stock, setStock] = useState(50);
+  const [time, setTime] = useState(25);
+  const [type, setType] = useState("veg");
 
   if (!open) return null;
 
-  const handleImage = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setPreview(URL.createObjectURL(file));
-    }
-  };
+  const finalPrice = base - (rebate || 0);
 
-  const deployProduct = () => {
-    if (!name || !base || !preview) {
-      alert("Fill required fields");
-      return;
-    }
-
-    const finalPrice = base - (discount || 0);
+  const deploy = () => {
+    if (!name || !base) return alert("Fill required fields");
 
     onDeploy({
       id: Date.now(),
       name,
-      image: preview,
+      image,
       finalPrice,
-      stock,
     });
 
-    // reset
-    setName("");
-    setBase("");
-    setDiscount("");
-    setStock("");
-    setPreview(null);
     onClose();
   };
 
   return (
-    <div className="npm-overlay">
-      <div className="npm-card">
+    <div className="big-modal-overlay">
+      <div className="big-modal-card">
 
-        {/* Header */}
-        <div className="npm-header">
-          <div>
-            <h3>Create Listing</h3>
-            <p>NICHE · FOOD MARKETPLACE</p>
-          </div>
+        {/* HEADER */}
+        <div className="big-header">
+          <h2>Modify Listing</h2>
           <button onClick={onClose}>✕</button>
         </div>
 
-        {/* Body */}
-        <div className="npm-body">
+        <div className="big-body">
 
-          <div className="image-upload">
-            {preview ? (
-              <img src={preview} alt="preview" />
+          {/* LEFT IMAGE */}
+          <div className="image-section">
+            {image ? (
+              <img src={image} alt="" />
             ) : (
-              <label>
-                <input type="file" accept="image/*" onChange={handleImage} />
-                <span>📷 Upload Image</span>
+              <label className="upload-box">
+                Upload Image
+                <input
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={(e) =>
+                    setImage(URL.createObjectURL(e.target.files[0]))
+                  }
+                />
               </label>
             )}
           </div>
 
-          <input
-            placeholder="Product Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+          {/* RIGHT FORM */}
+          <div className="form-section">
 
-          <textarea placeholder="Tell the story..." />
+            <h4>CATEGORY</h4>
+            <select className="category">
+              <option>Select a category</option>
+              <option value="Food">🍔 Food</option>
+  <option value="Grocery">🛒 Grocery</option>
+  <option value="Pharmacy">💊 Pharmacy</option>
+  <option value="Electronics">📱 Electronics</option>
+  <option value="Cosmetics">💄 Cosmetics</option>
+            </select>
 
-          <div className="price-row">
+            <h4>PROFILE & NARRATIVE</h4>
             <input
-              placeholder="Base Price ₹"
-              value={base}
-              onChange={(e) => setBase(e.target.value)}
+              placeholder="Product Title"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
-            <input
-              placeholder="Discount ₹"
-              value={discount}
-              onChange={(e) => setDiscount(e.target.value)}
+
+            <textarea
+              placeholder="Contextual Description"
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
             />
-            <input
-              className="final-price"
-              placeholder="Final ₹"
-              value={base - (discount || 0)}
-              disabled
-            />
+
+            <h4>FINANCIAL STRATEGY</h4>
+            <div className="row">
+              <input placeholder="Base MRP ₹" value={base} onChange={(e)=>setBase(e.target.value)} />
+              <input placeholder="Net Rebate ₹" value={rebate} onChange={(e)=>setRebate(e.target.value)} />
+              <input className="final-price" value={`₹ ${finalPrice || 0}`} disabled />
+            </div>
+
+            <h4>INVENTORY LOGIC</h4>
+            <div className="row">
+              <input value={stock} onChange={(e)=>setStock(e.target.value)} />
+              <input value={time} onChange={(e)=>setTime(e.target.value)} />
+            </div>
+
+            <h4>CATEGORY SETTINGS</h4>
+            <div className="toggle">
+              <button className={type==="veg" ? "active":""} onClick={()=>setType("veg")}>VEG</button>
+              <button className={type==="nonveg" ? "active":""} onClick={()=>setType("nonveg")}>NON-VEG</button>
+            </div>
+
           </div>
-
-          <input
-            placeholder="Units in Stock"
-            value={stock}
-            onChange={(e) => setStock(e.target.value)}
-          />
         </div>
 
-        {/* Footer */}
-        <div className="npm-footer">
+        <div className="big-footer">
           <button className="cancel" onClick={onClose}>Cancel</button>
-          <button className="deploy" onClick={deployProduct}>
-            DEPLOY TO STOREFRONT
-          </button>
+          <button className="deploy" onClick={deploy}>UPDATE PRODUCT DETAILS</button>
         </div>
 
       </div>

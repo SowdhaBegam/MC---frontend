@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
-import NewProductModal from "../components/NewProductModal";
-import "../styles/products.css";
+import NewProductModal from "../../components/Shop/NewProductModal";
+import "../../styles/Shop/Products.css";
 
-export default function Products({ products, setProducts }) {
 
+export default function Products() {
+  const [products, setProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+
+  ;
 
   // ✅ STEP 1: App.jsx-la irundhu vandha products
   // page refresh aanaal localStorage-la irundhu restore

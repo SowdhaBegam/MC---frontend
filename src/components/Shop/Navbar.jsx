@@ -33,15 +33,20 @@ export default function Navbar() {
 
         {/* CENTER : TABS */}
         <div className="bg-gray-100 rounded-full p-1 flex gap-1">
-          <NavLink to="/" end className={tabClass}>
-            Overview
-          </NavLink>
+         <NavLink to="/shop-dashboard" end className={tabClass}>
+  Overview
+</NavLink>
 
-          <NavLink to="/orders" className={tabClass}>
+
+          <NavLink to="/shop-dashboard/orders"
+            className={tabClass}
+          >
             Orders
           </NavLink>
 
-          <NavLink to="/products" className={tabClass}>
+          <NavLink to="/shop-dashboard/products"
+            className={tabClass}
+          >
             Catalog
           </NavLink>
         </div>

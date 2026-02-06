@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../styles/orders.css";
+import "../../styles/Shop/Orders.css";
 
 export default function Orders() {
 
