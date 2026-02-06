@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "../../styles/Shop/newProductModal.css";
+import { addProductAPI } from "../../services/productService";
+
 
 export default function NewProductModal({ open, onClose, onDeploy }) {
   const [image, setImage] = useState(null);
@@ -15,18 +17,31 @@ export default function NewProductModal({ open, onClose, onDeploy }) {
 
   const finalPrice = base - (rebate || 0);
 
-  const deploy = () => {
-    if (!name || !base) return alert("Fill required fields");
+  const deploy = async () => {
+  if (!name || !base) return alert("Fill required fields");
 
-    onDeploy({
-      id: Date.now(),
-      name,
-      image,
-      finalPrice,
-    });
-
-    onClose();
+  const productPayload = {
+    name: name,
+    description: desc || "No description",
+    image: "sample.jpg", // temporary until we implement file upload
+    price: Number(base),
+    discount: Number(rebate || 0),
+    stock: Number(stock),
+    is_live: true,
+    prep_time: Number(time),
+    food_type: type === "veg" ? "VEG" : "NON-VEG",
+    category: "Food"
   };
+
+  try {
+    await addProductAPI(productPayload);
+    alert("✅ Product Added Successfully!");
+    onClose();
+  } catch (error) {
+    console.error(error);
+    alert("❌ Failed to add product");
+  }
+};
 
   return (
     <div className="big-modal-overlay">
