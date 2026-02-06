@@ -76,7 +76,7 @@ export default function Login() {
           <span className="icon">📧</span>
           <input
             type="email"
-            placeholder="admin@nexus.com"
+            placeholder="user@gmail.com"
             value={loginData.email}
             onChange={(e) =>
               setLoginData({ ...loginData, email: e.target.value })

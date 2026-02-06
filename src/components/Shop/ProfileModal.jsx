@@ -1,5 +1,5 @@
-/* 👉 CSS imports */
-import "../styles/profile.css";
+import "../../styles/Shop/profile.css";
+
 
 export default function ProfileModal({ open, onClose, onEdit }) {
   if (!open) return null;

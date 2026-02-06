@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { getPendingShops, approveShop } from "../services/adminService";
+import { getPendingShops, approveShop, getApprovedShops } from "../services/adminService";
 import "../styles/Admin.css";
 
 const AdminDashboard = () => {
   const [shops, setShops] = useState([]);
+  const [approvedShops, setApprovedShops] = useState([]);
+
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     loadPendingShops();
+    loadApprovedShops();
   }, []);
 
   const loadPendingShops = async () => {
@@ -19,11 +22,22 @@ const AdminDashboard = () => {
       console.error("Error loading shops:", err);
     }
   };
+  const loadApprovedShops = async () => {
+  try {
+    const res = await getApprovedShops(token);
+    console.log("Approved Shops:", res.data);
+    setApprovedShops(res.data.data || []);
+  } catch (err) {
+    console.error("Error loading approved shops:", err);
+  }
+};
+
 
   const handleApprove = async (id) => {
     await approveShop(id, token);
     alert("Shop Approved!");
     loadPendingShops();
+    loadApprovedShops();
   };
 
   const handleDecline = async (id) => {
@@ -42,7 +56,7 @@ const AdminDashboard = () => {
     ) : (
       shops.map((shop) => (
         <div key={shop.id} className="shop-card">
-          <h3>{shop.name}</h3>
+          <h3>{shop.shop_name}</h3>
           <p><strong>Owner:</strong> {shop.owner_name}</p>
           <p><strong>Email:</strong> {shop.email}</p>
           <p><strong>Business Type:</strong> {shop.business_type}</p>
@@ -64,6 +78,24 @@ const AdminDashboard = () => {
         </div>
       ))
     )}
+    {/* APPROVED SHOPS SECTION */}
+<h2 className="approved-title">Approved Shops</h2>
+
+{approvedShops.length === 0 ? (
+  <p className="no-data">No approved shops yet.</p>
+) : (
+  approvedShops.map((shop) => (
+    <div key={shop.id} className="approved-card">
+      <h3>{shop.shop_name}</h3>
+      <p><strong>Owner:</strong> {shop.owner_name}</p>
+      <p><strong>Email:</strong> {shop.email}</p>
+      <p><strong>Phone:</strong> {shop.phone}</p>
+      <p><strong>Business Type:</strong> {shop.business_type}</p>
+      <p><strong>Approved On:</strong> {new Date(shop.created_at).toLocaleString()}</p>
+    </div>
+  ))
+)}
+
   </div>
   
 );

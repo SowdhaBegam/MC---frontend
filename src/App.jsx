@@ -5,7 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import "./App.css";
-import ShopDashboard from "./pages/ShopDashboard";
+import ShopDashboard from "./pages/ShopDashboard/Dashboard";
 import AdminLayout from "./layouts/Admin/AdminLayout";
 
 const DashboardHome = () => <h2 style={{color:"white"}}>Dashboard Overview</h2>;

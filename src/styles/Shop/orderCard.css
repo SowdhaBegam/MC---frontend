@@ -1,0 +1,91 @@
+/* =============================== */
+/* ===== ORDER CARD DESIGN ======= */
+/* =============================== */
+
+.order-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 16px;
+  position: relative;
+
+  border: 1.5px solid rgba(239, 68, 68, 0.35);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+
+  transition: all 0.3s ease;
+}
+
+/* Hover lift */
+.order-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+}
+
+/* Live order glow */
+.live-order {
+  animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 0 rgba(239, 68, 68, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(239, 68, 68, 0.45);
+  }
+  100% {
+    box-shadow: 0 0 0 rgba(239, 68, 68, 0.25);
+  }
+}
+
+/* ===== ORDER CARD INNER ===== */
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.amount {
+  font-weight: 700;
+  color: #6366f1;
+}
+
+.items {
+  margin: 10px 0;
+}
+
+.item-pill {
+  background: #f1f5f9;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.time {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 10px;
+}
+
+.order-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.order-complete {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #16a34a;
+}
+/* ===== ORDER GRID (4 CARDS PER ROW) ===== */
+.order-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);  /* 🔥 4 boxes in one row */
+  gap: 24px;
+
+  max-width: 1500px;   /* 🔥 cards start after margin */
+  margin: 0 auto;     /* 🔥 center align */
+}

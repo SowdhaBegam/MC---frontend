@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "https://mc-platform-4i1xk48yh-sangeetha-lakshmis-projects.vercel.app/api";
+const API = "https://mc-platform-d13f8j72g-sangeetha-lakshmis-projects.vercel.app/api";
 
 export const getPendingShops = (token) =>
   axios.get(`${API}/admin/pending`, {
@@ -15,5 +15,9 @@ export const approveShop = (id, token) =>
 // Optional decline
 export const declineShop = (id, token) =>
   axios.put(`${API}/admin/decline/${id}`, {}, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+export const getApprovedShops = (token) =>
+  axios.get(`${API}/admin/vendors/approved`, {
     headers: { Authorization: `Bearer ${token}` },
   });

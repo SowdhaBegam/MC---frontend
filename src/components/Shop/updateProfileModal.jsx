@@ -1,4 +1,4 @@
-import "../styles/updateprofile.css";
+import "../../styles/Shop/updateprofile.css";
 
 export default function UpdateProfileModal({ open, onClose }) {
   if (!open) return null;
