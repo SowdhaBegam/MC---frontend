@@ -68,7 +68,7 @@ export default function NewProductModal({ open, onClose, onDeploy }) {
               <option value="Food">🍔 Food</option>
   <option value="Grocery">🛒 Grocery</option>
   <option value="Pharmacy">💊 Pharmacy</option>
-  <option value="Electronics">📱 Electronics</option>
+  <option value="Electronics">📱 Appliances & Electronics</option>
   <option value="Cosmetics">💄 Cosmetics</option>
             </select>
 
