@@ -1,38 +1,33 @@
 import { useState, useEffect } from "react";
 import NewProductModal from "../../components/Shop/NewProductModal";
+import { getProductsAPI } from "../../services/productService";
 import "../../styles/Shop/Products.css";
-
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
 
-  ;
-
-  // ✅ STEP 1: App.jsx-la irundhu vandha products
-  // page refresh aanaal localStorage-la irundhu restore
   useEffect(() => {
-    const saved = localStorage.getItem("products");
-    if (saved && products.length === 0) {
-      setProducts(JSON.parse(saved));
-    }
+    loadProducts();
   }, []);
 
-  // ✅ STEP 2: products change aanaal localStorage update
-  useEffect(() => {
-    localStorage.setItem("products", JSON.stringify(products));
-  }, [products]);
+  const loadProducts = async () => {
+    try {
+      const data = await getProductsAPI();
+      setProducts(data);
+    } catch (err) {
+      console.error("Load Products Failed");
+    }
+  };
 
-  // 🔥 modal-la irundhu product add
-  const addProduct = (product) => {
-    setProducts(prev => [...prev, product]);
+  // 🔥 AFTER ADDING PRODUCT → RELOAD FROM BACKEND
+  const addProduct = async () => {
+    await loadProducts();
     setOpenModal(false);
   };
 
   return (
     <div className="products-page">
-
-      {/* 🔥 Gradient Header */}
       <div className="catalog-banner">
         <div>
           <h2>Master Catalog</h2>
@@ -47,7 +42,6 @@ export default function Products() {
         </button>
       </div>
 
-      {/* 🧾 Products Grid */}
       <div className="products-grid">
         {products.length === 0 && (
           <p style={{ color: "#9ca3af", fontSize: "14px" }}>
@@ -56,20 +50,26 @@ export default function Products() {
         )}
 
         {products.map((p) => (
-          <div key={p.id} className="product-card">
-            <img src={p.image} alt={p.name} />
+  <div key={p.id} className="product-card">
+    <img
+      src={`https://mc-platform-3zu9n1qmr-sangeetha-lakshmis-projects.vercel.app/uploads/${p.image}`}
+      alt={p.name}
+    />
 
-            <div className="product-info">
-              <h4>{p.name}</h4>
-              <strong>₹{p.finalPrice}</strong>
+    <div className="product-info">
+      <h4>{p.name}</h4>
 
-              <div className="live-badge">LIVE</div>
-            </div>
-          </div>
-        ))}
+      <strong>₹{p.final_price}</strong>
+
+      <div className={`live-badge ${p.is_live ? "live" : "off"}`}>
+        {p.is_live ? "LIVE" : "OFF"}
+      </div>
+    </div>
+  </div>
+))}
+
       </div>
 
-      {/* 🪟 Modal */}
       <NewProductModal
         open={openModal}
         onClose={() => setOpenModal(false)}

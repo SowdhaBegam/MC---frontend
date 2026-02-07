@@ -1,15 +1,21 @@
-import axios from "axios";
-
-const API = axios.create({
-  baseURL: "https://mc-platform-3zu9n1qmr-sangeetha-lakshmis-projects.vercel.app/api",
-});
+import axios from "../api/axios"; // this already has baseURL + interceptor
 
 export const addProductAPI = async (productData) => {
   try {
-    const res = await API.post("/products", productData);
+    const res = await axios.post("/products", productData);
     return res.data;
   } catch (err) {
     console.error("Add Product Error:", err);
     throw err;
   }
 };
+export const getProductsAPI = async () => {
+  try {
+    const res = await axios.get("/products");
+    return res.data;
+  } catch (err) {
+    console.error("Get Products Error:", err);
+    throw err;
+  }
+};
+

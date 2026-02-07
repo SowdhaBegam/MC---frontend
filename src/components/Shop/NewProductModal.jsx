@@ -12,6 +12,8 @@ export default function NewProductModal({ open, onClose, onDeploy }) {
   const [stock, setStock] = useState(50);
   const [time, setTime] = useState(25);
   const [type, setType] = useState("veg");
+  const [category, setCategory] = useState("Food");
+
 
   if (!open) return null;
 
@@ -20,22 +22,24 @@ export default function NewProductModal({ open, onClose, onDeploy }) {
   const deploy = async () => {
   if (!name || !base) return alert("Fill required fields");
 
-  const productPayload = {
-    name: name,
-    description: desc || "No description",
-    image: "sample.jpg", // temporary until we implement file upload
+  const payload = {
+    name,
+    description: desc,
+    image,
     price: Number(base),
     discount: Number(rebate || 0),
     stock: Number(stock),
     is_live: true,
     prep_time: Number(time),
     food_type: type === "veg" ? "VEG" : "NON-VEG",
-    category: "Food"
+    category, // default until you connect dropdown
   };
 
   try {
-    await addProductAPI(productPayload);
+    const res = await addProductAPI(payload);
     alert("✅ Product Added Successfully!");
+
+    onDeploy(); // 🔥 THIS SENDS PRODUCT TO PRODUCTS PAGE
     onClose();
   } catch (error) {
     console.error(error);
@@ -78,14 +82,18 @@ export default function NewProductModal({ open, onClose, onDeploy }) {
           <div className="form-section">
 
             <h4>CATEGORY</h4>
-            <select className="category">
-              <option>Select a category</option>
-              <option value="Food">🍔 Food</option>
+            <select
+  className="category"
+  value={category}
+  onChange={(e) => setCategory(e.target.value)}
+>
+  <option value="Food">🍔 Food</option>
   <option value="Grocery">🛒 Grocery</option>
   <option value="Pharmacy">💊 Pharmacy</option>
   <option value="Electronics">📱 Appliances & Electronics</option>
   <option value="Cosmetics">💄 Cosmetics</option>
-            </select>
+</select>
+
 
             <h4>PROFILE & NARRATIVE</h4>
             <input
