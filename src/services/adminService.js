@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "https://mc-platform-3zu9n1qmr-sangeetha-lakshmis-projects.vercel.app/api";
+const API = "https://mc-platform-fjk0ii4pt-sangeetha-lakshmis-projects.vercel.app/api";
 
 export const getPendingShops = (token) =>
   axios.get(`${API}/admin/pending`, {

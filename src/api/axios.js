@@ -2,7 +2,7 @@ import axios from "axios";
 import { getToken } from "../utils/authStorage";
 
 const instance = axios.create({
-  baseURL: "https://mc-platform-3zu9n1qmr-sangeetha-lakshmis-projects.vercel.app/api",
+  baseURL: "https://mc-platform-fjk0ii4pt-sangeetha-lakshmis-projects.vercel.app/api",
 });
 
 instance.interceptors.request.use((config) => {

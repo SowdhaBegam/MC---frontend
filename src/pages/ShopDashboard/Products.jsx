@@ -6,6 +6,7 @@ import "../../styles/Shop/Products.css";
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  const [editProduct, setEditProduct] = useState(null);
 
   useEffect(() => {
     loadProducts();
@@ -14,16 +15,28 @@ export default function Products() {
   const loadProducts = async () => {
     try {
       const data = await getProductsAPI();
+      console.log("🔥 API PRODUCTS RESPONSE:", data);
       setProducts(data);
     } catch (err) {
-      console.error("Load Products Failed");
+      console.error("Load Products Failed", err);
     }
   };
 
-  // 🔥 AFTER ADDING PRODUCT → RELOAD FROM BACKEND
   const addProduct = async () => {
     await loadProducts();
     setOpenModal(false);
+  };
+
+  const deleteProduct = async (id) => {
+    try {
+      await fetch(
+        `https://mc-platform-fjk0ii4pt-sangeetha-lakshmis-projects.vercel.app/products/${id}`,
+        { method: "DELETE" }
+      );
+      setProducts(products.filter((p) => p.id !== id));
+    } catch (err) {
+      console.error("Delete failed", err);
+    }
   };
 
   return (
@@ -34,10 +47,7 @@ export default function Products() {
           <p>ACTIVE LISTINGS : {products.length} PRODUCTS</p>
         </div>
 
-        <button
-          className="new-product-btn"
-          onClick={() => setOpenModal(true)}
-        >
+        <button className="new-product-btn" onClick={() => setOpenModal(true)}>
           + NEW PRODUCT
         </button>
       </div>
@@ -49,31 +59,71 @@ export default function Products() {
           </p>
         )}
 
-        {products.map((p) => (
-  <div key={p.id} className="product-card">
-    <img
-      src={`https://mc-platform-3zu9n1qmr-sangeetha-lakshmis-projects.vercel.app/uploads/${p.image}`}
-      alt={p.name}
-    />
+        {products.map((p) => {
+          const imageUrl =
+  !p.image || p.image === "default-product.png" || p.image === "image.jpg"
+    ? "/image.jpg" // from public/image.jpg
+    : `https://mc-platform-fjk0ii4pt-sangeetha-lakshmis-projects.vercel.app/uploads/${p.image}`;
 
-    <div className="product-info">
-      <h4>{p.name}</h4>
+         
+          return (
+            <div key={p.id} className="product-card">
+              <div className="img-wrapper">
+                <img src={imageUrl} alt={p.name} />
 
-      <strong>₹{p.final_price}</strong>
+                <div className="card-actions">
+                  <button
+                    onClick={() => {
+                      setEditProduct(p);
+                      setOpenModal(true);
+                    }}
+                  >
+                    ✏️
+                  </button>
+                  <button onClick={() => deleteProduct(p.id)}>🗑️</button>
+                </div>
 
-      <div className={`live-badge ${p.is_live ? "live" : "off"}`}>
-        {p.is_live ? "LIVE" : "OFF"}
-      </div>
-    </div>
-  </div>
-))}
+                {p.discount > 0 && (
+                  <div className="discount-badge">
+                    -{Math.round((p.discount / p.price) * 100)}% OFF
+                  </div>
+                )}
+              </div>
 
+              <div className="card-body">
+                <h3>{p.name}</h3>
+
+                <div className="price-row">
+                  {p.discount > 0 && (
+                    <span className="mrp">₹{p.price}</span>
+                  )}
+                  <span className="final-price">
+                    ₹{p.price - p.discount}
+                  </span>
+                </div>
+
+                <div className="bottom-row">
+                  <span className="stock-dot"></span>
+                  <span>{p.stock} Units</span>
+
+                  <span className={`status ${p.is_live ? "live" : "off"}`}>
+                    {p.is_live ? "LIVE" : "OFF"}
+                  </span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       <NewProductModal
         open={openModal}
-        onClose={() => setOpenModal(false)}
+        onClose={() => {
+          setOpenModal(false);
+          setEditProduct(null);
+        }}
         onDeploy={addProduct}
+        product={editProduct}
       />
     </div>
   );
