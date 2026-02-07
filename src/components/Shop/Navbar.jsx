@@ -6,67 +6,101 @@ import UpdateProfileModal from "./updateProfileModal";
 export default function Navbar() {
   const [openProfile, setOpenProfile] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [shopActive, setShopActive] = useState(true);
+  const profileData = JSON.parse(localStorage.getItem("profileData")) || {};
 
+
+  /* TAB STYLE */
   const tabClass = ({ isActive }) =>
     `px-5 py-2 rounded-full text-sm font-medium transition-all duration-300
-     ${
-       isActive
-         ? "bg-white text-indigo-600 shadow-md"
-         : "text-gray-500 hover:text-indigo-500"
-     }`;
+    ${
+      isActive
+        ? shopActive
+          ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-md"
+          : "bg-white text-gray-400 shadow"
+        : shopActive
+        ? "text-gray-500 hover:text-pink-500"
+        : "text-gray-300"
+    }`;
 
   return (
     <>
       <header className="h-16 bg-white border-b flex items-center justify-between px-8">
 
-        {/* LEFT : LOGO + NAME */}
+        {/* LEFT */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-indigo-600 text-white 
-                          flex items-center justify-center font-bold">
+          <div
+            className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-white transition
+            ${
+              shopActive
+                ? "bg-gradient-to-r from-orange-500 to-pink-500"
+                : "bg-gray-300"
+            }`}
+          >
             N
           </div>
+
           <div>
             <p className="text-sm font-semibold leading-none">suresh</p>
             <p className="text-[11px] text-gray-400">FOOD PORTAL</p>
           </div>
         </div>
 
-        {/* CENTER : TABS */}
+        {/* CENTER */}
         <div className="bg-gray-100 rounded-full p-1 flex gap-1">
-         <NavLink to="/shop-dashboard" end className={tabClass}>
-  Overview
-</NavLink>
+          <NavLink to="/shop-dashboard" end className={tabClass}>
+            Overview
+          </NavLink>
 
-
-          <NavLink to="/shop-dashboard/orders"
-            className={tabClass}
-          >
+          <NavLink to="/shop-dashboard/orders" className={tabClass}>
             Orders
           </NavLink>
 
-          <NavLink to="/shop-dashboard/products"
-            className={tabClass}
-          >
+          <NavLink to="/shop-dashboard/products" className={tabClass}>
             Catalog
           </NavLink>
         </div>
 
-        {/* RIGHT : STATUS + PROFILE */}
+        {/* RIGHT */}
         <div className="flex items-center gap-5">
 
-          {/* STATUS */}
-          <div className="flex items-center gap-2 text-xs">
-            <span className="text-gray-400">STATUS</span>
-            <span className="flex items-center gap-1 text-green-600 font-medium">
-              Active
-              <span className="w-2 h-2 rounded-full bg-green-500"></span>
+          {/* STATUS TOGGLE */}
+          <div className="flex items-center gap-3 text-xs w-[150px] justify-end">
+
+            <div
+              onClick={() => setShopActive(!shopActive)}
+              className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-all duration-300
+              ${
+                shopActive
+                  ? "bg-gradient-to-r from-orange-500 to-pink-500"
+                  : "bg-gray-300"
+              }`}
+            >
+              <div
+                className={`bg-white w-4 h-4 rounded-full shadow-md transform transition duration-300
+                ${shopActive ? "translate-x-5" : "translate-x-0"}`}
+              />
+            </div>
+
+            <span
+              className={`font-medium w-[65px] ${
+                shopActive
+                  ? "bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent"
+                  : "text-gray-400"
+              }`}
+            >
+              {shopActive ? "Active" : "Inactive"}
             </span>
           </div>
 
           {/* PROFILE */}
           <div
-            className="w-9 h-9 rounded-full bg-indigo-100 text-indigo-600 
-                       flex items-center justify-center font-semibold cursor-pointer"
+            className={`w-9 h-9 rounded-full flex items-center justify-center font-semibold cursor-pointer transition-all duration-300
+            ${
+              shopActive
+                ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white"
+                : "bg-gray-200 text-gray-500"
+            }`}
             onClick={() => setOpenProfile(true)}
           >
             S
@@ -78,16 +112,18 @@ export default function Navbar() {
       <ProfileModal
         open={openProfile}
         onClose={() => setOpenProfile(false)}
-        onEdit={() => {
+        onEdit={(data) => {
+          setProfileData(data);
           setOpenProfile(false);
           setOpenEdit(true);
         }}
       />
 
-      {/* UPDATE PROFILE MODAL */}
+      {/* UPDATE PROFILE */}
       <UpdateProfileModal
         open={openEdit}
         onClose={() => setOpenEdit(false)}
+        profile={profileData}
       />
     </>
   );

@@ -6,7 +6,7 @@
 
 .orders-title {
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 550;
   margin-bottom: 24px;
   display: flex;
   align-items: center;
@@ -41,7 +41,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 10px;
 }
 
@@ -83,28 +83,27 @@
 /* ACCEPT BUTTON */
 .accept-btn {
   flex: 1;
-  max-width: 160px;          /* 👈 konjam small */
+  max-width: 160px;
   width: 100%;
 
   background: linear-gradient(135deg, #5b4bff, #7c6cff);
   color: #ffffff;
 
-  padding: 9px 19px;        /* 👈 height control */
+  padding: 9px 19px;
   border-radius: 999px;
   border: none;
 
-  font-weight: 600;
-  font-size: 12.5px;        /* 👈 neat & sharp */
+  font-weight: 500;
+  font-size: 12px;
   letter-spacing: 0.3px;
 
   cursor: pointer;
   transition: all 0.25s ease;
 
   box-shadow: 
-    0 6px 14px rgba(99, 102, 241, 0.32),   /* main glow */
-    inset 0 1px 0 rgba(255, 255, 255, 0.25); /* top highlight */
+    0 6px 14px rgba(99, 102, 241, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
-
 
 .accept-btn:hover {
   transform: translateY(-1px);
@@ -112,7 +111,6 @@
     0 10px 22px rgba(99, 102, 241, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
-
 
 /* HANDLED STATE */
 .order-card.completed {
@@ -125,7 +123,7 @@
   text-align: center;
   background: #dcfce7;
   color: #15803d;
-  font-weight: 700;
-  padding: 12px 0;
+  font-weight: 600;
+  padding: 12px 10px;
   border-radius: 999px;
 }

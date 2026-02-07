@@ -1,91 +1,263 @@
-/* =============================== */
-/* ===== ORDER CARD DESIGN ======= */
-/* =============================== */
-
+/* ===============================
+   CARD BASE
+================================ */
 .order-card {
   background: #ffffff;
-  border-radius: 20px;
-  padding: 16px;
-  position: relative;
+  border-radius: 22px;
+  padding: 18px;
+  width: 280px;
+  min-height: 300px;
 
-  border: 1.5px solid rgba(239, 68, 68, 0.35);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
-  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+  transition: 0.3s;
 }
 
-/* Hover lift */
 .order-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+  transform: translateY(-5px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.12);
 }
 
-/* Live order glow */
-.live-order {
-  animation: pulseGlow 2s infinite;
+/* ===============================
+   STATUS COLORS + BLINK
+================================ */
+
+/* 🔴 NEW ORDER */
+.order-card.received {
+  border-color: #f3728a;
+  background: linear-gradient(180deg,#fff5f6,#ffffff);
+  animation: redBlink 2s infinite;
 }
 
-@keyframes pulseGlow {
-  0% {
-    box-shadow: 0 0 0 rgba(239, 68, 68, 0.25);
-  }
-  50% {
-    box-shadow: 0 0 22px rgba(239, 68, 68, 0.45);
-  }
-  100% {
-    box-shadow: 0 0 0 rgba(239, 68, 68, 0.25);
-  }
+/* 🟠 PREPARING */
+.order-card.preparing {
+  border-color: #f59e0b;
+  background: linear-gradient(180deg,#fff7ed,#ffffff);
+  animation: orangeBlink 2s infinite;
 }
 
-/* ===== ORDER CARD INNER ===== */
+/* 🟢 READY */
+.order-card.ready {
+  border-color: #22c55e;
+  background: linear-gradient(180deg,#ecfdf5,#ffffff);
+  animation: greenBlink 2s infinite;
+}
 
+/* ⚫ COMPLETED */
+.order-card.completed {
+  border-color: #16a34a;
+  background: #f3f4f6;
+  opacity: 0.85;
+}
+
+/* ===============================
+   SOFT SMALL BLINK
+================================ */
+@keyframes redBlink {
+  0% { box-shadow: 0 0 0 rgba(255,0,70,0); }
+  50% { box-shadow: 0 0 8px rgba(255,0,70,0.25); }
+  100% { box-shadow: 0 0 0 rgba(255,0,70,0); }
+}
+
+@keyframes orangeBlink {
+  0% { box-shadow: 0 0 0 rgba(255,150,0,0); }
+  50% { box-shadow: 0 0 8px rgba(255,150,0,0.35); }
+  100% { box-shadow: 0 0 0 rgba(255,150,0,0); }
+}
+
+@keyframes greenBlink {
+  0% { box-shadow: 0 0 0 rgba(0,255,120,0); }
+  50% { box-shadow: 0 0 8px rgba(0,255,120,0.35); }
+  100% { box-shadow: 0 0 0 rgba(0,255,120,0); }
+}
+
+/* ===============================
+   HEADER
+================================ */
 .order-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.amount {
+.order-header h4 {
+  margin: 0;
+  font-size: 15px;
   font-weight: 700;
-  color: #6366f1;
+  color: #111827;
+}
+
+.order-id {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+/* right side */
+.header-right{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.amount {
+  font-size: 15px;
+  font-weight: 700;
+  color: #4f46e5;
+}
+
+/* ===============================
+   ❌ DECLINE ICON
+================================ */
+.decline-icon{
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  border:none;
+  background:#fee2e2;
+  color:#dc2626;
+  font-size:13px;
+  font-weight:900;
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:0.2s;
+}
+
+.decline-icon:hover{
+  background:#dc2626;
+  color:white;
+  transform:scale(1.1);
+}
+
+/* ===============================
+   BODY ITEMS
+================================ */
+.order-body {
+  margin-top: 12px;
+  flex: 1;
 }
 
 .items {
-  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .item-pill {
-  background: #f1f5f9;
-  border-radius: 999px;
-  padding: 6px 12px;
-  font-size: 12px;
-  margin-bottom: 6px;
+  background: #f3f4f6;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  border: 1px solid #e5e7eb;
 }
 
-.time {
-  font-size: 12px;
-  color: #6b7280;
-  margin-bottom: 10px;
-}
-
-.order-actions {
+/* ===============================
+   FOOTER
+================================ */
+.order-footer {
+  margin-top: 15px;
   display: flex;
-  gap: 10px;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ===============================
+   BUTTONS
+================================ */
+
+/* accept button */
+.accept-btn{
+  width:190px;
+  height:38px;
+  border-radius:22px;
+  border:none;
+  font-size:13px;
+  font-weight:700;
+  color:white;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:0.25s;
+  background: linear-gradient(135deg,#6366f1,#7c3aed);
+}
+
+/* smaller buttons */
+.mark-ready-btn,
+.dispatch-btn{
+  width:160px;
+  height:34px;
+  border-radius:20px;
+  border:none;
+  font-size:12px;
+  font-weight:700;
+  color:white;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:0.25s;
+}
+
+/* colors */
+.mark-ready-btn{
+  background: linear-gradient(135deg,#f59e0b,#fb923c);
+}
+
+.dispatch-btn{
+  background: linear-gradient(135deg,#22c55e,#16a34a);
+}
+
+/* hover */
+.accept-btn:hover,
+.mark-ready-btn:hover,
+.dispatch-btn:hover{
+  transform:scale(1.05);
+}
+
+/* ===============================
+   TEXT
+================================ */
+.status-text {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #6b7280;
 }
 
 .order-complete {
-  text-align: center;
-  font-size: 12px;
-  font-weight: 600;
-  color: #16a34a;
+  font-size: 13px;
+  font-weight: 800;
+  color: #22c55e;
 }
-/* ===== ORDER GRID (4 CARDS PER ROW) ===== */
+
+/* ===============================
+   GRID
+================================ */
 .order-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);  /* 🔥 4 boxes in one row */
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, 280px);
+  gap: 80px;
+}
 
-  max-width: 1500px;   /* 🔥 cards start after margin */
-  margin: 0 auto;     /* 🔥 center align */
+/* ===============================
+   MOBILE
+================================ */
+@media (max-width:480px){
+  .order-card{
+    width:100%;
+  }
+
+  .accept-btn,
+  .mark-ready-btn,
+  .dispatch-btn{
+    width:100%;
+  }
 }

@@ -1,89 +1,79 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../../styles/Shop/Orders.css";
+import axios from "../../api/axios";
 
 export default function Orders() {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // 🔥 STEP 1: Orders state
-  const [orders, setOrders] = useState([
-    {
-      id: 101,
-      customer: "Rahul Sharma",
-      items: ["Butter Chicken"],
-      amount: 700,
-      time: "04:55 PM",
-      status: "pending",
-    },
-    {
-      id: 102,
-      customer: "Priya Verma",
-      items: ["Masala Dosa"],
-      amount: 240,
-      time: "04:55 PM",
-      status: "pending",
-    },
-    {
-      id: 103,
-      customer: "Amit Patel",
-      items: ["Butter Chicken", "Masala Dosa"],
-      amount: 510,
-      time: "04:55 PM",
-      status: "pending",
-    },
-  ]);
+  /* =========================
+     FETCH COMPLETED ORDERS
+  ========================= */
+  const fetchCompletedOrders = async () => {
+    try {
+      const res = await axios.get("/shop/orders");
 
-  // 🔥 STEP 2: Accept order handler
-  const acceptOrder = (id) => {
-    setOrders(
-      orders.map((order) =>
-        order.id === id
-          ? { ...order, status: "completed" }
-          : order
-      )
-    );
+      // only completed orders
+      const completedOrders = res.data.filter(
+        (order) => order.status === "completed"
+      );
+
+      setOrders(completedOrders);
+    } catch (err) {
+      console.error("Fetch completed orders failed", err);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    fetchCompletedOrders();
+  }, []);
+
+  if (loading) return <p>Loading completed orders...</p>;
 
   return (
     <div className="orders-page">
-      <h2 className="orders-title">Order Archive</h2>
+      <h2 className="orders-title">📦 Completed Orders</h2>
 
       <div className="orders-grid">
-        {orders.map((order) => (
-          <div
-            key={order.id}
-            className={`order-card ${order.status}`}
-          >
-            {/* Header */}
-            <div className="order-header">
-              <h4>{order.customer}</h4>
-              <span className="amount">₹{order.amount}</span>
-            </div>
+        {orders.length === 0 ? (
+          <p>No completed orders yet</p>
+        ) : (
+          orders.map((order) => (
+            <div key={order.id} className="order-card completed">
+              {/* HEADER */}
+              <div className="order-header">
+                <h4>{order.customer_name || "Customer"}</h4>
+                <span className="amount">₹{order.total_amount}</span>
+              </div>
 
-            {/* Items */}
-            <ul className="items">
-              {order.items.map((item, i) => (
-                <li key={i}>{item}</li>
-              ))}
-            </ul>
+              {/* ITEMS */}
+              <ul className="items">
+                {order.items && order.items.length > 0 ? (
+                  order.items.map((item, i) => (
+                    <li key={i}>
+                      {item.qty}× {item.name}
+                    </li>
+                  ))
+                ) : (
+                  <li>No items</li>
+                )}
+              </ul>
 
-            {/* Footer */}
-            <div className="order-footer">
-              <span className="time">{order.time}</span>
+              {/* FOOTER */}
+              <div className="order-footer">
+                <span className="time">
+                  {new Date(order.created_at).toLocaleTimeString()}
+                </span>
 
-              {order.status === "pending" ? (
-                <button
-                  className="accept-btn"
-                  onClick={() => acceptOrder(order.id)}
-                >
-                  ACCEPT ORDER
-                </button>
-              ) : (
                 <div className="handled">
-                  ✅ ORDER HANDLED
+                  ORDER COMPLETED
                 </div>
-              )}
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );
