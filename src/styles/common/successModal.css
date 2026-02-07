@@ -1,0 +1,60 @@
+.success-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.success-card {
+  width: 340px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 26px 24px;
+  text-align: center;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3);
+  animation: pop 0.3s ease;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.success-icon {
+  font-size: 38px;
+  margin-bottom: 10px;
+}
+
+.success-card h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.success-card p {
+  margin: 8px 0 18px;
+  font-size: 14px;
+  color: #475569;
+}
+
+.success-card button {
+  border: none;
+  padding: 10px 22px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff512f, #dd2476);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}

@@ -1,0 +1,480 @@
+/* FULL PAGE BACKGROUND */
+.register-page {
+  height: 100vh;
+  background-size: contain;
+  background-position: left center;
+  background-repeat: no-repeat;
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* FORM POSITIONING */
+.form-container {
+  backdrop-filter: blur(10px);
+  position: absolute;
+  right: 15%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+/* CARD */
+.register-card {
+  width: 500px;
+  max-width: 540px;
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 24px 32px;
+  border-radius: 14px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  transition: all 0.5s ease;
+  position: relative;
+}
+
+/* ===================================== */
+/* 🔥 PREMIUM FORM CARD EFFECT */
+/* ===================================== */
+
+.register-card {
+  position: relative;
+  border-radius: 18px;
+  background: linear-gradient(
+      rgba(253, 251, 251, 0.9),
+      rgba(255, 252, 252, 0.6)
+    ),
+    linear-gradient(135deg, #ff9800, #ffaf72);
+  background-clip: padding-box, border-box;
+  border: 1.5px solid transparent;
+}
+
+/* Soft glow on hover */
+.register-card:hover {
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(255, 152, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Top accent line */
+.register-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 3px;
+  background: linear-gradient(90deg, #ff9800, #ff6f00);
+  border-radius: 0 0 6px 6px;
+}
+
+/* STEP HEADER */
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 13px;
+}
+
+.step {
+  flex: 1;
+  text-align: center;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #ddd;
+  color: #888;
+}
+
+.step.active {
+  border-color: #f86163;
+  color: #ef171b;
+  font-weight: 800;
+}
+
+.step-sub {
+  font-size: 15px;
+  color: #898888;
+  margin-bottom: 22px;
+  font-family: 'Times New Roman', Times, serif;
+  
+
+}
+
+/* ===================================== */
+/* 🔥 STEP TITLE */
+/* ===================================== */
+
+.step-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #062b5f;
+  margin-bottom: 6px;
+}
+
+/* FIELD LAYOUT */
+.field-row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.field {
+  flex: 1;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+.field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #640a0b;
+  margin-bottom: 6px;
+}
+
+/* INPUT STYLES (STEP 1) */
+.input-icon {
+  display: flex;
+  align-items: center;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  transition: all 0.2s ease;
+}
+
+.input-icon input,
+.input-icon select {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  padding: 0;
+}
+
+.input-icon .icon {
+  margin-right: 8px;
+  font-size: 16px;
+  opacity: 0.6;
+}
+
+/* INPUT STYLES (STEP 2 & 3) */
+.input-pro {
+  display: flex;
+  align-items: center;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  transition: all 0.2s ease;
+}
+
+.input-pro input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  padding: 0;
+}
+
+.input-pro .icon {
+  margin-right: 8px;
+  font-size: 16px;
+  opacity: 0.6;
+}
+.input-icon:focus-within,
+.input-pro:focus-within {
+  background: #ffffff;
+  border-color: #ff9800; /* ORANGE */
+  box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.25);
+}
+
+/* BUTTONS */
+.create-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(45deg, #ff6f00, #ff9800);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.create-btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.back-btn {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 550;
+}
+
+
+/* SUCCESS ICON */
+.success-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #d1fae5;
+  color: #059669;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 8px;
+}
+
+/* PREVIEW CARD */
+.preview-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  max-width: 360px;
+  margin: 0 auto 16px;
+  overflow: hidden;
+  text-align: left;
+}
+
+.preview-img {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  background: #f3f4f6;
+  position: relative;
+}
+
+.status-tag {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #fcd34d;
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.preview-body {
+  padding: 10px 14px;
+}
+
+.category {
+  color: #4f46e5;
+  font-weight: 600;
+  margin: 5px 0;
+}
+
+.preview-meta {
+  display: flex;
+  gap: 15px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* INFO BOX */
+.info-box {
+  background: #eef2ff;
+  color: #374151;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+/* POPUP */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup-box {
+  background: white;
+  padding: 25px 35px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+/* ===================================== */
+/* 🔥 STEP 2 & 3 BUTTON SIZE FIX */
+/* ===================================== */
+
+.btn-row .create-btn {
+  width: auto !important;      /* stop full width */
+  min-width: 180px;
+  padding: 12px 26px;
+}
+
+/* Back button proper size */
+.btn-row .back-btn {
+  width: auto;
+  min-width: 120px;
+}
+
+/* ===================================== */
+/* 🔥 STEP 4 SUBMIT BUTTON GREEN FIX */
+/* ===================================== */
+
+.submit-btn {
+  background: #059669 !important;
+  color: white !important;
+  padding: 12px 26px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: none;
+  min-width: 220px;
+  box-shadow: 0 10px 25px rgba(5,150,105,0.25);
+}
+
+.submit-btn:hover {
+  background: #047857 !important;
+}
+
+/* Prevent orange style from affecting submit button */
+.submit-btn.create-btn {
+  background: #059669 !important;
+}
+
+/* ===================================== */
+/* 🔥 STEP 4 LAYOUT ALIGN FIX */
+/* ===================================== */
+
+.confirm-wrapper .btn-row {
+  justify-content: center;
+  gap: 14px;
+}
+/* ===================================== */
+/* 🔥 CATEGORY SELECT – MODERN UI */
+/* ===================================== */
+
+.input-icon select {
+  appearance: none;            /* remove default arrow */
+  cursor: pointer;
+  font-weight: 500;
+  color: #111827;
+  font-size: 14px;
+  padding-right: 36px;
+}
+
+/* Custom dropdown arrow */
+.input-icon {
+  position: relative;
+}
+
+/* Hover effect */
+.input-icon:hover {
+  background: #ffffff;
+  border-color: #ff9800;
+}
+
+/* Focus glow */
+.input-icon:focus-within {
+  border-color: #ff9800;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.25);
+}
+
+/* Rotate arrow on focus */
+.input-icon:focus-within::after {
+  transform: translateY(-50%) rotate(180deg);
+  color: #ff9800;
+}
+
+/* Dropdown options styling */
+select option {
+  font-weight: 500;
+  padding: 10px;
+  font-size: 14px;
+}
+/* ===================================== */
+/* 🔥 CATEGORY DROPDOWN ONLY */
+/* ===================================== */
+
+.category-select {
+  position: relative;
+}
+
+
+
+/* Arrow only for category */
+.category-select::after {
+  content: "▾";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #6b7280;
+  pointer-events: none;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+/* Hover */
+.category-select:hover {
+  border-color: #ff9800;
+  background: #ffffff;
+}
+
+/* Focus glow */
+.category-select:focus-within {
+  border-color: #ff9800;
+  box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.25);
+  background: #ffffff;
+}
+
+/* Rotate arrow on open */
+.category-select:focus-within::after {
+  transform: translateY(-50%) rotate(180deg);
+  color: #ff9800;
+}
+/* Default option */
+.category-select select option {
+  background-color: #ffffff;
+  color: #1f2937;
+  font-weight: 500;
+}
+
+/* Hover option (works in Firefox + some Chromium) */
+.category-select select option:hover {
+  background-color: #fff4e6;   /* light orange */
+  color: #b45309;
+}
+
+/* Selected option */
+.category-select select option:checked {
+  background-color: #ff9800;   /* BRAND ORANGE */
+  color: #ffffff;
+}
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}
