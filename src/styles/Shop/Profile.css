@@ -193,14 +193,21 @@
 
 /* ===== LOGOUT ===== */
 .signout-btn {
-  margin: 20px;
-  width: calc(100% - 40px);
-  padding: 14px;
+  width: 100%;
+  margin-top: auto;        /* keeps it at bottom if parent is flex */
+  background-color: #ef4444;
+  color: #ffffff;
   border: none;
-  background: linear-gradient(135deg, #dc2626, #b91c1c);
-  color: #fff;
+  padding: 12px 0;
+  border-radius: 8px;
   font-size: 14px;
-  font-weight: 700;
-  border-radius: 14px;
+  font-weight: 500;
   cursor: pointer;
+
+  /* make sure click works */
+  pointer-events: auto;
+}
+
+.signout-btn:hover {
+  background-color: #dc2626;
 }
