@@ -30,7 +30,7 @@ export default function Products() {
   const deleteProduct = async (id) => {
     try {
       await fetch(
-        `https://mc-platform-fjk0ii4pt-sangeetha-lakshmis-projects.vercel.app/products/${id}`,
+        `https://mc-platform-qwzw35zb4-sangeetha-lakshmis-projects.vercel.app/products/${id}`,
         { method: "DELETE" }
       );
       setProducts(products.filter((p) => p.id !== id));
@@ -43,7 +43,7 @@ export default function Products() {
     <div className="products-page">
       <div className="catalog-banner">
         <div>
-          <h2>Master Catalog</h2>
+          <h2>All Products</h2>
           <p>ACTIVE LISTINGS : {products.length} PRODUCTS</p>
         </div>
 
@@ -63,7 +63,7 @@ export default function Products() {
           const imageUrl =
   !p.image || p.image === "default-product.png" || p.image === "image.jpg"
     ? "/image.jpg" // from public/image.jpg
-    : `https://mc-platform-fjk0ii4pt-sangeetha-lakshmis-projects.vercel.app/uploads/${p.image}`;
+    : `https://mc-platform-qwzw35zb4-sangeetha-lakshmis-projects.vercel.app/uploads/${p.image}`;
 
          
           return (

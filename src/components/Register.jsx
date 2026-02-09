@@ -136,9 +136,10 @@ export default function Register() {
                     setFormData({ ...formData, shopName: e.target.value })
                   }
                 />
+                </div>
                 {errors.shopName && <p className="error">{errors.shopName}</p>}
 
-              </div>
+              
             </div>
 
             <div className="field">
@@ -157,10 +158,11 @@ export default function Register() {
   <option value="Electronics">📱 Electronics</option>
   <option value="Cosmetics">💄 Cosmetics</option>
                 </select>
+                </div>
+            
                 {errors.category && <p className="error">{errors.category}</p>}
 
               </div>
-            </div>
           </div>
 
           <div className="field">
@@ -175,9 +177,10 @@ export default function Register() {
                   setFormData({ ...formData, phone: e.target.value })
                 }
               />
+              </div>
               {errors.phone && <p className="error">{errors.phone}</p>}
 
-            </div>
+            
           </div>
 
           <button className="create-btn" onClick={next}>
@@ -211,8 +214,9 @@ export default function Register() {
                   setFormData({ ...formData, fullName: e.target.value })
                 }
               />
+              </div>
               {errors.fullName && <p className="error">{errors.fullName}</p>}
-            </div>
+            
           </div>
 
           <div className="field">
@@ -227,8 +231,9 @@ export default function Register() {
                   setFormData({ ...formData, email: e.target.value })
                 }
               />
+              </div>
               {errors.email && <p className="error">{errors.email}</p>}
-            </div>
+            
           </div>
 
           <div className="field">
@@ -243,8 +248,8 @@ export default function Register() {
                   setFormData({ ...formData, password: e.target.value })
                 }
               />
+              </div>
               {errors.password && <p className="error">{errors.password}</p>}
-            </div>
           </div>
 
           <div className="btn-row">
@@ -270,8 +275,8 @@ export default function Register() {
                   setFormData({ ...formData, address: e.target.value })
                 }
               />
+              </div>
               {errors.address && <p className="error">{errors.address}</p>}
-            </div>
           </div>
 
           <div className="field-row">

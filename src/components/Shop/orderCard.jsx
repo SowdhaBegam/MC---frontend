@@ -75,7 +75,6 @@ export default function OrderCard({
     }
   };
 
-  // ❌ decline
   const handleDecline = async () => {
     try {
       setLoading(true);
@@ -94,11 +93,18 @@ export default function OrderCard({
   const renderButton = () => {
     if (loading) return <div className="status-text">Updating...</div>;
 
+    // 🔹 NEW ORDER → Accept + Decline side by side
     if (status === "received") {
       return (
-        <button className="accept-btn" onClick={handleAccept}>
-          Accept Order
-        </button>
+        <div className="action-buttons">
+          <button className="accept-btn" onClick={handleAccept}>
+            Accept Order
+          </button>
+
+          <button className="decline-btn" onClick={handleDecline}>
+            Decline
+          </button>
+        </div>
       );
     }
 
@@ -139,13 +145,6 @@ export default function OrderCard({
 
         <div className="header-right">
           <span className="amount">₹{amount}</span>
-
-          {/* ❌ small decline icon */}
-          {status === "received" && !loading && (
-            <button className="decline-icon" onClick={handleDecline}>
-              ✕
-            </button>
-          )}
         </div>
       </div>
 

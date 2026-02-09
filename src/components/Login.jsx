@@ -56,15 +56,45 @@ export default function Login() {
     navigate("/shop-dashboard");
 
   } catch (err) {
-    // ⏳ Vendor pending approval
-    if (err.response?.status === 403) {
-      setPendingMsg("⏳ Your shop is waiting for admin approval.");
-      return;
-    }
+  const status = err.response?.status;
+  const message = err.response?.data?.message;
 
-    setPendingMsg("");
-    alert(err.response?.data?.message || "Login failed");
+  // ⏳ Vendor pending approval
+  if (status === 403) {
+    setPendingMsg("⏳ Your shop is waiting for admin approval.");
+    return;
   }
+
+  setPendingMsg("");
+
+  // 🌐 Network error
+  if (!err.response) {
+    alert("Network error. Please check your internet connection.");
+    return;
+  }
+
+  // ❌ Wrong password
+  if (status === 401) {
+    setErrors({ password: "Incorrect password" });
+    return;
+  }
+
+  // ❌ Email not found
+  if (status === 404) {
+    setErrors({ email: "Account not found" });
+    return;
+  }
+
+  // 💥 Server issue
+  if (status === 500) {
+    alert("Server error. Please try again later.");
+    return;
+  }
+
+  // fallback
+  alert(message || "Login failed");
+}
+
 };
 
   return (

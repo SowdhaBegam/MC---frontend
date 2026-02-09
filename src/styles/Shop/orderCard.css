@@ -1,87 +1,62 @@
 /* ===============================
    CARD BASE
 ================================ */
+
 .order-card {
-  background: #ffffff;
-  border-radius: 22px;
-  padding: 18px;
   width: 280px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 18px;
   min-height: 300px;
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  position: relative;
 
-  border: 2px solid transparent;
-  box-shadow: 0 12px 35px rgba(0,0,0,0.08);
-  transition: 0.3s;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease;
 }
 
 .order-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+  transform: translateY(-4px);
 }
 
 /* ===============================
-   STATUS COLORS + BLINK
+   🔥 LIVE BLINKING (NON-COMPLETED)
 ================================ */
 
-/* 🔴 NEW ORDER */
-.order-card.received {
-  border-color: #f3728a;
-  background: linear-gradient(180deg,#fff5f6,#ffffff);
-  animation: redBlink 2s infinite;
-}
-
-/* 🟠 PREPARING */
-.order-card.preparing {
-  border-color: #f59e0b;
-  background: linear-gradient(180deg,#fff7ed,#ffffff);
-  animation: orangeBlink 2s infinite;
-}
-
-/* 🟢 READY */
+.order-card.received,
+.order-card.preparing,
 .order-card.ready {
-  border-color: #22c55e;
-  background: linear-gradient(180deg,#ecfdf5,#ffffff);
-  animation: greenBlink 2s infinite;
+  animation: liveGlow 2s infinite ease-in-out;
 }
 
-/* ⚫ COMPLETED */
-.order-card.completed {
-  border-color: #16a34a;
-  background: #f3f4f6;
-  opacity: 0.85;
-}
-
-/* ===============================
-   SOFT SMALL BLINK
-================================ */
-@keyframes redBlink {
-  0% { box-shadow: 0 0 0 rgba(255,0,70,0); }
-  50% { box-shadow: 0 0 8px rgba(255,0,70,0.25); }
-  100% { box-shadow: 0 0 0 rgba(255,0,70,0); }
-}
-
-@keyframes orangeBlink {
-  0% { box-shadow: 0 0 0 rgba(255,150,0,0); }
-  50% { box-shadow: 0 0 8px rgba(255,150,0,0.35); }
-  100% { box-shadow: 0 0 0 rgba(255,150,0,0); }
-}
-
-@keyframes greenBlink {
-  0% { box-shadow: 0 0 0 rgba(0,255,120,0); }
-  50% { box-shadow: 0 0 8px rgba(0,255,120,0.35); }
-  100% { box-shadow: 0 0 0 rgba(0,255,120,0); }
+@keyframes liveGlow {
+  0% {
+    box-shadow:
+      0 0 0 0 rgba(236, 171, 121, 0.25),
+      0 10px 28px rgba(0, 0, 0, 0.08);
+  }
+  50% {
+    box-shadow:
+      0 0 16px 6px rgba(236, 171, 121, 0.55),
+      0 10px 28px rgba(0, 0, 0, 0.08);
+  }
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(236, 171, 121, 0.25),
+      0 10px 28px rgba(0, 0, 0, 0.08);
+  }
 }
 
 /* ===============================
    HEADER
 ================================ */
+
 .order-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .order-header h4 {
@@ -93,171 +68,167 @@
 
 .order-id {
   font-size: 11px;
-  color: #9ca3af;
-}
-
-/* right side */
-.header-right{
-  display:flex;
-  align-items:center;
-  gap:8px;
+  color: #6b7280;
 }
 
 .amount {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   color: #4f46e5;
 }
 
 /* ===============================
-   ❌ DECLINE ICON
+   BODY
 ================================ */
-.decline-icon{
-  width:22px;
-  height:22px;
-  border-radius:50%;
-  border:none;
-  background:#fee2e2;
-  color:#dc2626;
-  font-size:13px;
-  font-weight:900;
-  cursor:pointer;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:0.2s;
-}
-
-.decline-icon:hover{
-  background:#dc2626;
-  color:white;
-  transform:scale(1.1);
-}
-
-/* ===============================
-   BODY ITEMS
-================================ */
 .order-body {
-  margin-top: 12px;
   flex: 1;
+  margin-top: 14px;
 }
 
 .items {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .item-pill {
-  background: #f3f4f6;
-  padding: 9px 12px;
-  border-radius: 10px;
+  background: #eef2f7;
+  padding: 10px 14px;
+  border-radius: 12px;
   font-size: 13px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #d1d5db;
 }
 
 /* ===============================
    FOOTER
 ================================ */
+
 .order-footer {
-  margin-top: 15px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 /* ===============================
-   BUTTONS
+   ACTION BUTTONS WRAPPER
 ================================ */
 
-/* accept button */
-.accept-btn{
-  width:190px;
-  height:38px;
-  border-radius:22px;
-  border:none;
-  font-size:13px;
-  font-weight:700;
-  color:white;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:0.25s;
-  background: linear-gradient(135deg,#6366f1,#7c3aed);
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
 }
 
-/* smaller buttons */
+/* ===============================
+   BUTTONS (SAME SIZE)
+================================ */
+
+.accept-btn,
+.decline-btn,
 .mark-ready-btn,
-.dispatch-btn{
-  width:160px;
-  height:34px;
-  border-radius:20px;
-  border:none;
-  font-size:12px;
-  font-weight:700;
-  color:white;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:0.25s;
+.dispatch-btn {
+  width: 120px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 18px;
+  border: none;
+
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+
+  color: #ffffff;
+  cursor: pointer;
 }
 
-/* colors */
-.mark-ready-btn{
-  background: linear-gradient(135deg,#f59e0b,#fb923c);
+/* ACCEPT */
+.accept-btn {
+  background: linear-gradient(135deg, #4f46e5, #1a24ea);
 }
 
-.dispatch-btn{
-  background: linear-gradient(135deg,#22c55e,#16a34a);
+/* DECLINE */
+.decline-btn {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
 }
 
-/* hover */
-.accept-btn:hover,
-.mark-ready-btn:hover,
-.dispatch-btn:hover{
-  transform:scale(1.05);
+/* MARK READY */
+.mark-ready-btn {
+  background: linear-gradient(135deg, #f97316, #f0a952);
+}
+
+/* COMPLETE */
+.dispatch-btn {
+  background: linear-gradient(135deg, #16a34a, #23ee6d);
 }
 
 /* ===============================
-   TEXT
+   STATUS TEXT
 ================================ */
+
 .status-text {
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
+  font-weight: 600;
   color: #6b7280;
+  text-align: center;
+}
+
+/* ===============================
+   COMPLETED STATE
+================================ */
+
+.order-card.completed {
+  animation: none;
+  border-top: 4px solid #22c55e;
 }
 
 .order-complete {
   font-size: 13px;
-  font-weight: 800;
-  color: #22c55e;
-}
-
-/* ===============================
-   GRID
-================================ */
-.order-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 280px);
-  gap: 80px;
+  font-weight: 700;
+  color: #16a34a;
 }
 
 /* ===============================
    MOBILE
 ================================ */
-@media (max-width:480px){
-  .order-card{
-    width:100%;
+
+@media (max-width: 480px) {
+  .action-buttons {
+    flex-direction: column;
   }
 
-  .accept-btn,
+
+  .decline-btn,
   .mark-ready-btn,
-  .dispatch-btn{
-    width:100%;
+  .dispatch-btn {
+    width: 100%;
   }
+}
+/* ===============================
+   STABLE AUTO-FILL GRID
+================================ */
+
+.order-grid,
+.orders-grid {
+  display: grid;
+
+  /* 🔥 FIXED CARD WIDTH */
+  grid-template-columns: repeat(auto-fill, 280px);
+
+  /* 🔥 CONSTANT GAP (never changes) */
+  gap: 90px;
+
+  /* 🔥 NO CENTERING / NO STRETCH */
+  justify-content: start;
+  align-content: start;
 }
