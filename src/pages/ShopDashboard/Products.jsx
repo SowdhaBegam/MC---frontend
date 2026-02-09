@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 import NewProductModal from "../../components/Shop/NewProductModal";
 import {
@@ -10,6 +11,42 @@ export default function Products() {
   const [openModal, setOpenModal] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
   
+  
+  const toggleLiveStatus = async (product) => {
+  try {
+    const updatedStatus = !product.is_live;
+    const productId = product.id || product._id;
+
+    console.log("TOGGLING PRODUCT:", product);
+
+    await axios.patch(
+      `https://mc-platform-lvmhp50gy-sangeetha-lakshmis-projects.vercel.app/api/products/${productId}/live`,
+      {
+        stock: product.stock,
+        is_live: updatedStatus,
+        prep_time: product.prep_time || 0,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    // ✅ Update UI instantly
+    setProducts((prev) =>
+      prev.map((p) =>
+        (p.id || p._id) === productId
+          ? { ...p, is_live: updatedStatus }
+          : p
+      )
+    );
+  } catch (err) {
+    console.error("Failed to update live status", err);
+    alert("Unable to update product live status");
+  }
+};
+
 
   const [search, setSearch] = useState("");
   useEffect(() => {
@@ -135,9 +172,23 @@ export default function Products() {
                   <span className="stock-dot"></span>
                   <span>{p.stock} Units</span>
 
-                  <span className={`status ${p.is_live ? "live" : "off"}`}>
-                    {p.is_live ? "LIVE" : "OFF"}
-                  </span>
+                 <button
+  onClick={() => toggleLiveStatus(p)}
+  className={`
+    relative inline-flex h-6 w-11 items-center rounded-full
+    transition-colors duration-300
+    ${p.is_live ? "bg-green-500" : "bg-gray-300"}
+  `}
+>
+  <span
+    className={`
+      inline-block h-5 w-5 transform rounded-full bg-white shadow
+      transition-transform duration-300
+      ${p.is_live ? "translate-x-5" : "translate-x-1"}
+    `}
+  />
+</button>
+
                 </div>
               </div>
             </div>
