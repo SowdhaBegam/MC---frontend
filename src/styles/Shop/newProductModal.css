@@ -193,7 +193,8 @@
 .deploy:hover {
   transform: translateY(-2px);
 }
-/* ===== SELECT PLACEHOLDER STYLE ===== */
+
+/* ===== SELECT INPUT (UNCHANGED SIZE) ===== */
 .category {
   width: 100%;
   padding: 8px 14px;
@@ -232,25 +233,15 @@
 }
 .financial-box {
   background: white;
-  border-radius: 18px;
-  padding: 18px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-  border: 1px solid #f1f5f9;
+  color: #9ca3af;
+  appearance: none;
 }
-.final-price {
-  border-radius: 14px;
-  font-size: 15px;
-  padding: 12px;
+
+/* When user selects a value */
+.category:valid {
   background: linear-gradient(90deg,#ff7a18,#ff3d6a);
-  color: white;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  box-shadow: 0 6px 18px rgba(255,61,106,0.4);
-}
-.upload-box {
-  flex-direction: column;
-  gap: 8px;
-  background: #f8fafc;
+  color: #ffffff;
+  border-color: #ff3d6a;
 }
 
 .upload-icon {
@@ -327,13 +318,50 @@
   transition: all 0.2s ease;
 }
 
-.food-settings input:focus {
+
+/* Focus */
+.category:focus {
   border-color: #ff3d6a;
   box-shadow: 0 0 0 3px rgba(255,61,106,0.15);
   outline: none;
 }
 
-.food-field {
+/* ============================================= */
+/* 🎯 SCOPED DROPDOWN FIX – NEW PRODUCT MODAL    */
+/* affects ONLY your modal, nobody else          */
+/* ============================================= */
+
+#new-product-modal select.category {
+  background-color: #ffffff;
+  color: #111827;
+  font-weight: 600;
+}
+
+/* dropdown options */
+#new-product-modal select.category option {
+  background-color: #ffffff;
+  color: #111827;
+  font-size: 14px;
+}
+
+/* hover (best-effort – browser dependent) */
+#new-product-modal select.category option:hover {
+  background-color: #fff7ed; /* light orange */
+  color: #111827;
+}
+
+/* selected option */
+#new-product-modal select.category option:checked {
+  background-color: #ff7a18;
+  color: #ffffff;
+}
+/* ===================================== */
+/* 🔥 CUSTOM DROPDOWN – FINAL VERSION    */
+/* ===================================== */
+
+.custom-dropdown {
+  position: relative;
+  width: 100%;
   margin-bottom: 12px;
 }
 .food-input {
@@ -354,5 +382,58 @@
 .form-section h4 {
   font-size: 12px;
   font-weight: 700;
-  color: #6b7280;
+  color: #6b7280;}
+.dropdown-btn {
+  width: 100%;
+  padding: 8px 14px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropdown-btn:hover {
+  border-color: #ff3d6a;
+}
+
+.placeholder {
+  color: #9ca3af;
+}
+
+.dropdown-menu {
+  position: absolute;
+  width: 100%;
+  margin-top: 6px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  overflow: hidden;
+  z-index: 50;
+  animation: dropdownPop 0.2s ease;
+}
+
+@keyframes dropdownPop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dropdown-menu li {
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+  background: linear-gradient(90deg,#ff7a18,#ff3d6a);
+  color: white;
 }

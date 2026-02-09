@@ -10,6 +10,7 @@ export default function Navbar() {
   const [profileData, setProfileData] = useState(null);
 
 
+
   /* TAB STYLE */
   const tabClass = ({ isActive }) =>
     `px-5 py-2 rounded-full text-sm font-medium transition-all duration-300
@@ -108,7 +109,6 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* PROFILE MODAL */}
       <ProfileModal
   open={openProfile}
   onClose={() => setOpenProfile(false)}
@@ -119,6 +119,7 @@ export default function Navbar() {
     setOpenEdit(true);       // ✅ OPEN UPDATE MODAL
   }}
 />
+
 
       {/* UPDATE PROFILE */}
       <UpdateProfileModal
