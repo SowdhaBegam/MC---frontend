@@ -60,7 +60,6 @@ export default function Dashboard() {
           icon="📩"
           bg="bg-blue"
         />
-
         <StatCard
           title="ORDER IN PROCESS"
           value={activeOrders.length}

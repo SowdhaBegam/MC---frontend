@@ -161,6 +161,7 @@
   box-shadow: 0 6px 14px rgba(255,61,106,0.25);
 }
 
+
 .bottom-row {
   display: flex;
   justify-content: space-between;
@@ -283,3 +284,54 @@
   background-size: 13px 13px;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
 }
+.delete-btn {
+  background: #fee2e2;
+  color: #dc2626;
+  border: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.confirm-box {
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.cancel-btn {
+  background: #e5e7eb;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.confirm-btn {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+

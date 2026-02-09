@@ -437,3 +437,9 @@
   background: linear-gradient(90deg,#ff7a18,#ff3d6a);
   color: white;
 }
+.error {
+  color: #ff3d6a;
+  font-size: 12px;
+  margin-top: -4px;
+  margin-bottom: 6px;
+}

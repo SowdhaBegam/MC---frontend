@@ -1,13 +1,17 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import NewProductModal from "../../components/Shop/NewProductModal";
-import { getProductsAPI } from "../../services/productService";
+import {
+  getProductsAPI,
+  deleteProductAPI,
+} from "../../services/productService";
 import "../../styles/Shop/Products.css";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -29,19 +33,27 @@ export default function Products() {
     setOpenModal(false);
   };
 
+  /* DELETE PRODUCT */
   const deleteProduct = async (id) => {
     try {
-      await fetch(
-        `https://mc-platform-qwzw35zb4-sangeetha-lakshmis-projects.vercel.app/products/${id}`,
-        { method: "DELETE" }
-      );
+      await deleteProductAPI(id);
       setProducts((prev) => prev.filter((p) => p.id !== id));
     } catch (err) {
       console.error("Delete failed", err);
     }
   };
 
-  /* ✅ LIVE TOGGLE */
+  /* GROUP BY SUBCATEGORY */
+  const groupBySubCategory = (items) => {
+    return items.reduce((acc, item) => {
+      const key = item.subcategory || "Others";
+      if (!acc[key]) acc[key] = [];
+      acc[key].push(item);
+      return acc;
+    }, {});
+  };
+
+  /* LIVE TOGGLE */
   const toggleLiveStatus = async (product) => {
     try {
       const updatedStatus = !product.is_live;
@@ -74,6 +86,16 @@ export default function Products() {
     }
   };
 
+  /* FILTERED PRODUCTS */
+  const filteredProducts = products.filter((p) => {
+    const q = search.toLowerCase();
+    return (
+      p.name?.toLowerCase().includes(q) ||
+      p.category?.toLowerCase().includes(q) ||
+      p.subcategory?.toLowerCase().includes(q)
+    );
+  });
+
   return (
     <div className="products-page">
       {/* ===== HEADER ===== */}
@@ -101,116 +123,136 @@ export default function Products() {
         </div>
       </div>
 
-      {/* ===== PRODUCTS GRID ===== */}
-      <div className="products-grid">
-        {products.length === 0 && (
-          <p style={{ color: "#9ca3af", fontSize: "14px" }}>
-            No products yet. Click <strong>NEW PRODUCT</strong> to add.
-          </p>
+      {/* ===== PRODUCTS BY SUBCATEGORY ===== */}
+      <div className="products-grid-wrapper">
+        {Object.entries(groupBySubCategory(filteredProducts)).map(
+          ([subCategory, items]) => (
+            <div key={subCategory} className="subcategory-section">
+              <h3 className="subcategory-title">
+                {subCategory}
+                <span className="count"> ({items.length})</span>
+              </h3>
+
+              <div className="products-grid">
+                {items.map((p) => {
+                  const imageUrl =
+                    !p.image ||
+                    p.image === "default-product.png" ||
+                    p.image === "image.jpg"
+                      ? "/image.jpg"
+                      : `https://mc-platform-qwzw35zb4-sangeetha-lakshmis-projects.vercel.app/uploads/${p.image}`;
+
+                  return (
+                    <div key={p.id} className="product-card">
+                      <div className="img-wrapper">
+                        <img src={imageUrl} alt={p.name} />
+
+                        <div className="card-actions">
+                          <button
+                            onClick={() => {
+                              setEditProduct(p);
+                              setOpenModal(true);
+                            }}
+                          >
+                            ✏️
+                          </button>
+                          <button
+                            className="delete-btn"
+                            onClick={() => setDeleteId(p.id)}
+                          >
+                            ❌
+                          </button>
+                        </div>
+
+                        {p.final_price < p.price && (
+                          <div className="discount-badge">
+                            -{Math.round(
+                              ((p.price - p.final_price) / p.price) * 100
+                            )}
+                            %
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="card-body">
+                        <h3>{p.name}</h3>
+
+                        <div className="price-row">
+                          <span className="final-price">
+                            ₹{p.final_price}
+                          </span>
+                          {p.final_price < p.price && (
+                            <span className="mrp">₹{p.price}</span>
+                          )}
+                        </div>
+
+                        <div className="bottom-row">
+                          <span className="stock-dot"></span>
+                          <span>{p.stock} Units</span>
+
+                          {/* LIVE TOGGLE */}
+                          <button
+                            onClick={() => toggleLiveStatus(p)}
+                            className={`
+                              relative inline-flex h-6 w-11 items-center rounded-full
+                              transition-colors duration-300
+                              ${p.is_live ? "bg-green-500" : "bg-gray-300"}
+                            `}
+                          >
+                            <span
+                              className={`
+                                inline-block h-5 w-5 transform rounded-full bg-white shadow
+                                transition-transform duration-300
+                                ${p.is_live ? "translate-x-5" : "translate-x-1"}
+                              `}
+                            />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )
         )}
 
-        {products
-          .filter((p) => {
-            const q = search.toLowerCase();
-            return (
-              p.name?.toLowerCase().includes(q) ||
-              p.category?.toLowerCase().includes(q) ||
-              p.subcategory?.toLowerCase().includes(q)
-            );
-          })
-          .map((p) => {
-            const imageUrl =
-              !p.image ||
-              p.image === "default-product.png" ||
-              p.image === "image.jpg"
-                ? "/image.jpg"
-                : `https://mc-platform-qwzw35zb4-sangeetha-lakshmis-projects.vercel.app/uploads/${p.image}`;
-
-            return (
-              <div key={p.id || p._id} className="product-card">
-                <div className="img-wrapper">
-                  <img src={imageUrl} alt={p.name} />
-
-                  {/* ACTIONS */}
-                  <div className="card-actions">
-                    <button
-                      onClick={() => {
-                        setEditProduct(p);
-                        setOpenModal(true);
-                      }}
-                    >
-                      ✏️
-                    </button>
-                    <button onClick={() => deleteProduct(p.id)}>🗑️</button>
-                  </div>
-
-                  {/* DISCOUNT */}
-                  {p.final_price < p.price && (
-                    <div className="discount-badge">
-                      -
-                      {Math.round(
-                        ((p.price - p.final_price) / p.price) * 100
-                      )}
-                      % OFF
-                    </div>
-                  )}
-                </div>
-
-                <div className="card-body">
-                  <h3>{p.name}</h3>
-
-                  {/* PRICE */}
-                  <div className="price-row">
-  <span className="final-price">₹{p.final_price}</span>
-
-  {p.final_price < p.price && (
-    <span className="mrp">₹{p.price}</span>
-  )}
-</div>
-
-                  {/* BOTTOM */}
-                  <div className="bottom-row">
-                    <span className="stock-dot"></span>
-                    <span>{p.stock} Units</span>
-
-                    {/* LIVE TOGGLE */}
-                    <button
-                      onClick={() => toggleLiveStatus(p)}
-                      className={`
-                        relative inline-flex h-6 w-11 items-center rounded-full
-                        transition-colors duration-300
-                        ${p.is_live ? "bg-green-500" : "bg-gray-300"}
-                      `}
-                    >
-                      <span
-                        className={`
-                          inline-block h-5 w-5 transform rounded-full bg-white shadow
-                          transition-transform duration-300
-                          ${p.is_live ? "translate-x-5" : "translate-x-1"}
-                        `}
-                      />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-
         {/* NO RESULTS */}
-        {products.length > 0 &&
-          products.filter((p) => {
-            const q = search.toLowerCase();
-            return (
-              p.name?.toLowerCase().includes(q) ||
-              p.category?.toLowerCase().includes(q) ||
-              p.subcategory?.toLowerCase().includes(q)
-            );
-          }).length === 0 && (
-            <p style={{ color: "#9ca3af", fontSize: "14px" }}>
-              No products found for "<strong>{search}</strong>"
-            </p>
-          )}
+        {products.length > 0 && filteredProducts.length === 0 && (
+          <p style={{ color: "#9ca3af", fontSize: "14px" }}>
+            No products found for "<strong>{search}</strong>"
+          </p>
+        )}
       </div>
+
+      {/* DELETE CONFIRM */}
+      {deleteId && (
+        <div className="confirm-overlay">
+          <div className="confirm-box">
+            <h3>Delete Product?</h3>
+            <p>Are you sure you want to delete this product?</p>
+
+            <div className="confirm-actions">
+              <button
+                className="cancel-btn"
+                onClick={() => setDeleteId(null)}
+              >
+                No
+              </button>
+
+              <button
+                className="confirm-btn"
+                onClick={async () => {
+                  await deleteProduct(deleteId);
+                  setDeleteId(null);
+                }}
+              >
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ===== MODAL ===== */}
       <NewProductModal
