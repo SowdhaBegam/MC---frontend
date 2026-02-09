@@ -137,11 +137,13 @@ const deleteProduct = async (id) => {
                 <h3>{p.name}</h3>
 
                 <div className="price-row">
-                  {p.final_price < p.price && (
-                    <span className="mrp">₹{p.price}</span>
-                  )}
-                  <span className="final-price">₹{p.final_price}</span>
-                </div>
+  <span className="final-price">₹{p.final_price}</span>
+
+  {p.final_price < p.price && (
+    <span className="mrp">₹{p.price}</span>
+  )}
+</div>
+
 
                 <div className="bottom-row">
                   <span className="stock-dot"></span>

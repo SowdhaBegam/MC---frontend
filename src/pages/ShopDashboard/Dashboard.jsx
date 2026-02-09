@@ -63,14 +63,14 @@ export default function Dashboard() {
         <StatCard
           title="ORDER IN PROCESS"
           value={activeOrders.length}
-          icon="⚡"
+          icon="📌"
           bg="bg-orange"
         />
 
         <StatCard
           title="TODAY'S REVENUE"
           value={`₹${totalRevenue}`}
-          icon="📈"
+          icon="💰"
           bg="bg-green"
         />
       </div>
