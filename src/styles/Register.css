@@ -1,3 +1,4 @@
+
 /* FULL PAGE BACKGROUND */
 .register-page {
   height: 100vh;
@@ -34,7 +35,9 @@
   transition: all 0.5s ease;
   position: relative;
 }
-
+.register-card.dropdown-open {
+  overflow: visible !important;
+}
 /* ===================================== */
 /* 🔥 PREMIUM FORM CARD EFFECT */
 /* ===================================== */
@@ -127,6 +130,7 @@
   flex-direction: column;
   margin-bottom: 18px;
   text-align: left;
+  overflow: visible;
 }
 
 .field label {
@@ -308,7 +312,9 @@
 .popup-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.35); /* lighter */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -322,6 +328,17 @@
   font-weight: 600;
   font-size: 16px;
   box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  animation: popupFade 0.3s ease;
+}
+@keyframes popupFade {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 /* ===================================== */
 /* 🔥 STEP 2 & 3 BUTTON SIZE FIX */
@@ -375,14 +392,14 @@
 /* 🔥 CATEGORY SELECT – MODERN UI */
 /* ===================================== */
 
-.input-icon select {
-  appearance: none;            /* remove default arrow */
+/*.input-icon select {
+  appearance: none;          
   cursor: pointer;
   font-weight: 500;
   color: #111827;
   font-size: 14px;
   padding-right: 36px;
-}
+}*
 
 /* Custom dropdown arrow */
 .input-icon {
@@ -418,14 +435,27 @@ select option {
 /* 🔥 CATEGORY DROPDOWN ONLY */
 /* ===================================== */
 
-.category-select {
+/* .category-select {
   position: relative;
 }
 
-
+.category-select select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+  cursor: pointer;
+  padding-right: 34px;
+}
 
 /* Arrow only for category */
-.category-select::after {
+/*.category-select::after {
   content: "▾";
   position: absolute;
   right: 14px;
@@ -438,43 +468,286 @@ select option {
 }
 
 /* Hover */
-.category-select:hover {
-  border-color: #ff9800;
+/* .category-select:hover {
   background: #ffffff;
+  border-color: #ff9800;
 }
 
 /* Focus glow */
 .category-select:focus-within {
+  background: #ffffff;
   border-color: #ff9800;
   box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.25);
-  background: #ffffff;
 }
 
-/* Rotate arrow on open */
-.category-select:focus-within::after {
+ /* Rotate arrow on open */
+/*.category-select:focus-within::after {
   transform: translateY(-50%) rotate(180deg);
-  color: #ff9800;
-}
-/* Default option */
+  color: #ff9800;}*/
+
+/* Default option 
 .category-select select option {
   background-color: #ffffff;
   color: #1f2937;
+  font-size: 14px;
+  padding: 10px;
+  font-weight: 500;
+}
+*/
+
+/* Hover option (works in Firefox + some Chromium) 
+.category-select select option:hover {
+  background-color: #fff4e6;   /* light orange 
+  color: #b45309;
+}*/
+
+/* Selected option 
+.category-select select option:checked {
+  background-color: #ff9800; */  /* BRAND ORANGE 
+  color: #ffffff;
+}*/
+.error {
+  color: #ef4444;
+  font-size: 12px;
+  margin-top: 6px;
+  padding-left: 28px;
+  position: relative;
   font-weight: 500;
 }
 
-/* Hover option (works in Firefox + some Chromium) */
-.category-select select option:hover {
-  background-color: #fff4e6;   /* light orange */
-  color: #b45309;
+.error::before {
+  content: "!";
+  position: absolute;
+  left: 6px;
+  top: 1px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ef4444;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Selected option */
-.category-select select option:checked {
-  background-color: #ff9800;   /* BRAND ORANGE */
+/* =============================== */
+/* ✅ SAFE CATEGORY DROPDOWN FIX */
+/* =============================== */
+
+/*.input-icon.category-select {
+  position: relative;
+}
+
+/* affect ONLY category select */
+/*.input-icon.category-select select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 34px;
+  cursor: pointer;
+}
+
+/* arrow ONLY for category */
+/*.input-icon.category-select::after {
+  content: "▾";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #6b7280;
+  pointer-events: none;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+.input-icon.category-select:focus-within {
+  transform: translateY(-1px);
+}
+/* rotate arrow ONLY when category focused */
+/*.input-icon.category-select:focus-within::after {
+  transform: translateY(-50%) rotate(180deg);
+  
+}*/
+/* =============================== */
+/* ✅ SAFE CATEGORY SELECT (NATIVE) */
+/* =============================== */
+
+/* ===================================== */
+/* ✅ CATEGORY SELECT – PROFESSIONAL UI */
+/* ===================================== */
+
+/* =============================== */
+/* ✅ SHOP CATEGORY – CLEAN NATIVE */
+/* =============================== */
+/* ===================================== */
+/* ✅ SHOP CATEGORY – SUBTLE BOX UPGRADE */
+/* ===================================== */
+
+#shop-category {
+  position: relative;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+
+  /* 👇 subtle depth */
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* select text */
+#shop-category select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+
+  padding-right: 44px; /* more space for arrow */
+  cursor: pointer;
+}
+
+/* arrow container look */
+#shop-category::after {
+  content: "▾";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 12px;
+  color: #6b7280;
+  background: #f3f4f6;   /* 👈 subtle pill */
+
+  pointer-events: none;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+/* hover – slight lift */
+#shop-category:hover {
+  background: #ffffff;
+}
+
+/* focus – SAME as other inputs */
+#shop-category:focus-within {
+  background: #ffffff;
+  border-color: #ff9800;
+  box-shadow:
+    inset 0 1px 2px rgba(0,0,0,0.04),
+    0 0 0 3px rgba(255, 152, 0, 0.25);
+}
+
+/* arrow rotate */
+#shop-category:focus-within::after {
+  transform: translateY(-50%) rotate(180deg);
+  background: #fff7ed;
+}
+/* ===================================== */
+/* 🔥 CUSTOM SHOP CATEGORY DROPDOWN */
+/* ===================================== */
+
+/* closed box */
+#shop-category-box {
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#shop-category-box:hover {
+  background: #ffffff;
+}
+
+/* text */
+#shop-category-box .placeholder {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+#shop-category-box .value {
+  color: #111827;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* arrow */
+#shop-category-box .arrow {
+  font-size: 13px;
+  color: #6b7280;
+  transition: transform 0.25s ease;
+}
+hover:pl-5
+
+/* dropdown menu */
+#shop-category-menu {
+  margin-top: 6px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  animation: dropdownIn 0.2s ease;
+  position: absolute;
+  z-index: 999;        
+ top: 100%; 
+ left: 0;
+ width: 100%;     
+  width: 45%;
+  margin-top: 6px;   
+}
+
+/* animation */
+@keyframes dropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* menu item */
+#shop-category-menu .menu-item {
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* hover */
+#shop-category-menu .menu-item:hover {
+  background: #f3f4f6;
+}
+
+/* selected (like your screenshot gray bar) */
+#shop-category-menu .menu-item.active {
+  background: #6b7280;
   color: #ffffff;
 }
-.error {
-  color: red;
-  font-size: 12px;
-  margin-top: 4px;
-}
+

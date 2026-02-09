@@ -52,7 +52,7 @@ export default function ProfileModal({ open, onClose, onEdit }) {
               className="edit-btn"
               onClick={() => onEdit(profile)}
             >
-              ✏️ Edit
+               Edit
             </button>
             <button className="close-btn" onClick={onClose}>✕</button>
           </div>

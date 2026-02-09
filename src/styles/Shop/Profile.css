@@ -17,7 +17,9 @@
 
 /* ===== CARD ===== */
 .profile-card {
-  width: 520px;                 /* ✅ WIDER */
+
+  width: 520px;
+
   max-width: 95vw;
   background: #ffffff;
   border-radius: 22px;
@@ -81,43 +83,76 @@
   opacity: 0.9;
 }
 
-/* ===== ACTIONS ===== */
-.profile-actions {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  display: flex;
-  gap: 8px;
-}
+/* ===== ACTION BUTTONS ===== */
 
+/* EDIT BUTTON */
 .edit-btn {
-  height: 36px;
-  padding: 0 14px;
+  position: absolute;
+  top: 30px;
+  right: 70px;
+
+  height: 38px;
+  padding: 0 16px;
 
   display: flex;
   align-items: center;
-  gap: 6px;
 
   border: none;
   border-radius: 18px;
 
-  background: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.18);
   color: #ffffff;
 
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1;
 
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: background 0.2s ease;
 }
 
-/* Hover polish */
+/* clean pencil icon (NO emoji) */
+.edit-btn::before {
+  content: "✎";
+  font-size: 14px;
+  margin-right: 6px;
+}
+
 .edit-btn:hover {
-  background: rgba(255, 255, 255, 0.4);
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.32);
 }
 
+/* CLOSE BUTTON */
+.close-btn {
+  position: absolute;
+  top: 29px;
+  right: 19px;
+
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+
+  cursor: pointer;
+  opacity: 0.7;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  opacity: 1;
+}
 
 /* ===== BODY ===== */
 .profile-body {

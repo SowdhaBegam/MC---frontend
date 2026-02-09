@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { vendorRegister } from "../services/authService";
-
+import { createPortal } from "react-dom";
 
 
 export default function Register() {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
+  const [categoryOpen, setCategoryOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     shopName: "",
@@ -105,10 +106,30 @@ export default function Register() {
     );
   }
 };
-
+const categories = [
+  { value: "Food", label: "🍔 Food" },
+  { value: "Grocery", label: "🛒 Grocery" },
+  { value: "Pharmacy", label: "💊 Pharmacy" },
+  { value: "Electronics", label: "📱 Electronics" },
+  { value: "Cosmetics", label: "💄 Cosmetics" },
+];
+const dropdownStyle = categoryOpen
+  ? (() => {
+      const box = document.getElementById("shop-category-box");
+      if (!box) return {};
+      const rect = box.getBoundingClientRect();
+      return {
+        position: "absolute",
+        top: rect.bottom + window.scrollY + 6,
+        left: rect.left + window.scrollX,
+        width: rect.width,
+        zIndex: 9999,
+      };
+    })()
+  : {};
 
   return (
-    <div className="register-card">
+    <div className={`register-card ${categoryOpen ? "dropdown-open" : ""}`}>
       <div className="step-header">
         <div className={`step ${step >= 1 ? "active" : ""}`}>Shop Info</div>
         <div className={`step ${step >= 2 ? "active" : ""}`}>Account</div>
@@ -136,31 +157,67 @@ export default function Register() {
                     setFormData({ ...formData, shopName: e.target.value })
                   }
                 />
+                </div>
                 {errors.shopName && <p className="error">{errors.shopName}</p>}
 
-              </div>
+              
             </div>
 
-            <div className="field">
-              <label>CATEGORY *</label>
-              <div className="input-icon category-select">
-                <select
-                  value={formData.category}
-                  onChange={(e) =>
-                    setFormData({ ...formData, category: e.target.value })
-                  }
-                >
-                   <option value="">Select category</option>
-  <option value="Food">🍔 Food</option>
-  <option value="Grocery">🛒 Grocery</option>
-  <option value="Pharmacy">💊 Pharmacy</option>
-  <option value="Electronics">📱 Electronics</option>
-  <option value="Cosmetics">💄 Cosmetics</option>
-                </select>
-                {errors.category && <p className="error">{errors.category}</p>}
+ <div className="field">
+  <label>CATEGORY *</label>
 
-              </div>
-            </div>
+  <div
+    id="shop-category-box"
+    onClick={() => setCategoryOpen(!categoryOpen)}
+  >
+    <span className={formData.category ? "value" : "placeholder"}>
+      {formData.category || "Select category"}
+    </span>
+    <span className="arrow">▾</span>
+  </div>
+
+  {categoryOpen &&
+  createPortal(
+    <div id="shop-category-menu" style={dropdownStyle}className="bg-white rounded-xl shadow-2xl ring-1 ring-black/10">
+      {categories.map((item) => (
+<div
+  key={item.value}
+  onClick={() => {
+    setFormData({ ...formData, category: item.value });
+    setCategoryOpen(false);
+  }}
+  className={`
+    relative px-4 py-2 flex items-center gap-3 cursor-pointer text-sm
+    transition-all duration-200 ease-out
+    ${
+      formData.category === item.value
+        ? "bg-orange-500 text-white font-semibold shadow-sm"
+        : "text-gray-800 hover:bg-gray-100"
+    }
+    hover:pl-6
+  `}
+>
+  {/* left indicator */}
+  {formData.category === item.value && (
+    <span className="absolute left-0 top-0 h-full w-1 bg-orange-600 rounded-r" />
+  )}
+
+  {item.label}
+</div>
+
+
+      ))}
+    </div>,
+    document.body
+  )}
+
+
+  {errors.category && <p className="error">{errors.category}</p>}
+</div>
+
+
+
+
           </div>
 
           <div className="field">
@@ -175,9 +232,10 @@ export default function Register() {
                   setFormData({ ...formData, phone: e.target.value })
                 }
               />
+              </div>
               {errors.phone && <p className="error">{errors.phone}</p>}
 
-            </div>
+            
           </div>
 
           <button className="create-btn" onClick={next}>
@@ -211,8 +269,9 @@ export default function Register() {
                   setFormData({ ...formData, fullName: e.target.value })
                 }
               />
+              </div>
               {errors.fullName && <p className="error">{errors.fullName}</p>}
-            </div>
+            
           </div>
 
           <div className="field">
@@ -227,8 +286,9 @@ export default function Register() {
                   setFormData({ ...formData, email: e.target.value })
                 }
               />
+              </div>
               {errors.email && <p className="error">{errors.email}</p>}
-            </div>
+            
           </div>
 
           <div className="field">
@@ -243,8 +303,8 @@ export default function Register() {
                   setFormData({ ...formData, password: e.target.value })
                 }
               />
+              </div>
               {errors.password && <p className="error">{errors.password}</p>}
-            </div>
           </div>
 
           <div className="btn-row">
@@ -270,8 +330,8 @@ export default function Register() {
                   setFormData({ ...formData, address: e.target.value })
                 }
               />
+              </div>
               {errors.address && <p className="error">{errors.address}</p>}
-            </div>
           </div>
 
           <div className="field-row">

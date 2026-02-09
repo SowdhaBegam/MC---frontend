@@ -9,8 +9,8 @@ export default function NewProductModal({ open, onClose, onDeploy, product }) {
   const [desc, setDesc] = useState("");
   const [base, setBase] = useState("");
   const [rebate, setRebate] = useState("");
-  const [stock, setStock] = useState(50);
-  const [time, setTime] = useState(25);
+  const [stock, setStock] = useState("");
+  const [time, setTime] = useState("");
   const [type, setType] = useState("veg");
   const [category, setCategory] = useState("Food");
   const [subCategory, setSubCategory] = useState("");
@@ -26,7 +26,7 @@ export default function NewProductModal({ open, onClose, onDeploy, product }) {
     setSubCategory(product.subcategory || "");
     setType(product.food_type === "NON-VEG" ? "nonveg" : "veg");
     if (product.image && product.image !== "image.jpg") {
-  setPreview(`https://mc-platform-fjk0ii4pt-sangeetha-lakshmis-projects.vercel.app/uploads/${product.image}`);
+  setPreview(`https://mc-platform-qwzw35zb4-sangeetha-lakshmis-projects.vercel.app/uploads/${product.image}`);
 } else {
   setPreview("/image.jpg"); // 👈 default image from frontend
 }
@@ -126,7 +126,7 @@ const backendCategoryMap = {
 
         {/* HEADER */}
         <div className="big-header">
-          <h2>Modify Listing</h2>
+          <h2>Add New Product</h2>
           <button onClick={onClose}>✕</button>
         </div>
 
@@ -134,11 +134,14 @@ const backendCategoryMap = {
 
           {/* LEFT IMAGE */}
           <div className="image-section">
+            <h4>PRODUCT IMAGE</h4>
+
   {preview ? (
     <img src={preview} alt="" />
   ) : (
+    
     <label className="upload-box">
-      Upload Image
+      Click to Upload Product Image
       <input
         type="file"
         accept="image/*"
@@ -153,20 +156,21 @@ const backendCategoryMap = {
   )}
   {category === "Food" && (
   <>
-    <h4>CATEGORY SETTINGS</h4>
+    <h4>PREPARATION DETAILS</h4>
 
     
       <div className="field">
-        <label>KITCHEN TIME (MIN)</label>
+        <label>Preparation Time (MIN)</label>
         <input
-          placeholder="25"
+        className="food-input"
+          placeholder="Enter preparation time in minutes"
           value={time}
           onChange={(e)=>setTime(e.target.value)}
         />
       </div>
 
       <div className="field">
-        <label>DIETARY TYPE</label>
+        <h4>FOOD TYPE</h4>
         <div className="toggle">
           <button
             type="button"
@@ -194,7 +198,7 @@ const backendCategoryMap = {
           <div className="form-section">
             <div className="row two-col">
   <div className="field">
-    <h4>CATEGORY</h4>
+    <h4>PRODUCT CATEGORY</h4>
     <select
       className="category"
       value={category}
@@ -203,6 +207,7 @@ const backendCategoryMap = {
         setSubCategory("");
       }}
     >
+      <option value="Grocery">Select a Category</option>
       <option value="Food">🍔 Food</option>
       <option value="Grocery">🛒 Grocery</option>
       <option value="Pharmacy">💊 Pharmacy</option>
@@ -212,13 +217,13 @@ const backendCategoryMap = {
   </div>
 
   <div className="field">
-    <h4>SUB CATEGORY</h4>
+    <h4>SUB-CATEGORY</h4>
     <select
       className="category"
       value={subCategory}
       onChange={(e) => setSubCategory(e.target.value)}
     >
-      <option value="">Select Sub Category</option>
+      <option value="">Select a Sub Category</option>
       {subCategoryMap[category]?.map((sub, index) => (
         <option key={index} value={sub.name}>
           {sub.icon} {sub.name}
@@ -229,35 +234,36 @@ const backendCategoryMap = {
 </div>
 
 
-            <h4>PROFILE & NARRATIVE</h4>
+            <h4>PRODUCT DETAILS</h4>
             <input
-              placeholder="e.g.Dum Birayni"
+              placeholder="Product Name (e.g.Dum Biryani)"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
 
             <textarea
-              placeholder="Tell the story of your product..."
+              placeholder="Product Description"
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
             />
 
-            <h4>FINANCIAL STRATEGY</h4>
+            <h4>PRICING DETAILS</h4>
             <div className="row">
               <input placeholder="Base MRP ₹" value={base} onChange={(e)=>setBase(e.target.value)} />
               <input placeholder="Discount ₹" value={rebate} onChange={(e)=>setRebate(e.target.value)} />
               <input className="final-price" value={`₹ ${finalPrice || 0}`} disabled />
             </div>
+            <h4>AVAILABLE STOCK</h4>
 
-            <h4>INVENTORY LOGIC</h4>
-<div className="row">
+<div className="stock-wrapper">
+
   <input
-    placeholder="Units in Stock"
+    type="number"
+    placeholder="Enter available stock"
     value={stock}
-    onChange={(e)=>setStock(e.target.value)}
+    onChange={(e) => setStock(e.target.value)}
   />
 </div>
-
 
 
           </div>
@@ -265,7 +271,7 @@ const backendCategoryMap = {
 
         <div className="big-footer">
           <button className="cancel" onClick={onClose}>Cancel</button>
-          <button className="deploy" onClick={deploy}>UPDATE PRODUCT DETAILS</button>
+          <button className="deploy" onClick={deploy}>Save Product</button>
         </div>
 
       </div>
