@@ -185,9 +185,15 @@
 }
 
 .final-price {
-  font-size: 18px;
-  font-weight: 700;
+  border-radius: 12px;
+  font-size: 13px;      /* 🔥 smaller text */
+  padding: 6px 9px;    /* 🔥 smaller box */
+  min-width: 55px;      /* keeps shape nice */
+  text-align: center;
+  background: linear-gradient(90deg,#ff7a18,#ff3d6a);
   color: white;
+  font-weight: 700;
+  box-shadow: 0 6px 14px rgba(255,61,106,0.25);
 }
 
 .bottom-row {
