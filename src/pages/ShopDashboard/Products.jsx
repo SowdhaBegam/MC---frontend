@@ -87,7 +87,7 @@ export default function Products() {
           <input
             type="text"
             className="catalog-search"
-            placeholder="Search by name / category"
+            placeholder="Search by product"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -161,11 +161,12 @@ export default function Products() {
 
                   {/* PRICE */}
                   <div className="price-row">
-                    {p.final_price < p.price && (
-                      <span className="mrp">₹{p.price}</span>
-                    )}
-                    <span className="final-price">₹{p.final_price}</span>
-                  </div>
+  <span className="final-price">₹{p.final_price}</span>
+
+  {p.final_price < p.price && (
+    <span className="mrp">₹{p.price}</span>
+  )}
+</div>
 
                   {/* BOTTOM */}
                   <div className="bottom-row">
