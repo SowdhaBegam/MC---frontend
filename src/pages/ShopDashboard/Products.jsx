@@ -1,13 +1,18 @@
 import { useState, useEffect } from "react";
 import NewProductModal from "../../components/Shop/NewProductModal";
-import { getProductsAPI } from "../../services/productService";
+import {
+  getProductsAPI,
+  deleteProductAPI,
+} from "../../services/productService";
 import "../../styles/Shop/Products.css";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
+  
 
+  const [search, setSearch] = useState("");
   useEffect(() => {
     loadProducts();
   }, []);
@@ -46,10 +51,21 @@ export default function Products() {
           <h2>All Products</h2>
           <p>ACTIVE LISTINGS : {products.length} PRODUCTS</p>
         </div>
+        <div className="catalog-actions">
+          {/* 🔍 SEARCH BAR */}
+          <input
+            type="text"
+            className="catalog-search"
+            placeholder="Search by category"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+
 
         <button className="new-product-btn" onClick={() => setOpenModal(true)}>
           + NEW PRODUCT
         </button>
+      </div>
       </div>
 
       <div className="products-grid">
@@ -59,11 +75,23 @@ export default function Products() {
           </p>
         )}
 
-        {products.map((p) => {
-          const imageUrl =
-  !p.image || p.image === "default-product.png" || p.image === "image.jpg"
-    ? "/image.jpg" // from public/image.jpg
-    : `https://mc-platform-qwzw35zb4-sangeetha-lakshmis-projects.vercel.app/uploads/${p.image}`;
+        {products
+          .filter((p) => {
+            const query = search.toLowerCase();
+
+            return (
+              p.name?.toLowerCase().includes(query) ||
+              p.category?.toLowerCase().includes(query) ||
+              p.subcategory?.toLowerCase().includes(query)
+            );
+          })
+          .map((p) => {
+            const imageUrl =
+              !p.image ||
+              p.image === "default-product.png" ||
+              p.image === "image.jpg"
+                ? "/image.jpg"
+                : `https://mc-platform-qwzw35zb4-sangeetha-lakshmis-projects.vercel.app/uploads/${p.image}`;
 
          
           return (
@@ -83,24 +111,26 @@ export default function Products() {
                   <button onClick={() => deleteProduct(p.id)}>🗑️</button>
                 </div>
 
-                {p.discount > 0 && (
-                  <div className="discount-badge">
-                    -{Math.round((p.discount / p.price) * 100)}% OFF
-                  </div>
-                )}
+                {p.final_price < p.price && (
+  <div className="discount-badge">
+    -{Math.round(((p.price - p.final_price) / p.price) * 100)}% OFF
+  </div>
+)}
+
               </div>
 
               <div className="card-body">
                 <h3>{p.name}</h3>
 
                 <div className="price-row">
-                  {p.discount > 0 && (
-                    <span className="mrp">₹{p.price}</span>
-                  )}
-                  <span className="final-price">
-                    ₹{p.price - p.discount}
-                  </span>
-                </div>
+  {p.final_price < p.price && (
+    <span className="mrp">₹{p.price}</span>
+  )}
+
+  <span className="final-price">
+    ₹{p.final_price}
+  </span>
+</div>
 
                 <div className="bottom-row">
                   <span className="stock-dot"></span>
@@ -114,6 +144,20 @@ export default function Products() {
             </div>
           );
         })}
+        {/* 🔍 NO RESULTS STATE */}
+        {products.length > 0 &&
+          products.filter((p) => {
+            const query = search.toLowerCase();
+            return (
+              p.name?.toLowerCase().includes(query) ||
+              p.category?.toLowerCase().includes(query) ||
+              p.subcategory?.toLowerCase().includes(query)
+            );
+          }).length === 0 && (
+            <p style={{ color: "#9ca3af", fontSize: "14px" }}>
+              No products found for "<strong>{search}</strong>"
+            </p>
+          )}
       </div>
 
       <NewProductModal

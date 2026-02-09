@@ -108,20 +108,51 @@
   line-height: 1;
 
   cursor: pointer;
-  transition: background 0.2s ease;
+  overflow: hidden;                 /* 🔥 required for glow */
+  transition: background 0.2s ease, box-shadow 0.3s ease;
 }
 
-/* clean pencil icon (NO emoji) */
+/* clean pencil icon (NO emoji change) */
 .edit-btn::before {
   content: "✎";
   font-size: 14px;
   margin-right: 6px;
 }
 
-.edit-btn:hover {
-  background: rgba(255, 255, 255, 0.32);
+/* ✨ GLOW LAYER */
+.edit-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.45),
+    transparent 70%
+  );
+
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
+/* Hover */
+.edit-btn:hover {
+  background: rgba(255, 255, 255, 0.32);
+  box-shadow:
+    0 0 12px rgba(255, 255, 255, 0.35),
+    0 0 24px rgba(255, 255, 255, 0.25);
+}
+
+.edit-btn:hover::after {
+  opacity: 1;
+}
+
+/* Press */
+.edit-btn:active {
+  transform: scale(0.97);
+}
 /* CLOSE BUTTON */
 .close-btn {
   position: absolute;

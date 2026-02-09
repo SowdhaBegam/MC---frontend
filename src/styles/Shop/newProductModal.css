@@ -10,7 +10,6 @@
   align-items: center;
   z-index: 1000;
 }
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -194,15 +193,31 @@
 .deploy:hover {
   transform: translateY(-2px);
 }
+/* ===== SELECT PLACEHOLDER STYLE ===== */
 .category {
-  
-  padding: 12px 16px;
+  width: 100%;
+  padding: 8px 14px;
   border-radius: 14px;
   border: 1px solid #e5e7eb;
-  font-size: 14px;
-  margin-bottom: 3px;
-  transition: all 0.2s ease;
+  font-size: 13px;
+  margin-bottom: 8px;
+  background: white;
+  color: #9ca3af; /* placeholder grey */
+  appearance: none;
 }
+
+/* When user selects a value (not placeholder) */
+.category:valid {
+  color: #111827; /* dark text like other inputs */
+}
+
+/* Remove default blue focus */
+.category:focus {
+  border-color: #ff3d6a;
+  box-shadow: 0 0 0 3px rgba(255,61,106,0.15);
+  outline: none;
+}
+
 .section-card {
   background: #f8fafc;
   border: 1px solid #eef2f7;
@@ -273,10 +288,6 @@
   color: #6b7280;
   margin: 19px 0 6px;
   letter-spacing: 1px;
-}
-
-.category {
-  font-size: 14px;
 }
 
 .two-col {
