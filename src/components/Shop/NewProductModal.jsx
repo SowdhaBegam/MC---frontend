@@ -12,7 +12,7 @@ export default function NewProductModal({ open, onClose, onDeploy, product }) {
   const [stock, setStock] = useState("");
   const [time, setTime] = useState("");
   const [type, setType] = useState("veg");
-  const [category, setCategory] = useState("Food");
+  const [category, setCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
   const [preview, setPreview] = useState(null);
   useEffect(() => {
@@ -33,8 +33,12 @@ export default function NewProductModal({ open, onClose, onDeploy, product }) {
 
   }
 }, [product]);
-
-
+// 🔥 Reset stock if category is Food
+useEffect(() => {
+  if (category === "Food") {
+    setStock("");
+  }
+}, [category]);
 
   const subCategoryMap = {
   Food: [
@@ -91,25 +95,43 @@ const backendCategoryMap = {
 
 
   const deploy = async () => {
-  if (!name || !base) return alert("Fill required fields");
+  if (!name || !base || !rebate) {
+    alert("Fill required fields");
+    return;
+  }
 
-  const formData = new FormData();
+  const mrp = parseInt(base, 10);
+  const sp = parseInt(rebate, 10);
 
-  formData.append("name", name);
-  formData.append("description", desc);
-  formData.append("price", base);
-  formData.append("discount", rebate || 0);
-  formData.append("stock", stock);
-  formData.append("preparing_minutes", time);
-  formData.append("food_type", type === "veg" ? "VEG" : "NON-VEG");
-  formData.append("category", backendCategoryMap[category]);
-  formData.append("subcategory", subCategory);
-  formData.append("vendor_id", 13); // TEMP FIX
-  formData.append("image", "image.jpg");
- // 🔥 THIS SENDS FILE
+  if (isNaN(mrp) || isNaN(sp)) {
+    alert("Enter valid price values");
+    return;
+  }
+
+  if (sp > mrp) {
+    alert("Selling price cannot be greater than MRP");
+    return;
+  }
+
+  const discount = mrp - sp;
+
+  const payload = {
+    name: name,
+    description: desc,
+    price: mrp,
+    final_price: sp,
+    discount: discount,
+    stock: stock || 0,
+    preparing_minutes: time || 0,   // ✅ YOUR backend key
+    food_type: type === "veg" ? "VEG" : "NON-VEG",
+    category: backendCategoryMap[category],
+    subcategory: subCategory || "",
+    is_live: true,
+    image: "image.jpg"
+  };
 
   try {
-    await addProductAPI(formData);
+    await addProductAPI(payload);
     alert("✅ Product Added Successfully!");
     onDeploy();
     onClose();
@@ -118,6 +140,7 @@ const backendCategoryMap = {
     alert("❌ Failed to add product");
   }
 };
+
 
 
   return (
@@ -154,44 +177,7 @@ const backendCategoryMap = {
       />
     </label>
   )}
-  {category === "Food" && (
-  <>
-    <h4>PREPARATION DETAILS</h4>
-
-    
-      <div className="field">
-        <label>Preparation Time (MIN)</label>
-        <input
-        className="food-input"
-          placeholder="Enter preparation time in minutes"
-          value={time}
-          onChange={(e)=>setTime(e.target.value)}
-        />
-      </div>
-
-      <div className="field">
-        <h4>FOOD TYPE</h4>
-        <div className="toggle">
-          <button
-            type="button"
-            className={type==="veg" ? "active":""}
-            onClick={()=>setType("veg")}
-          >
-            VEG
-          </button>
-          <button
-            type="button"
-            className={type==="nonveg" ? "active":""}
-            onClick={()=>setType("nonveg")}
-          >
-            NON-VEG
-          </button>
-        </div>
-      </div>
-
-    
-  </>
-)}
+ 
 </div>
 
           {/* RIGHT FORM */}
@@ -207,7 +193,7 @@ const backendCategoryMap = {
         setSubCategory("");
       }}
     >
-      <option value="Grocery">Select a Category</option>
+      <option value="">Select a Category</option>
       <option value="Food">🍔 Food</option>
       <option value="Grocery">🛒 Grocery</option>
       <option value="Pharmacy">💊 Pharmacy</option>
@@ -249,23 +235,68 @@ const backendCategoryMap = {
 
             <h4>PRICING DETAILS</h4>
             <div className="row">
-              <input placeholder="Base MRP ₹" value={base} onChange={(e)=>setBase(e.target.value)} />
-              <input placeholder="Discount ₹" value={rebate} onChange={(e)=>setRebate(e.target.value)} />
-              <input className="final-price" value={`₹ ${finalPrice || 0}`} disabled />
+              <input
+  placeholder="MRP ₹"
+  value={base}
+  onChange={(e)=>setBase(e.target.value)}
+/>
+
+<input
+  placeholder="Selling Price ₹"
+  value={rebate}
+  onChange={(e)=>setRebate(e.target.value)}
+/>
+
             </div>
-            <h4>AVAILABLE STOCK</h4>
+            {/* 🔥 DYNAMIC BOTTOM SECTION */}
+{category === "Food" ? (
+  <>
+    <h4>PREPARATION DETAILS</h4>
+    <div className="row two-col">
+      <div className="field">
+        <label>Preparation Time (MIN)</label>
+        <input
+          className="food-input"
+          placeholder="Enter preparation time"
+          value={time}
+          onChange={(e) => setTime(e.target.value)}
+        />
+      </div>
 
-<div className="stock-wrapper">
-
-  <input
-    type="number"
-    placeholder="Enter available stock"
-    value={stock}
-    onChange={(e) => setStock(e.target.value)}
-  />
-</div>
-
-
+      <div className="field">
+        <label>Food Type</label>
+        <div className="toggle">
+          <button
+            type="button"
+            className={type==="veg" ? "active":""}
+            onClick={()=>setType("veg")}
+          >
+            VEG
+          </button>
+          <button
+            type="button"
+            className={type==="nonveg" ? "active":""}
+            onClick={()=>setType("nonveg")}
+          >
+            NON-VEG
+          </button>
+        </div>
+      </div>
+    </div>
+  </>
+) : (
+  <>
+    <h4>AVAILABLE STOCK</h4>
+    <div className="stock-wrapper">
+      <input
+        type="number"
+        placeholder="Enter available stock"
+        value={stock}
+        onChange={(e) => setStock(e.target.value)}
+      />
+    </div>
+  </>
+)}
           </div>
         </div>
 

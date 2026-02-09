@@ -2,14 +2,14 @@
 .big-modal-overlay {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at top, #0f172a 0%, #020617 100%);
+  background: rgba(0, 0, 0, 0.35); /* soft dark, not black */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 1000;
-  animation: fadeIn 0.3s ease;
 }
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -22,12 +22,18 @@
   border-radius: 28px;
   overflow: hidden;
   box-shadow: 0 60px 120px rgba(0,0,0,0.5);
-  animation: slideUp 0.3s ease;
+  animation: modalPop 0.3s ease;
 }
 
-@keyframes slideUp {
-  from { transform: translateY(30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 /* ===== HEADER ===== */
@@ -183,15 +189,31 @@
 .deploy:hover {
   transform: translateY(-2px);
 }
+/* ===== SELECT PLACEHOLDER STYLE ===== */
 .category {
-  
-  padding: 12px 16px;
+  width: 100%;
+  padding: 8px 14px;
   border-radius: 14px;
   border: 1px solid #e5e7eb;
-  font-size: 14px;
-  margin-bottom: 3px;
-  transition: all 0.2s ease;
+  font-size: 13px;
+  margin-bottom: 8px;
+  background: white;
+  color: #9ca3af; /* placeholder grey */
+  appearance: none;
 }
+
+/* When user selects a value (not placeholder) */
+.category:valid {
+  color: #111827; /* dark text like other inputs */
+}
+
+/* Remove default blue focus */
+.category:focus {
+  border-color: #ff3d6a;
+  box-shadow: 0 0 0 3px rgba(255,61,106,0.15);
+  outline: none;
+}
+
 .section-card {
   background: #f8fafc;
   border: 1px solid #eef2f7;
@@ -262,10 +284,6 @@
   color: #6b7280;
   margin: 19px 0 6px;
   letter-spacing: 1px;
-}
-
-.category {
-  font-size: 14px;
 }
 
 .two-col {

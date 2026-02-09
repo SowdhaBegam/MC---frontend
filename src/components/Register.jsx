@@ -2,8 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { vendorRegister } from "../services/authService";
 
-
-
 export default function Register() {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
