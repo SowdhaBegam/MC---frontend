@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import NewProductModal from "../../components/Shop/NewProductModal";
 import {
-  getProductsAPI,
-  deleteProductAPI,
+  getProductsAPI
 } from "../../services/productService";
 import "../../styles/Shop/Products.css";
 
