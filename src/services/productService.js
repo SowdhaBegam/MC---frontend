@@ -23,4 +23,14 @@ export const getProductsAPI = async () => {
     throw err;
   }
 };
+export const updateProductAPI = async (id, data) => {
+  const res = await axios.put(`/products/${id}`, data);
+  return res.data;
+};
+export const deleteProductAPI = async (id) => {
+  const res = await axios.delete(`/products/${id}`);
+  return res.data;
+};
+
+
 

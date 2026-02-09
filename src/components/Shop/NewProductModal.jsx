@@ -1,7 +1,6 @@
 import { useState,useEffect } from "react";
 import "../../styles/Shop/newProductModal.css";
-import { addProductAPI } from "../../services/productService";
-
+import { addProductAPI, updateProductAPI } from "../../services/productService";
 
 export default function NewProductModal({ open, onClose, onDeploy, product }) {
   const [imageFile, setImageFile] = useState(null);
@@ -15,6 +14,8 @@ export default function NewProductModal({ open, onClose, onDeploy, product }) {
   const [category, setCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
   const [preview, setPreview] = useState(null);
+  const [errors, setErrors] = useState({});
+
   useEffect(() => {
   if (product) {
     setName(product.name || "");
@@ -25,14 +26,29 @@ export default function NewProductModal({ open, onClose, onDeploy, product }) {
     setCategory(product.category || "Food");
     setSubCategory(product.subcategory || "");
     setType(product.food_type === "NON-VEG" ? "nonveg" : "veg");
-    if (product.image && product.image !== "image.jpg") {
-  setPreview(`https://mc-platform-qwzw35zb4-sangeetha-lakshmis-projects.vercel.app/uploads/${product.image}`);
-} else {
-  setPreview("/image.jpg"); // 👈 default image from frontend
-}
 
+    if (product.image && product.image !== "image.jpg") {
+      setPreview(`https://mc-platform-qwzw35zb4-sangeetha-lakshmis-projects.vercel.app/uploads/${product.image}`);
+    } else {
+      setPreview("/image.jpg");
+    }
+
+  } else {
+    // 🔥 ADD MODE RESET (this is the only new part)
+    setName("");
+    setDesc("");
+    setBase("");
+    setRebate("");
+    setStock("");
+    setTime("");
+    setCategory("");
+    setSubCategory("");
+    setType("veg");
+    setPreview(null);
+    setErrors({});
   }
 }, [product]);
+
 // 🔥 Reset stock if category is Food
 useEffect(() => {
   if (category === "Food") {
@@ -93,12 +109,30 @@ const backendCategoryMap = {
   Cosmetics: "Cosmetics"
 };
 
+const isEditMode = !!product;
 
   const deploy = async () => {
-  if (!name || !base || !rebate) {
-    alert("Fill required fields");
-    return;
-  }
+  let newErrors = {};
+
+if (!name.trim()) newErrors.name = "Product name required";
+if (!desc.trim()) newErrors.desc = "Description required";
+if (!category) newErrors.category = "Select category";
+if (!subCategory) newErrors.subCategory = "Select sub-category";
+if (!base) newErrors.base = "Enter MRP";
+if (!rebate) newErrors.rebate = "Enter Selling Price";
+
+if (category === "Food") {
+  if (!time) newErrors.time = "Enter preparation time";
+} else {
+  if (!stock) newErrors.stock = "Enter stock quantity";
+}
+
+if (Object.keys(newErrors).length > 0) {
+  setErrors(newErrors);
+  return;
+}
+
+setErrors({});
 
   const mrp = parseInt(base, 10);
   const sp = parseInt(rebate, 10);
@@ -131,8 +165,13 @@ const backendCategoryMap = {
   };
 
   try {
-    await addProductAPI(payload);
-    alert("✅ Product Added Successfully!");
+    if (product) {
+  await updateProductAPI(product.id, payload); // EDIT MODE
+} else {
+  await addProductAPI(payload); // ADD MODE
+}
+
+    alert(isEditMode ? "✅ Product Updated Successfully!" : "✅ Product Added Successfully!");
     onDeploy();
     onClose();
   } catch (error) {
@@ -149,7 +188,7 @@ const backendCategoryMap = {
 
         {/* HEADER */}
         <div className="big-header">
-          <h2>Add New Product</h2>
+          <h2>{product ? "Edit Product Details" : "Add New Product"}</h2>
           <button onClick={onClose}>✕</button>
         </div>
 
@@ -200,6 +239,8 @@ const backendCategoryMap = {
       <option value="Electronics">📱 Appliances & Electronics</option>
       <option value="Cosmetics">💄 Cosmetics</option>
     </select>
+    {errors.category && <p className="error">{errors.category}</p>}
+
   </div>
 
   <div className="field">
@@ -216,6 +257,7 @@ const backendCategoryMap = {
         </option>
       ))}
     </select>
+    {errors.subCategory && <p className="error">{errors.subCategory}</p>}
   </div>
 </div>
 
@@ -226,28 +268,38 @@ const backendCategoryMap = {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
+            {errors.name && <p className="error">{errors.name}</p>}
+
 
             <textarea
               placeholder="Product Description"
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
             />
+            {errors.desc && <p className="error">{errors.desc}</p>}
+
 
             <h4>PRICING DETAILS</h4>
             <div className="row">
-              <input
-  placeholder="MRP ₹"
-  value={base}
-  onChange={(e)=>setBase(e.target.value)}
-/>
+  <div className="field">
+    <input
+      placeholder="MRP ₹"
+      value={base}
+      onChange={(e)=>setBase(e.target.value)}
+    />
+    {errors.base && <p className="error">{errors.base}</p>}
+  </div>
 
-<input
-  placeholder="Selling Price ₹"
-  value={rebate}
-  onChange={(e)=>setRebate(e.target.value)}
-/>
+  <div className="field">
+    <input
+      placeholder="Selling Price ₹"
+      value={rebate}
+      onChange={(e)=>setRebate(e.target.value)}
+    />
+    {errors.rebate && <p className="error">{errors.rebate}</p>}
+  </div>
+</div>
 
-            </div>
             {/* 🔥 DYNAMIC BOTTOM SECTION */}
 {category === "Food" ? (
   <>
@@ -261,6 +313,8 @@ const backendCategoryMap = {
           value={time}
           onChange={(e) => setTime(e.target.value)}
         />
+        {errors.time && <p className="error">{errors.time}</p>}
+
       </div>
 
       <div className="field">
@@ -294,6 +348,8 @@ const backendCategoryMap = {
         value={stock}
         onChange={(e) => setStock(e.target.value)}
       />
+      {errors.stock && <p className="error">{errors.stock}</p>}
+
     </div>
   </>
 )}
@@ -302,7 +358,10 @@ const backendCategoryMap = {
 
         <div className="big-footer">
           <button className="cancel" onClick={onClose}>Cancel</button>
-          <button className="deploy" onClick={deploy}>Save Product</button>
+          <button className="deploy" onClick={deploy}>
+  {product ? "Update Product" : "Save Product"}
+</button>
+
         </div>
 
       </div>

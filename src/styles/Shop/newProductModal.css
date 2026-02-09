@@ -352,3 +352,9 @@
   font-weight: 700;
   color: #6b7280;
 }
+.error {
+  color: #ff3d6a;
+  font-size: 12px;
+  margin-top: -4px;
+  margin-bottom: 6px;
+}

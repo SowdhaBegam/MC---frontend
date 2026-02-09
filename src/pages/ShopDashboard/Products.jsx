@@ -2,15 +2,16 @@ import { useState, useEffect } from "react";
 import NewProductModal from "../../components/Shop/NewProductModal";
 import {
   getProductsAPI,
-  deleteProductAPI,
 } from "../../services/productService";
+import { deleteProductAPI } from "../../services/productService";
 import "../../styles/Shop/Products.css";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
-  
+  const [deleteId, setDeleteId] = useState(null);
+
 
   const [search, setSearch] = useState("");
   useEffect(() => {
@@ -31,18 +32,23 @@ export default function Products() {
     await loadProducts();
     setOpenModal(false);
   };
+const deleteProduct = async (id) => {
+  try {
+    await deleteProductAPI(id);   // 🔥 REAL BACKEND DELETE
+    setProducts(products.filter((p) => p.id !== id));
+  } catch (err) {
+    console.error("Delete failed", err);
+  }
+};
 
-  const deleteProduct = async (id) => {
-    try {
-      await fetch(
-        `https://mc-platform-qwzw35zb4-sangeetha-lakshmis-projects.vercel.app/products/${id}`,
-        { method: "DELETE" }
-      );
-      setProducts(products.filter((p) => p.id !== id));
-    } catch (err) {
-      console.error("Delete failed", err);
-    }
-  };
+  const groupBySubCategory = (items) => {
+  return items.reduce((acc, item) => {
+    const key = item.subcategory || "Others";
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(item);
+    return acc;
+  }, {});
+};
 
   return (
     <div className="products-page">
@@ -68,32 +74,37 @@ export default function Products() {
       </div>
       </div>
 
+      <div className="products-grid-wrapper">
+  {Object.entries(
+    groupBySubCategory(
+      products.filter((p) => {
+        const query = search.toLowerCase();
+        return (
+          p.name?.toLowerCase().includes(query) ||
+          p.category?.toLowerCase().includes(query) ||
+          p.subcategory?.toLowerCase().includes(query)
+        );
+      })
+    )
+  ).map(([subCategory, items]) => (
+    <div key={subCategory} className="subcategory-section">
+
+      {/* SUB CATEGORY TITLE */}
+      <h3 className="subcategory-title">
+        {subCategory}
+        <span className="count">({items.length})</span>
+      </h3>
+
+      {/* PRODUCTS GRID */}
       <div className="products-grid">
-        {products.length === 0 && (
-          <p style={{ color: "#9ca3af", fontSize: "14px" }}>
-            No products yet. Click <strong>NEW PRODUCT</strong> to add.
-          </p>
-        )}
+        {items.map((p) => {
+          const imageUrl =
+            !p.image ||
+            p.image === "default-product.png" ||
+            p.image === "image.jpg"
+              ? "/image.jpg"
+              : `https://mc-platform-qwzw35zb4-sangeetha-lakshmis-projects.vercel.app/uploads/${p.image}`;
 
-        {products
-          .filter((p) => {
-            const query = search.toLowerCase();
-
-            return (
-              p.name?.toLowerCase().includes(query) ||
-              p.category?.toLowerCase().includes(query) ||
-              p.subcategory?.toLowerCase().includes(query)
-            );
-          })
-          .map((p) => {
-            const imageUrl =
-              !p.image ||
-              p.image === "default-product.png" ||
-              p.image === "image.jpg"
-                ? "/image.jpg"
-                : `https://mc-platform-qwzw35zb4-sangeetha-lakshmis-projects.vercel.app/uploads/${p.image}`;
-
-         
           return (
             <div key={p.id} className="product-card">
               <div className="img-wrapper">
@@ -108,34 +119,33 @@ export default function Products() {
                   >
                     ✏️
                   </button>
-                  <button onClick={() => deleteProduct(p.id)}>🗑️</button>
+                  <button className="delete-btn" onClick={() => setDeleteId(p.id)}>
+  ❌ 
+</button>
+
+
                 </div>
 
                 {p.final_price < p.price && (
-  <div className="discount-badge">
-    -{Math.round(((p.price - p.final_price) / p.price) * 100)}% OFF
-  </div>
-)}
-
+                  <div className="discount-badge">
+                    -{Math.round(((p.price - p.final_price) / p.price) * 100)}%
+                  </div>
+                )}
               </div>
 
               <div className="card-body">
                 <h3>{p.name}</h3>
 
                 <div className="price-row">
-  {p.final_price < p.price && (
-    <span className="mrp">₹{p.price}</span>
-  )}
-
-  <span className="final-price">
-    ₹{p.final_price}
-  </span>
-</div>
+                  {p.final_price < p.price && (
+                    <span className="mrp">₹{p.price}</span>
+                  )}
+                  <span className="final-price">₹{p.final_price}</span>
+                </div>
 
                 <div className="bottom-row">
                   <span className="stock-dot"></span>
                   <span>{p.stock} Units</span>
-
                   <span className={`status ${p.is_live ? "live" : "off"}`}>
                     {p.is_live ? "LIVE" : "OFF"}
                   </span>
@@ -144,21 +154,39 @@ export default function Products() {
             </div>
           );
         })}
-        {/* 🔍 NO RESULTS STATE */}
-        {products.length > 0 &&
-          products.filter((p) => {
-            const query = search.toLowerCase();
-            return (
-              p.name?.toLowerCase().includes(query) ||
-              p.category?.toLowerCase().includes(query) ||
-              p.subcategory?.toLowerCase().includes(query)
-            );
-          }).length === 0 && (
-            <p style={{ color: "#9ca3af", fontSize: "14px" }}>
-              No products found for "<strong>{search}</strong>"
-            </p>
-          )}
       </div>
+    </div>
+  ))}
+</div>
+{deleteId && (
+  <div className="confirm-overlay">
+    <div className="confirm-box">
+      <h3>Delete Product?</h3>
+      <p>Are you sure you want to delete this product?</p>
+
+      <div className="confirm-actions">
+        <button
+          className="cancel-btn"
+          onClick={() => setDeleteId(null)}
+        >
+          No
+        </button>
+
+        <button
+          className="confirm-btn"
+          onClick={async () => {
+            await deleteProduct(deleteId);
+            setDeleteId(null);
+          }}
+        >
+          Yes, Delete
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+
 
       <NewProductModal
         open={openModal}

@@ -55,24 +55,23 @@ export default function Dashboard() {
       {/* ================= STATS ================= */}
       <div className="stats-grid">
         <StatCard
-          title="INCOMING TRAFFIC"
+          title="NEW ORDERS"
           value={orders.length}
           icon="📩"
           bg="bg-blue"
         />
-
         <StatCard
-          title="NET REVENUE"
-          value={`₹${totalRevenue}`}
-          icon="📈"
-          bg="bg-green"
-        />
-
-        <StatCard
-          title="ACTIVE PIPELINE"
+          title="ORDER IN PROCESS"
           value={activeOrders.length}
           icon="⚡"
           bg="bg-orange"
+        />
+
+        <StatCard
+          title="TODAY'S REVENUE"
+          value={`₹${totalRevenue}`}
+          icon="📈"
+          bg="bg-green"
         />
       </div>
 
