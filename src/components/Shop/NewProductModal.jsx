@@ -1,7 +1,15 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import "../../styles/Shop/newProductModal.css";
 import { addProductAPI } from "../../services/productService";
 
+/* ICON MAP */
+const categoryIcons = {
+  Food: "🍔",
+  Grocery: "🛒",
+  Pharmacy: "💊",
+  Electronics: "📱",
+  Cosmetics: "💄",
+};
 
 export default function NewProductModal({ open, onClose, onDeploy, product }) {
   const [imageFile, setImageFile] = useState(null);
@@ -9,265 +17,204 @@ export default function NewProductModal({ open, onClose, onDeploy, product }) {
   const [desc, setDesc] = useState("");
   const [base, setBase] = useState("");
   const [rebate, setRebate] = useState("");
-  const [stock, setStock] = useState(50);
-  const [time, setTime] = useState(25);
+  const [stock, setStock] = useState("");
+  const [time, setTime] = useState("");
   const [type, setType] = useState("veg");
-  const [category, setCategory] = useState("Food");
+  const [category, setCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
   const [preview, setPreview] = useState(null);
+
+  const [showCategory, setShowCategory] = useState(false);
+  const [showSub, setShowSub] = useState(false);
+
   useEffect(() => {
-  if (product) {
-    setName(product.name || "");
-    setDesc(product.description || "");
-    setBase(product.price || "");
-    setRebate(product.discount || "");
-    setStock(product.stock || 0);
-    setCategory(product.category || "Food");
-    setSubCategory(product.subcategory || "");
-    setType(product.food_type === "NON-VEG" ? "nonveg" : "veg");
-    if (product.image && product.image !== "image.jpg") {
-  setPreview(`https://mc-platform-fjk0ii4pt-sangeetha-lakshmis-projects.vercel.app/uploads/${product.image}`);
-} else {
-  setPreview("/image.jpg"); // 👈 default image from frontend
-}
+    if (product) {
+      setName(product.name || "");
+      setDesc(product.description || "");
+      setBase(product.price || "");
+      setRebate(product.final_price || "");
+      setStock(product.stock || 0);
+      setCategory(product.category || "");
+      setSubCategory(product.subcategory || "");
+      setType(product.food_type === "NON-VEG" ? "nonveg" : "veg");
+      setPreview(
+        product.image && product.image !== "image.jpg"
+          ? `https://mc-platform-qwzw35zb4-sangeetha-lakshmis-projects.vercel.app/uploads/${product.image}`
+          : "/image.jpg"
+      );
+    }
+  }, [product]);
 
-  }
-}, [product]);
-
-
+  useEffect(() => {
+    if (category === "Food") setStock("");
+  }, [category]);
 
   const subCategoryMap = {
-  Food: [
-    { name: "Biryani", icon: "🍚" },
-    { name: "Meals", icon: "🍽️" },
-    { name: "Snacks", icon: "🍟" },
-    { name: "Desserts", icon: "🍰" },
-    { name: "Beverages", icon: "🥤" },
-    { name: "Breakfast", icon: "🍳" },
-    { name: "Fast Food", icon: "🍔" },
-  ],
-  Grocery: [
-    { name: "Vegetables", icon: "🥦" },
-    { name: "Fruits", icon: "🍎" },
-    { name: "Dairy", icon: "🥛" },
-    { name: "Rice & Grains", icon: "🌾" },
-    { name: "Spices", icon: "🧂" },
-    { name: "Oil & Masala", icon: "🫒" },
-  ],
-  Pharmacy: [
-    { name: "Tablets", icon: "💊" },
-    { name: "Syrups", icon: "🧴" },
-    { name: "First Aid", icon: "🩹" },
-    { name: "Vitamins", icon: "🍊" },
-    { name: "Personal Care", icon: "🧼" },
-  ],
-  Electronics: [
-    { name: "Mobiles", icon: "📱" },
-    { name: "Laptops", icon: "💻" },
-    { name: "Accessories", icon: "🎧" },
-    { name: "Home Appliances", icon: "📺" },
-    { name: "Wearables", icon: "⌚" },
-  ],
-  Cosmetics: [
-    { name: "Makeup", icon: "💄" },
-    { name: "Skincare", icon: "🧴" },
-    { name: "Haircare", icon: "💇‍♀️" },
-    { name: "Fragrances", icon: "🌸" },
-    { name: "Beauty Tools", icon: "🪞" },
-  ],
-};
+    Food: [
+      { name: "Biryani", icon: "🍚" },
+      { name: "Meals", icon: "🍽️" },
+      { name: "Snacks", icon: "🍟" },
+      { name: "Desserts", icon: "🍰" },
+      { name: "Beverages", icon: "🥤" },
+    ],
+    Grocery: [
+      { name: "Vegetables", icon: "🥦" },
+      { name: "Fruits", icon: "🍎" },
+      { name: "Dairy", icon: "🥛" },
+    ],
+    Pharmacy: [
+      { name: "Tablets", icon: "💊" },
+      { name: "Syrups", icon: "🧴" },
+    ],
+  };
 
   if (!open) return null;
 
-  const finalPrice = base - (rebate || 0);
-  // Map UI category → Backend category
-const backendCategoryMap = {
-  Food: "Dinner",     // default mapping
-  Grocery: "Grocery",
-  Pharmacy: "Pharmacy",
-  Electronics: "Electronics",
-  Cosmetics: "Cosmetics"
-};
-
-
   const deploy = async () => {
-  if (!name || !base) return alert("Fill required fields");
+    const mrp = parseInt(base, 10);
+    const sp = parseInt(rebate, 10);
 
-  const formData = new FormData();
+    if (!name || isNaN(mrp) || isNaN(sp) || sp > mrp) {
+      alert("Check product details");
+      return;
+    }
 
-  formData.append("name", name);
-  formData.append("description", desc);
-  formData.append("price", base);
-  formData.append("discount", rebate || 0);
-  formData.append("stock", stock);
-  formData.append("preparing_minutes", time);
-  formData.append("food_type", type === "veg" ? "VEG" : "NON-VEG");
-  formData.append("category", backendCategoryMap[category]);
-  formData.append("subcategory", subCategory);
-  formData.append("vendor_id", 13); // TEMP FIX
-  formData.append("image", "image.jpg");
- // 🔥 THIS SENDS FILE
+    const payload = {
+      name,
+      description: desc,
+      price: mrp,
+      final_price: sp,
+      discount: mrp - sp,
+      stock: stock || 0,
+      preparing_minutes: time || 0,
+      food_type: type === "veg" ? "VEG" : "NON-VEG",
+      category,
+      subcategory: subCategory,
+      is_live: true,
+      image: "image.jpg",
+    };
 
-  try {
-    await addProductAPI(formData);
-    alert("✅ Product Added Successfully!");
-    onDeploy();
-    onClose();
-  } catch (error) {
-    console.error(error);
-    alert("❌ Failed to add product");
-  }
-};
-
+    try {
+      await addProductAPI(payload);
+      onDeploy();
+      onClose();
+    } catch {
+      alert("Failed to save product");
+    }
+  };
 
   return (
     <div className="big-modal-overlay">
       <div className="big-modal-card">
-
-        {/* HEADER */}
         <div className="big-header">
-          <h2>Modify Listing</h2>
+          <h2>Add New Product</h2>
           <button onClick={onClose}>✕</button>
         </div>
 
         <div className="big-body">
-
-          {/* LEFT IMAGE */}
           <div className="image-section">
-  {preview ? (
-    <img src={preview} alt="" />
-  ) : (
-    <label className="upload-box">
-      Upload Image
-      <input
-        type="file"
-        accept="image/*"
-        hidden
-        onChange={(e) => {
-          const file = e.target.files[0];
-          setImageFile(file);        // file for backend
-          setPreview(URL.createObjectURL(file)); // preview
-        }}
-      />
-    </label>
-  )}
-  {category === "Food" && (
-  <>
-    <h4>CATEGORY SETTINGS</h4>
+            <h4>PRODUCT IMAGE</h4>
+            {preview ? (
+              <img src={preview} alt="" />
+            ) : (
+              <label className="upload-box">
+                Upload Image
+                <input type="file" hidden />
+              </label>
+            )}
+          </div>
 
-    
-      <div className="field">
-        <label>KITCHEN TIME (MIN)</label>
-        <input
-          placeholder="25"
-          value={time}
-          onChange={(e)=>setTime(e.target.value)}
-        />
-      </div>
+          <div className="form-section" id="new-product-modal">
+            {/* CATEGORY */}
+            <h4>PRODUCT CATEGORY</h4>
+            <div className="custom-dropdown">
+              <button
+                type="button"
+                className="dropdown-btn"
+                onClick={() => setShowCategory(!showCategory)}
+              >
+                {category ? (
+                  <span>{categoryIcons[category]} {category}</span>
+                ) : (
+                  <span className="placeholder">Select a Category</span>
+                )}
+              </button>
 
-      <div className="field">
-        <label>DIETARY TYPE</label>
-        <div className="toggle">
-          <button
-            type="button"
-            className={type==="veg" ? "active":""}
-            onClick={()=>setType("veg")}
-          >
-            VEG
-          </button>
-          <button
-            type="button"
-            className={type==="nonveg" ? "active":""}
-            onClick={()=>setType("nonveg")}
-          >
-            NON-VEG
-          </button>
-        </div>
-      </div>
-
-    
-  </>
-)}
-</div>
-
-          {/* RIGHT FORM */}
-          <div className="form-section">
-            <div className="row two-col">
-  <div className="field">
-    <h4>CATEGORY</h4>
-    <select
-      className="category"
-      value={category}
-      onChange={(e) => {
-        setCategory(e.target.value);
-        setSubCategory("");
-      }}
-    >
-      <option value="Food">🍔 Food</option>
-      <option value="Grocery">🛒 Grocery</option>
-      <option value="Pharmacy">💊 Pharmacy</option>
-      <option value="Electronics">📱 Appliances & Electronics</option>
-      <option value="Cosmetics">💄 Cosmetics</option>
-    </select>
-  </div>
-
-  <div className="field">
-    <h4>SUB CATEGORY</h4>
-    <select
-      className="category"
-      value={subCategory}
-      onChange={(e) => setSubCategory(e.target.value)}
-    >
-      <option value="">Select Sub Category</option>
-      {subCategoryMap[category]?.map((sub, index) => (
-        <option key={index} value={sub.name}>
-          {sub.icon} {sub.name}
-        </option>
-      ))}
-    </select>
-  </div>
-</div>
-
-
-            <h4>PROFILE & NARRATIVE</h4>
-            <input
-              placeholder="e.g.Dum Birayni"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-
-            <textarea
-              placeholder="Tell the story of your product..."
-              value={desc}
-              onChange={(e) => setDesc(e.target.value)}
-            />
-
-            <h4>FINANCIAL STRATEGY</h4>
-            <div className="row">
-              <input placeholder="Base MRP ₹" value={base} onChange={(e)=>setBase(e.target.value)} />
-              <input placeholder="Discount ₹" value={rebate} onChange={(e)=>setRebate(e.target.value)} />
-              <input className="final-price" value={`₹ ${finalPrice || 0}`} disabled />
+              {showCategory && (
+                <ul className="dropdown-menu">
+                  {Object.keys(categoryIcons).map((cat) => (
+                    <li
+                      key={cat}
+                      onClick={() => {
+                        setCategory(cat);
+                        setSubCategory("");
+                        setShowCategory(false);
+                      }}
+                    >
+                      {categoryIcons[cat]} {cat}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
 
-            <h4>INVENTORY LOGIC</h4>
-<div className="row">
-  <input
-    placeholder="Units in Stock"
-    value={stock}
-    onChange={(e)=>setStock(e.target.value)}
-  />
-</div>
+            {/* SUB CATEGORY */}
+            <h4>SUB CATEGORY</h4>
+            <div className="custom-dropdown">
+              <button
+                type="button"
+                className="dropdown-btn"
+                onClick={() => setShowSub(!showSub)}
+                disabled={!category}
+              >
+                {subCategory || <span className="placeholder">Select Sub Category</span>}
+              </button>
 
+              {showSub && (
+                <ul className="dropdown-menu">
+                  {subCategoryMap[category]?.map((sub) => (
+                    <li
+                      key={sub.name}
+                      onClick={() => {
+                        setSubCategory(sub.name);
+                        setShowSub(false);
+                      }}
+                    >
+                      {sub.icon} {sub.name}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
 
+            <h4>PRODUCT DETAILS</h4>
+            <input placeholder="Product Name" value={name} onChange={e => setName(e.target.value)} />
+            <textarea placeholder="Description" value={desc} onChange={e => setDesc(e.target.value)} />
 
+            <h4>PRICING</h4>
+            <div className="row">
+              <input placeholder="MRP" value={base} onChange={e => setBase(e.target.value)} />
+              <input placeholder="Selling Price" value={rebate} onChange={e => setRebate(e.target.value)} />
+            </div>
+
+            {category === "Food" ? (
+              <>
+                <h4>PREPARATION TIME</h4>
+                <input placeholder="Minutes" value={time} onChange={e => setTime(e.target.value)} />
+              </>
+            ) : (
+              <>
+                <h4>STOCK</h4>
+                <input placeholder="Stock" value={stock} onChange={e => setStock(e.target.value)} />
+              </>
+            )}
           </div>
         </div>
 
         <div className="big-footer">
           <button className="cancel" onClick={onClose}>Cancel</button>
-          <button className="deploy" onClick={deploy}>UPDATE PRODUCT DETAILS</button>
+          <button className="deploy" onClick={deploy}>Save Product</button>
         </div>
-
       </div>
     </div>
   );

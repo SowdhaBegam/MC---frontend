@@ -52,9 +52,19 @@
   opacity: 0.9;
 }
 
+/* FIX CLOSE BUTTON POSITION */
+.update-header {
+  position: relative; /* anchor for close button */
+}
+
 .update-header .close-btn {
-  width: 36px;
-  height: 36px;
+  position: absolute;
+  top: 21px;
+  right: 27px;
+
+  width: 32px;
+  height: 32px;
+
   border-radius: 50%;
   border: none;
 
@@ -65,16 +75,15 @@
   background: rgba(255, 255, 255, 0.25);
   color: #ffffff;
 
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   line-height: 1;
 
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
-/* Hover effect */
-.close-btn:hover {
+.update-header .close-btn:hover {
   background: rgba(255, 255, 255, 0.45);
   transform: scale(1.05);
 }

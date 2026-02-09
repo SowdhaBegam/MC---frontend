@@ -2,12 +2,13 @@
 .big-modal-overlay {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at top, #0f172a 0%, #020617 100%);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 1000;
-  animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
@@ -22,12 +23,18 @@
   border-radius: 28px;
   overflow: hidden;
   box-shadow: 0 60px 120px rgba(0,0,0,0.5);
-  animation: slideUp 0.3s ease;
+  animation: modalPop 0.3s ease;
 }
 
-@keyframes slideUp {
-  from { transform: translateY(30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 /* ===== HEADER ===== */
@@ -60,13 +67,14 @@
 .big-body {
   display: flex;
   padding: 20px;
-  gap: 25px;
+  gap: 30px;
+  align-items: flex-start;
 }
 
 /* IMAGE */
 .upload-box {
   width: 240px;
-  height: 130px;
+  height: 150px;
   border: 2px dashed #e2e8f0;
   border-radius: 20px;
   display: flex;
@@ -134,12 +142,14 @@
 }
 
 .toggle button {
-  padding: 10px 18px;
-  border-radius: 999px;
-  border: none;
+  padding: 8px 16px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
   font-weight: 600;
-  background: #f1f5f9;
+  font-size: 13px;
+  background: #f8fafc;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .toggle .active {
@@ -179,127 +189,124 @@
 .deploy:hover {
   transform: translateY(-2px);
 }
+
+/* ===== SELECT INPUT (UNCHANGED SIZE) ===== */
 .category {
-  
-  padding: 12px 16px;
+  width: 100%;
+  padding: 8px 14px;
   border-radius: 14px;
   border: 1px solid #e5e7eb;
-  font-size: 14px;
-  margin-bottom: 3px;
-  transition: all 0.2s ease;
-}
-.section-card {
-  background: #f8fafc;
-  border: 1px solid #eef2f7;
-  border-radius: 18px;
-  padding: 18px;
-  margin-bottom: 12px;
-}
-.section-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.financial-box {
+  font-size: 13px;
+  margin-bottom: 8px;
   background: white;
-  border-radius: 18px;
-  padding: 18px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-  border: 1px solid #f1f5f9;
+  color: #9ca3af;
+  appearance: none;
 }
-.final-price {
-  border-radius: 14px;
-  font-size: 15px;
-  padding: 12px;
+
+/* When user selects a value */
+.category:valid {
   background: linear-gradient(90deg,#ff7a18,#ff3d6a);
-  color: white;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  box-shadow: 0 6px 18px rgba(255,61,106,0.4);
-}
-.upload-box {
-  flex-direction: column;
-  gap: 8px;
-  background: #f8fafc;
+  color: #ffffff;
+  border-color: #ff3d6a;
 }
 
-.upload-icon {
-  font-size: 28px;
-  color: #ff3d6a;
-}
-
-.upload-subtext {
-  font-size: 11px;
-  color: #94a3b8;
-}
-.deploy {
-  height: 50px;
-  font-size: 15px;
-  border-radius: 16px;
-  box-shadow: 0 12px 30px rgba(255,61,106,0.4);
-}
-.image-section {
-  width: 260px;
-  border-radius: 20px;
-  overflow: hidden; /* 🔥 IMPORTANT */
-  flex-shrink: 0;
-}
-.image-section img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;   /* 🔥 MAGIC LINE */
-  border-radius: 18px;
-  margin-bottom: 12px;
-}
-.category {
-  font-size: 14px;
-}
-
-.two-col {
-  display: flex;
-  gap: 23px;
-}
-
-.two-col .field {
-  flex: 1;
-}
-.two-col {
-  display: flex;
-  gap: 20px;
-}
-
-.align-center {
-  align-items: center;
-}
-
-.field {
-  flex: 1;
-}
-
-.field label {
-  font-size: 12px;
-  font-weight: 600;
-  color: #6b7280;
-  display: block;
-  margin-bottom: 6px;
-}
-.food-settings input {
-  width: 100%;
-  padding: 12px 16px;
-  border-radius: 14px;
-  border: 1px solid #e5e7eb;
-  font-size: 14px;
-  transition: all 0.2s ease;
-}
-
-.food-settings input:focus {
+/* Focus */
+.category:focus {
   border-color: #ff3d6a;
   box-shadow: 0 0 0 3px rgba(255,61,106,0.15);
   outline: none;
 }
 
-.food-field {
+/* ============================================= */
+/* 🎯 SCOPED DROPDOWN FIX – NEW PRODUCT MODAL    */
+/* affects ONLY your modal, nobody else          */
+/* ============================================= */
+
+#new-product-modal select.category {
+  background-color: #ffffff;
+  color: #111827;
+  font-weight: 600;
+}
+
+/* dropdown options */
+#new-product-modal select.category option {
+  background-color: #ffffff;
+  color: #111827;
+  font-size: 14px;
+}
+
+/* hover (best-effort – browser dependent) */
+#new-product-modal select.category option:hover {
+  background-color: #fff7ed; /* light orange */
+  color: #111827;
+}
+
+/* selected option */
+#new-product-modal select.category option:checked {
+  background-color: #ff7a18;
+  color: #ffffff;
+}
+/* ===================================== */
+/* 🔥 CUSTOM DROPDOWN – FINAL VERSION    */
+/* ===================================== */
+
+.custom-dropdown {
+  position: relative;
+  width: 100%;
   margin-bottom: 12px;
 }
 
+.dropdown-btn {
+  width: 100%;
+  padding: 8px 14px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+}
 
+.dropdown-btn:hover {
+  border-color: #ff3d6a;
+}
+
+.placeholder {
+  color: #9ca3af;
+}
+
+.dropdown-menu {
+  position: absolute;
+  width: 100%;
+  margin-top: 6px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  overflow: hidden;
+  z-index: 50;
+  animation: dropdownPop 0.2s ease;
+}
+
+@keyframes dropdownPop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dropdown-menu li {
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+  background: linear-gradient(90deg,#ff7a18,#ff3d6a);
+  color: white;
+}

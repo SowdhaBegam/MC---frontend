@@ -7,7 +7,8 @@ export default function Navbar() {
   const [openProfile, setOpenProfile] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [shopActive, setShopActive] = useState(true);
-  const profileData = JSON.parse(localStorage.getItem("profileData")) || {};
+  const [profileData, setProfileData] = useState(null);
+
 
 
   /* TAB STYLE */
@@ -108,16 +109,17 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* PROFILE MODAL */}
       <ProfileModal
-        open={openProfile}
-        onClose={() => setOpenProfile(false)}
-        onEdit={(data) => {
-          setProfileData(data);
-          setOpenProfile(false);
-          setOpenEdit(true);
-        }}
-      />
+  open={openProfile}
+  onClose={() => setOpenProfile(false)}
+  onEdit={(data) => {
+    console.log("EDIT CLICKED 👉", data);
+    setProfileData(data);     // ✅ STORE PROFILE IN STATE
+    setOpenProfile(false);
+    setOpenEdit(true);       // ✅ OPEN UPDATE MODAL
+  }}
+/>
+
 
       {/* UPDATE PROFILE */}
       <UpdateProfileModal
