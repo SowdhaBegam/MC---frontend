@@ -113,8 +113,8 @@ export default function Login() {
               setLoginData({ ...loginData, email: e.target.value })
             }
           />
-          {errors.email && <p className="error">{errors.email}</p>}
         </div>
+        {errors.email && <p className="error">{errors.email}</p>}
       </div>
 
       <div className="field">
@@ -129,8 +129,9 @@ export default function Login() {
               setLoginData({ ...loginData, password: e.target.value })
             }
           />
-          {errors.password && <p className="error">{errors.password}</p>}
+          
         </div>
+        {errors.password && <p className="error">{errors.password}</p>}
       </div>
 
       <button className="create-btn login-btn" onClick={handleLogin}>

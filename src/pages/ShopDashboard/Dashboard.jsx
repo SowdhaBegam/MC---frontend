@@ -61,7 +61,7 @@ export default function Dashboard() {
           bg="bg-blue"
         />
         <StatCard
-          title="ORDER IN PROCESS"
+          title="ORDERS IN PROCESS"
           value={activeOrders.length}
           icon="📌"
           bg="bg-orange"

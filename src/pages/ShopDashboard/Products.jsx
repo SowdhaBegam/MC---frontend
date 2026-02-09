@@ -125,6 +125,64 @@ export default function Products() {
 
       {/* ===== PRODUCTS BY SUBCATEGORY ===== */}
       <div className="products-grid-wrapper">
+        {/* EMPTY STATE */}
+{products.length === 0 && (
+  <div className="empty-state-pro">
+    <div className="empty-content">
+      <div className="empty-illustration">
+        <svg
+          width="120"
+          height="120"
+          viewBox="0 0 200 200"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient id="boxGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#ff7a18" />
+              <stop offset="100%" stopColor="#ff3d77" />
+            </linearGradient>
+          </defs>
+
+          {/* Shadow */}
+          <ellipse cx="100" cy="165" rx="55" ry="12" fill="#e5e7eb" />
+
+          {/* Box */}
+          <rect
+            x="45"
+            y="70"
+            width="110"
+            height="70"
+            rx="12"
+            fill="url(#boxGrad)"
+          />
+
+          {/* Box lid */}
+          <rect
+            x="45"
+            y="55"
+            width="110"
+            height="25"
+            rx="10"
+            fill="#ffb37a"
+          />
+
+          {/* Lines */}
+          <line x1="70" y1="95" x2="130" y2="95" stroke="white" strokeWidth="4" strokeLinecap="round"/>
+          <line x1="70" y1="110" x2="120" y2="110" stroke="white" strokeWidth="4" strokeLinecap="round"/>
+        </svg>
+      </div>
+
+      <h2>No Products Yet</h2>
+      <p>
+        Your product catalog is empty. Add items to start selling and manage your inventory.
+      </p>
+    </div>
+  </div>
+)}
+
+
+
         {Object.entries(groupBySubCategory(filteredProducts)).map(
           ([subCategory, items]) => (
             <div key={subCategory} className="subcategory-section">
@@ -143,7 +201,10 @@ export default function Products() {
                       : `https://mc-platform-qwzw35zb4-sangeetha-lakshmis-projects.vercel.app/uploads/${p.image}`;
 
                   return (
-                    <div key={p.id} className="product-card">
+                    <div
+  key={p.id}
+  className={`product-card ${!p.is_live ? "card-off" : ""}`}
+>
                       <div className="img-wrapper">
                         <img src={imageUrl} alt={p.name} />
 
@@ -160,7 +221,8 @@ export default function Products() {
                             className="delete-btn"
                             onClick={() => setDeleteId(p.id)}
                           >
-                            ❌
+                            
+🗑️ 
                           </button>
                         </div>
 
@@ -187,8 +249,10 @@ export default function Products() {
                         </div>
 
                         <div className="bottom-row">
-                          <span className="stock-dot"></span>
-                          <span>{p.stock} Units</span>
+                          <div className="stock-section">
+  <span className="units-text">Available: {p.stock}</span>
+
+  
 
                           {/* LIVE TOGGLE */}
                           <button
@@ -207,6 +271,7 @@ export default function Products() {
                               `}
                             />
                           </button>
+                          </div>
                         </div>
                       </div>
                     </div>

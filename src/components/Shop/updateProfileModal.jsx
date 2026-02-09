@@ -33,11 +33,20 @@ export default function UpdateProfileModal({ open, onClose, profile }) {
 
   if (!open) return null;
 
-  // ✅ Update handler (NO logic change)
+  // ✅ Update handler (same logic + sync added)
   const handleUpdate = async () => {
     try {
       await updateVendorProfile(formData);
-      setShowSuccess(true);   // 🔥 show UI modal
+
+      // 🆕 NEW: Sync updated profile into localStorage
+      const oldProfile = JSON.parse(localStorage.getItem("profileData")) || {};
+      const updatedProfile = { ...oldProfile, ...formData };
+      localStorage.setItem("profileData", JSON.stringify(updatedProfile));
+
+      // 🆕 NEW: Tell Navbar profile changed
+      window.dispatchEvent(new Event("profileUpdated"));
+
+      setShowSuccess(true);   // existing logic
     } catch (err) {
       console.error("Update failed", err);
     }
@@ -139,14 +148,14 @@ export default function UpdateProfileModal({ open, onClose, profile }) {
         </div>
       </div>
 
-      {/* ✅ SUCCESS MODAL */}
+      {/* SUCCESS MODAL */}
       <SuccessModal
         open={showSuccess}
         title="Profile Updated 🎉"
         message="Your profile details were updated successfully."
         onClose={() => {
           setShowSuccess(false);
-          onClose(); // close update modal also
+          onClose();
         }}
       />
     </>
