@@ -336,12 +336,16 @@ setErrors({});
 
 
             <h4>PRODUCT DETAILS</h4>
-            <input
-              placeholder="Product Name (e.g.Dum Biryani)"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            {errors.name && <p className="error">{errors.name}</p>}
+   <div className="input-group">
+  <input
+    placeholder="Product Name (e.g.Dum Biryani)"
+    value={name}
+    onChange={(e) => setName(e.target.value)}
+    className={errors.name ? "has-error" : ""}
+  />
+  {errors.name && <span className="error-text">{errors.name}</span>}
+</div>
+
 
 
             <textarea
@@ -379,6 +383,7 @@ setErrors({});
     <h4>PREPARATION DETAILS</h4>
     <div className="row two-col">
       <div className="field">
+         <div className="input-group">
         <label>Preparation Time (MIN)</label>
         <input
           className="food-input"
@@ -387,7 +392,7 @@ setErrors({});
           onChange={(e) => setTime(e.target.value)}
         />
         {errors.time && <p className="error">{errors.time}</p>}
-
+</div>
       </div>
 
       <div className="field">

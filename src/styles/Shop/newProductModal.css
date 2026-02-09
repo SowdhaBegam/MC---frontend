@@ -113,7 +113,7 @@
   border-radius: 14px;
   border: 1px solid #e5e7eb;
   font-size: 13px;
-  margin-bottom: 8px;
+  margin-bottom: 0;
   transition: all 0.2s ease;
 }
 
@@ -448,11 +448,27 @@
   background: linear-gradient(90deg,#ff7a18,#ff3d6a);
   color: white;
 }
-.error {
-  color: #ff3d6a;
-  font-size: 12px;
-  margin-top: -4px;
-  margin-bottom: 6px;
+
+.error::before {
+  content: "!";
+  width: 16px;
+  height: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: #ef4444;
+  color: #ffffff;
+
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+textarea + .error,
+textarea + .error-text {
+  margin-top: 6px;
 }
 /* ===================================== */
 /* 🎯 FIX SELECT UI – CATEGORY & SUBCAT */
@@ -491,4 +507,49 @@
 .big-modal-card select.category option:checked {
   background-color: #fff7ed;
   color: #111827;
+}
+/* =============================== */
+/* INPUT + ERROR GROUP             */
+/* =============================== */
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+/* input error state */
+.has-error {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.12);
+}
+
+/* error text */
+.error,.error-text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+line-height: 1.2;
+  font-size: 12px;
+  font-weight: 500;
+  color: #ef4444;
+}
+
+/* error icon */
+.error-text::before {
+  content: "!";
+  width: 14px;
+  height: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: #ef4444;
+  color: white;
+
+  font-size: 10px;
+  font-weight: 700;
 }
