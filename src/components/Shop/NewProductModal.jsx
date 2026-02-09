@@ -1,6 +1,7 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect, useRef} from "react";
 import "../../styles/Shop/newProductModal.css";
 import { addProductAPI, updateProductAPI } from "../../services/productService";
+
 
 export default function NewProductModal({ open, onClose, onDeploy, product }) {
   const [imageFile, setImageFile] = useState(null);
@@ -15,6 +16,11 @@ export default function NewProductModal({ open, onClose, onDeploy, product }) {
   const [subCategory, setSubCategory] = useState("");
   const [preview, setPreview] = useState(null);
   const [errors, setErrors] = useState({});
+const [openCategory, setOpenCategory] = useState(false);
+const [openSubCategory, setOpenSubCategory] = useState(false);
+const categoryRef = useRef(null);
+const subCategoryRef = useRef(null);
+
 
   useEffect(() => {
   if (product) {
@@ -48,6 +54,29 @@ export default function NewProductModal({ open, onClose, onDeploy, product }) {
     setErrors({});
   }
 }, [product]);
+useEffect(() => {
+  const handleClickOutside = (e) => {
+    if (
+      categoryRef.current &&
+      !categoryRef.current.contains(e.target)
+    ) {
+      setOpenCategory(false);
+    }
+
+    if (
+      subCategoryRef.current &&
+      !subCategoryRef.current.contains(e.target)
+    ) {
+      setOpenSubCategory(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
 
 // 🔥 Reset stock if category is Food
 useEffect(() => {
@@ -222,43 +251,87 @@ setErrors({});
           {/* RIGHT FORM */}
           <div className="form-section">
             <div className="row two-col">
-  <div className="field">
-    <h4>PRODUCT CATEGORY</h4>
-    <select
-      className="category"
-      value={category}
-      onChange={(e) => {
-        setCategory(e.target.value);
-        setSubCategory("");
-      }}
-    >
-      <option value="">Select a Category</option>
-      <option value="Food">🍔 Food</option>
-      <option value="Grocery">🛒 Grocery</option>
-      <option value="Pharmacy">💊 Pharmacy</option>
-      <option value="Electronics">📱 Appliances & Electronics</option>
-      <option value="Cosmetics">💄 Cosmetics</option>
-    </select>
-    {errors.category && <p className="error">{errors.category}</p>}
+  
+<div className="field relative" ref={categoryRef}>
+  <h4>PRODUCT CATEGORY</h4>
 
+  <div
+    className="dropdown-btn"
+    onClick={() => setOpenCategory(!openCategory)}
+  >
+    {category ? (
+      <span>{category}</span>
+    ) : (
+      <span className="placeholder">Select a Category</span>
+    )}
+    <span className="arrow">▾</span>
   </div>
 
-  <div className="field">
-    <h4>SUB-CATEGORY</h4>
-    <select
-      className="category"
-      value={subCategory}
-      onChange={(e) => setSubCategory(e.target.value)}
-    >
-      <option value="">Select a Sub Category</option>
-      {subCategoryMap[category]?.map((sub, index) => (
-        <option key={index} value={sub.name}>
-          {sub.icon} {sub.name}
-        </option>
+  {openCategory && (
+    <ul className="dropdown-menu dropdown-animate">
+      {Object.keys(subCategoryMap).map((cat) => (
+        <li
+          key={cat}
+          onClick={() => {
+            setCategory(cat);
+            setSubCategory("");
+            setOpenCategory(false);
+          }}
+        >
+          {cat === "Food" && "🍔"} 
+          {cat === "Grocery" && "🛒"} 
+          {cat === "Pharmacy" && "💊"} 
+          {cat === "Electronics" && "📱"} 
+          {cat === "Cosmetics" && "💄"} 
+          &nbsp;{cat}
+        </li>
       ))}
-    </select>
-    {errors.subCategory && <p className="error">{errors.subCategory}</p>}
+    </ul>
+  )}
+
+  {errors.category && <p className="error">{errors.category}</p>}
+</div> 
+
+<div className="field relative" ref={subCategoryRef}>
+  <h4>SUB-CATEGORY</h4>
+
+  <div
+    className={`dropdown-btn ${!category ? "disabled" : ""}`}
+    onClick={() => {
+      if (!category) return;
+      setOpenSubCategory((prev) => !prev);
+    }}
+  >
+    {subCategory ? (
+      <span>{subCategory}</span>
+    ) : (
+      <span className="placeholder">Select Sub-Category</span>
+    )}
+    <span className="arrow">▾</span>
   </div>
+
+{openSubCategory && (
+  <ul className="dropdown-menu">
+    {subCategoryMap[category]?.map((sub) => (
+      <li
+        key={sub.name}
+        onClick={() => {
+          setSubCategory(sub.name);
+          setOpenSubCategory(false);
+        }}
+      >
+        {sub.icon} {sub.name}
+      </li>
+    ))}
+  </ul>
+)}
+
+
+  {errors.subCategory && <p className="error">{errors.subCategory}</p>}
+</div>
+
+
+  
 </div>
 
 

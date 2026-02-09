@@ -238,11 +238,11 @@
 }
 
 /* When user selects a value */
-.category:valid {
+/*.category:valid {
   background: linear-gradient(90deg,#ff7a18,#ff3d6a);
   color: #ffffff;
   border-color: #ff3d6a;
-}
+}*/
 
 .upload-icon {
   font-size: 28px;
@@ -393,39 +393,50 @@
   font-weight: 600;
   cursor: pointer;
   text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .dropdown-btn:hover {
   border-color: #ff3d6a;
 }
-
+.dropdown-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 .placeholder {
   color: #9ca3af;
 }
 
 .dropdown-menu {
   position: absolute;
+  left:0;
+  top: calc(100% + 6px);
   width: 100%;
   margin-top: 6px;
   background: white;
   border-radius: 16px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.12);
   overflow: hidden;
-  z-index: 50;
+  z-index: 9999;
   animation: dropdownPop 0.2s ease;
 }
+.dropdown-animate {
+  animation: dropdownTailwind 0.18s ease-out;
+  transform-origin: top;
+}
 
-@keyframes dropdownPop {
+@keyframes dropdownTailwind {
   from {
     opacity: 0;
-    transform: translateY(-6px) scale(0.97);
+    transform: translateY(-6px) scale(0.96);
   }
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
-
 .dropdown-menu li {
   padding: 10px 14px;
   font-size: 14px;
@@ -442,4 +453,42 @@
   font-size: 12px;
   margin-top: -4px;
   margin-bottom: 6px;
+}
+/* ===================================== */
+/* 🎯 FIX SELECT UI – CATEGORY & SUBCAT */
+/* affects ONLY NewProductModal         */
+/* ===================================== */
+
+.big-modal-card select.category {
+  background: #ffffff;
+  color: #111827;
+  font-weight: 600;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+}
+
+/* placeholder */
+.big-modal-card select.category option[value=""] {
+  color: #9ca3af;
+}
+
+/* focus effect */
+.big-modal-card select.category:focus {
+  border-color: #ff3d6a;
+  box-shadow: 0 0 0 3px rgba(255,61,106,0.15);
+  outline: none;
+}
+
+/* dropdown options */
+.big-modal-card select.category option {
+  background: #ffffff;
+  color: #111827;
+  font-weight: 500;
+  padding: 10px;
+}
+
+/* selected option (best effort – browser safe) */
+.big-modal-card select.category option:checked {
+  background-color: #fff7ed;
+  color: #111827;
 }
