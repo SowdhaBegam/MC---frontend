@@ -9,7 +9,8 @@ export default function Navbar() {
   const [openProfile, setOpenProfile] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [shopActive, setShopActive] = useState(true);
-  
+  const [showOnlinePopup, setShowOnlinePopup] = useState(false);
+
 
 // 🆕 Now profile data comes from localStorage
   const [profileData, setProfileData] = useState(
@@ -93,17 +94,23 @@ export default function Navbar() {
             {/* ✅ TOGGLE (UI RESTORED, LOGIC SAME) */}
             <div
               onClick={() => {
-                setShopActive((prev) => {
-                  const next = !prev;
+  setShopActive((prev) => {
+    const next = !prev;
 
-                  if (!next) {
-                    setShowOfflinePopup(true);
-                    setTimeout(() => setShowOfflinePopup(false), 3000);
-                  }
+    if (!next) {
+      // OFFLINE
+      setShowOfflinePopup(true);
+      setTimeout(() => setShowOfflinePopup(false), 3000);
+    } else {
+      // ONLINE
+      setShowOnlinePopup(true);
+      setTimeout(() => setShowOnlinePopup(false), 3000);
+    }
 
-                  return next;
-                });
-              }}
+    return next;
+  });
+}}
+
               className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-all duration-300
               ${
                 shopActive
@@ -177,6 +184,23 @@ export default function Navbar() {
           </div>
         </div>
       )}
+      
+      {showOnlinePopup && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-slide-down">
+          <div className="bg-white border border-gray-200 shadow-lg rounded-lg px-6 py-3 flex items-center gap-3">
+            <span className="text-green-500 text-lg">✅</span>
+            <div>
+              <p className="font-semibold text-sm text-gray-800">
+                You are now online
+              </p>
+              <p className="text-xs text-gray-500">
+                New orders will be received.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+      
     </>
   );
 }

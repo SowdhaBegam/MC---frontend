@@ -250,7 +250,12 @@ export default function Products() {
 
                         <div className="bottom-row">
                           <div className="stock-section">
-  <span className="units-text">Available: {p.stock}</span>
+  <span className="units-text">
+  {p.category === "Food"
+    ? `⏱ ${p.preparing_minutes} min`
+    : `Available: ${p.stock}`}
+</span>
+
 
   
 

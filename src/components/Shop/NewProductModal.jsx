@@ -27,7 +27,7 @@ const subCategoryRef = useRef(null);
     setName(product.name || "");
     setDesc(product.description || "");
     setBase(product.price || "");
-    setRebate(product.discount || "");
+    setRebate(product.final_price || "");
     setStock(product.stock || 0);
     setCategory(product.category || "Food");
     setSubCategory(product.subcategory || "");
@@ -131,7 +131,7 @@ useEffect(() => {
   const finalPrice = base - (rebate || 0);
   // Map UI category → Backend category
 const backendCategoryMap = {
-  Food: "Dinner",     // default mapping
+  Food: "Food",     // default mapping
   Grocery: "Grocery",
   Pharmacy: "Pharmacy",
   Electronics: "Electronics",
@@ -208,6 +208,15 @@ setErrors({});
     alert("❌ Failed to add product");
   }
 };
+const categoryIconMap = {
+  Food: "🍔",
+  Grocery: "🛒",
+  Pharmacy: "💊",
+  Electronics: "📱",
+  Cosmetics: "💄",
+};
+const selectedSubIcon =
+  subCategoryMap[category]?.find(s => s.name === subCategory)?.icon;
 
 
 
@@ -253,17 +262,20 @@ setErrors({});
             <div className="row two-col">
   
 <div className="field relative" ref={categoryRef}>
-  <h4>PRODUCT CATEGORY</h4>
+  <h4>PRODUCT CATEGORY *</h4>
 
   <div
     className="dropdown-btn"
     onClick={() => setOpenCategory(!openCategory)}
   >
     {category ? (
-      <span>{category}</span>
-    ) : (
-      <span className="placeholder">Select a Category</span>
-    )}
+  <span>
+    {categoryIconMap[category]} &nbsp;{category}
+  </span>
+) : (
+  <span className="placeholder">Select a Category</span>
+)}
+
     <span className="arrow">▾</span>
   </div>
 
@@ -293,7 +305,7 @@ setErrors({});
 </div> 
 
 <div className="field relative" ref={subCategoryRef}>
-  <h4>SUB-CATEGORY</h4>
+  <h4>SUB-CATEGORY *</h4>
 
   <div
     className={`dropdown-btn ${!category ? "disabled" : ""}`}
@@ -303,10 +315,13 @@ setErrors({});
     }}
   >
     {subCategory ? (
-      <span>{subCategory}</span>
-    ) : (
-      <span className="placeholder">Select Sub-Category</span>
-    )}
+  <span>
+    {selectedSubIcon} &nbsp;{subCategory}
+  </span>
+) : (
+  <span className="placeholder">Select Sub-Category</span>
+)}
+
     <span className="arrow">▾</span>
   </div>
 
@@ -335,7 +350,7 @@ setErrors({});
 </div>
 
 
-            <h4>PRODUCT DETAILS</h4>
+            <h4>PRODUCT DETAILS *</h4>
    <div className="input-group">
   <input
     placeholder="Product Name (e.g.Dum Biryani)"
@@ -356,7 +371,7 @@ setErrors({});
             {errors.desc && <p className="error">{errors.desc}</p>}
 
 
-            <h4>PRICING DETAILS</h4>
+            <h4>PRICING DETAILS *</h4>
             <div className="row">
   <div className="field">
     <input
@@ -380,7 +395,7 @@ setErrors({});
             {/* 🔥 DYNAMIC BOTTOM SECTION */}
 {category === "Food" ? (
   <>
-    <h4>PREPARATION DETAILS</h4>
+    <h4>PREPARATION DETAILS *</h4>
     <div className="row two-col">
       <div className="field">
          <div className="input-group">
@@ -418,7 +433,7 @@ setErrors({});
   </>
 ) : (
   <>
-    <h4>AVAILABLE STOCK</h4>
+    <h4>AVAILABLE STOCK *</h4>
     <div className="stock-wrapper">
       <input
         type="number"
