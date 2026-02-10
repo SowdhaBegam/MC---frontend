@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getVendorProfile } from "../../services/ProfileService";
-import "../../styles/Shop/profile.css";
+import "../../styles/Shop/Profile.css";
 
 export default function ProfileModal({ open, onClose, onEdit }) {
   const navigate = useNavigate();          // ✅ FIX: hook at top
