@@ -1,4 +1,5 @@
-import api from "./api";
+import api from "../api/axios";
+
 
 // ✅ GET vendor profile
 export const getVendorProfile = async () => {

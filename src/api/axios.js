@@ -2,7 +2,8 @@ import axios from "axios";
 import { getToken } from "../utils/authStorage";
 
 const instance = axios.create({
-  baseURL: "https://mc-platform-mo0oz7znm-sangeetha-lakshmis-projects.vercel.app/api",
+  baseURL: `${process.env.REACT_APP_API_URL}/api`,
+  withCredentials: true,
 });
 
 instance.interceptors.request.use((config) => {

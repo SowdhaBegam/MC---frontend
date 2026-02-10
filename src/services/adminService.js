@@ -1,23 +1,15 @@
-import axios from "axios";
+import API from "../api/axios";
 
-const API = "https://mc-platform-mo0oz7znm-sangeetha-lakshmis-projects.vercel.app/api";
+// No token needed here — interceptor already adds it
 
-export const getPendingShops = (token) =>
-  axios.get(`${API}/admin/pending`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+export const getPendingShops = () =>
+  API.get("/admin/pending");
 
-export const approveShop = (id, token) =>
-  axios.put(`${API}/admin/approve/${id}`, {}, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+export const approveShop = (id) =>
+  API.put(`/admin/approve/${id}`);
 
-// Optional decline
-export const declineShop = (id, token) =>
-  axios.put(`${API}/admin/decline/${id}`, {}, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-export const getApprovedShops = (token) =>
-  axios.get(`${API}/admin/vendors/approved`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+export const declineShop = (id) =>
+  API.put(`/admin/decline/${id}`);
+
+export const getApprovedShops = () =>
+  API.get("/admin/vendors/approved");

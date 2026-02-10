@@ -39,10 +39,10 @@ const [subCategories, setSubCategories] = useState([]);
     setType(product.food_type === "NON-VEG" ? "nonveg" : "veg");
 
     if (product.image && product.image !== "image.jpg") {
-      setPreview(`https://mc-platform-lvmhp50gy-sangeetha-lakshmis-projects.vercel.app/uploads/${product.image}`);
-    } else {
-      setPreview("/image.jpg");
-    }
+  setPreview(`${process.env.REACT_APP_IMAGE_URL}/uploads/${product.image}`);
+} else {
+  setPreview("/image.jpg");
+}
 
   } else {
     // 🔥 ADD MODE RESET (this is the only new part)

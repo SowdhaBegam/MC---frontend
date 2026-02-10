@@ -1,4 +1,4 @@
-import axios from "axios";
+import API from "../../api/axios";
 import { useState, useEffect } from "react";
 import NewProductModal from "../../components/Shop/NewProductModal";
 import {
@@ -59,17 +59,12 @@ export default function Products() {
       const updatedStatus = !product.is_live;
       const productId = product.id || product._id;
 
-      await axios.patch(
-        `https://mc-platform-mo0oz7znm-sangeetha-lakshmis-projects.vercel.app/api/products/${productId}/live`,
+      await API.patch(
+        `/products/${productId}/live`,
         {
           stock: product.stock,
           is_live: updatedStatus,
           prep_time: product.prep_time || 0,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
         }
       );
 
@@ -193,12 +188,12 @@ export default function Products() {
 
               <div className="products-grid">
                 {items.map((p) => {
+                  const IMAGE_BASE = process.env.REACT_APP_IMAGE_URL; 
                   const imageUrl =
-                    !p.image ||
-                    p.image === "default-product.png" ||
-                    p.image === "image.jpg"
-                      ? "/image.jpg"
-                      : `https://mc-platform-mo0oz7znm-sangeetha-lakshmis-projects.vercel.app/uploads/${p.image}`;
+  !p.image || p.image === "default-product.png" || p.image === "image.jpg"
+    ? "/image.jpg"
+    : `${IMAGE_BASE}/uploads/${p.image}`;
+
 
                   return (
                     <div
