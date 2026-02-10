@@ -2,7 +2,7 @@ import axios from "axios";
 import { getToken } from "../utils/authStorage";
 
 const api = axios.create({
-  baseURL: "https://mc-platform-qwzw35zb4-sangeetha-lakshmis-projects.vercel.app/api",
+  baseURL: "https://mc-platform-mo0oz7znm-sangeetha-lakshmis-projects.vercel.app/api",
   headers: {
     "Content-Type": "application/json",
   },

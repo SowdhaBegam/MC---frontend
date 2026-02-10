@@ -60,7 +60,7 @@ export default function Products() {
       const productId = product.id || product._id;
 
       await axios.patch(
-        `https://mc-platform-lvmhp50gy-sangeetha-lakshmis-projects.vercel.app/api/products/${productId}/live`,
+        `https://mc-platform-mo0oz7znm-sangeetha-lakshmis-projects.vercel.app/api/products/${productId}/live`,
         {
           stock: product.stock,
           is_live: updatedStatus,
@@ -198,7 +198,7 @@ export default function Products() {
                     p.image === "default-product.png" ||
                     p.image === "image.jpg"
                       ? "/image.jpg"
-                      : `https://mc-platform-qwzw35zb4-sangeetha-lakshmis-projects.vercel.app/uploads/${p.image}`;
+                      : `https://mc-platform-mo0oz7znm-sangeetha-lakshmis-projects.vercel.app/uploads/${p.image}`;
 
                   return (
                     <div

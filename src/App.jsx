@@ -10,6 +10,7 @@ import Dashboard from "./pages/ShopDashboard/Dashboard";
 import Orders from "./pages/ShopDashboard/Orders";
 import Products from "./pages/ShopDashboard/Products";
 import AdminLayout from "./layouts/Admin/AdminLayout";
+import ForgotPass from "./components/ForgotPass";
 
 const DashboardHome = () => <h2 style={{color:"white"}}>Dashboard Overview</h2>;
 const OrdersPage = () => <h2 style={{color:"white"}}>Orders Page</h2>;
@@ -26,6 +27,8 @@ export default function App() {
 
         {/* Login page */}
         <Route path="/" element={<LoginPage />} />
+        <Route path="/forgot-password" element={<ForgotPass />} />
+
 
         {/* Register page */}
         <Route path="/register" element={<RegisterPage />} />

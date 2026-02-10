@@ -130,7 +130,14 @@ export default function Login() {
             }
           />
           
+          
         </div>
+        <p className="forgot-wrap">
+  <span onClick={() => navigate("/forgot-password")} className="forgot-link">
+    Forgot Password?
+  </span>
+</p>
+
         {errors.password && <p className="error">{errors.password}</p>}
       </div>
 

@@ -1,6 +1,8 @@
 import { useState,useEffect, useRef} from "react";
 import "../../styles/Shop/newProductModal.css";
 import { addProductAPI, updateProductAPI } from "../../services/productService";
+import { getCategoriesAPI, getSubCategoriesAPI } from "../../services/productService";
+
 
 
 export default function NewProductModal({ open, onClose, onDeploy, product }) {
@@ -20,6 +22,9 @@ const [openCategory, setOpenCategory] = useState(false);
 const [openSubCategory, setOpenSubCategory] = useState(false);
 const categoryRef = useRef(null);
 const subCategoryRef = useRef(null);
+const [categories, setCategories] = useState([]);
+const [subCategories, setSubCategories] = useState([]);
+
 
 
   useEffect(() => {
@@ -78,6 +83,22 @@ useEffect(() => {
   };
 }, []);
 
+useEffect(() => {
+  if (open) {
+    loadCategories();
+  }
+}, [open]);
+
+const loadCategories = async () => {
+  try {
+    const data = await getCategoriesAPI();
+    setCategories(data);
+  } catch (err) {
+    console.error("Category fetch error", err);
+  }
+};
+
+
 // 🔥 Reset stock if category is Food
 useEffect(() => {
   if (category === "Food") {
@@ -85,46 +106,6 @@ useEffect(() => {
   }
 }, [category]);
 
-  const subCategoryMap = {
-  Food: [
-    { name: "Biryani", icon: "🍚" },
-    { name: "Meals", icon: "🍽️" },
-    { name: "Snacks", icon: "🍟" },
-    { name: "Desserts", icon: "🍰" },
-    { name: "Beverages", icon: "🥤" },
-    { name: "Breakfast", icon: "🍳" },
-    { name: "Fast Food", icon: "🍔" },
-  ],
-  Grocery: [
-    { name: "Vegetables", icon: "🥦" },
-    { name: "Fruits", icon: "🍎" },
-    { name: "Dairy", icon: "🥛" },
-    { name: "Rice & Grains", icon: "🌾" },
-    { name: "Spices", icon: "🧂" },
-    { name: "Oil & Masala", icon: "🫒" },
-  ],
-  Pharmacy: [
-    { name: "Tablets", icon: "💊" },
-    { name: "Syrups", icon: "🧴" },
-    { name: "First Aid", icon: "🩹" },
-    { name: "Vitamins", icon: "🍊" },
-    { name: "Personal Care", icon: "🧼" },
-  ],
-  Electronics: [
-    { name: "Mobiles", icon: "📱" },
-    { name: "Laptops", icon: "💻" },
-    { name: "Accessories", icon: "🎧" },
-    { name: "Home Appliances", icon: "📺" },
-    { name: "Wearables", icon: "⌚" },
-  ],
-  Cosmetics: [
-    { name: "Makeup", icon: "💄" },
-    { name: "Skincare", icon: "🧴" },
-    { name: "Haircare", icon: "💇‍♀️" },
-    { name: "Fragrances", icon: "🌸" },
-    { name: "Beauty Tools", icon: "🪞" },
-  ],
-};
 
   if (!open) return null;
 
@@ -216,8 +197,20 @@ const categoryIconMap = {
   Cosmetics: "💄",
 };
 const selectedSubIcon =
-  subCategoryMap[category]?.find(s => s.name === subCategory)?.icon;
+  subCategories.find(s => s.name === subCategory)?.icon;
 
+
+const handleCategorySelect = async (cat) => {
+  setCategory(cat.name);
+  setSubCategory("");
+
+  try {
+    const subData = await getSubCategoriesAPI(cat.id);
+    setSubCategories(subData);
+  } catch (err) {
+    console.error("Subcategory fetch error", err);
+  }
+};
 
 
   return (
@@ -281,23 +274,18 @@ const selectedSubIcon =
 
   {openCategory && (
     <ul className="dropdown-menu dropdown-animate">
-      {Object.keys(subCategoryMap).map((cat) => (
-        <li
-          key={cat}
-          onClick={() => {
-            setCategory(cat);
-            setSubCategory("");
-            setOpenCategory(false);
-          }}
-        >
-          {cat === "Food" && "🍔"} 
-          {cat === "Grocery" && "🛒"} 
-          {cat === "Pharmacy" && "💊"} 
-          {cat === "Electronics" && "📱"} 
-          {cat === "Cosmetics" && "💄"} 
-          &nbsp;{cat}
-        </li>
-      ))}
+      {categories.map((cat) => (
+  <li
+    key={cat.id}
+    onClick={() => {
+      handleCategorySelect(cat);
+      setOpenCategory(false);
+    }}
+  >
+    {cat.icon || "📦"} &nbsp;{cat.name}
+  </li>
+))}
+
     </ul>
   )}
 
@@ -327,17 +315,18 @@ const selectedSubIcon =
 
 {openSubCategory && (
   <ul className="dropdown-menu">
-    {subCategoryMap[category]?.map((sub) => (
-      <li
-        key={sub.name}
-        onClick={() => {
-          setSubCategory(sub.name);
-          setOpenSubCategory(false);
-        }}
-      >
-        {sub.icon} {sub.name}
-      </li>
-    ))}
+    {subCategories.map((sub) => (
+  <li
+    key={sub.id}
+    onClick={() => {
+      setSubCategory(sub.name);
+      setOpenSubCategory(false);
+    }}
+  >
+    {sub.icon || "📁"} {sub.name}
+  </li>
+))}
+
   </ul>
 )}
 

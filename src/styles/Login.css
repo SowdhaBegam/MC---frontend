@@ -35,3 +35,140 @@
   font-size: 12px;
   margin-top: 4px;
 }
+.forgot-wrap {
+  text-align: right;
+  margin-top: 6px;
+  margin-bottom: 8px;
+}
+
+.forgot-link {
+  font-size: 14px;
+  color: #ff7a00;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+.auth-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  background: white
+}
+
+/* Moving Glow Layers */
+.auth-container::before,
+.auth-container::after {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.6;
+  animation: moveGlow 18s infinite alternate ease-in-out;
+}
+
+.auth-container::before {
+  background: white;
+  top: -200px;
+  left: -200px;
+}
+
+.auth-container::after {
+  background: #ff5e00;
+  bottom: -200px;
+  right: -200px;
+  animation-delay: 5s;
+}
+
+@keyframes moveGlow {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(100px, 50px) scale(1.2);
+  }
+  100% {
+    transform: translate(-80px, -60px) scale(1);
+  }
+}
+.auth-container::after {
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 2px, transparent 2px);
+  background-size: 40px 40px;
+  animation: moveParticles 20s linear infinite;
+}
+
+@keyframes moveParticles {
+  from { background-position: 0 0; }
+  to { background-position: 200px 200px; }
+}
+
+
+.auth-card {
+  width: 380px;
+  padding: 35px 30px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.auth-card h2 {
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.auth-card input:focus {
+  border-color: #ff6a00;
+  box-shadow: 0 0 0 3px rgba(255,106,0,0.15);
+}
+
+.auth-card button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 12px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #ff8c00, #ff4d00);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+}
+
+.auth-card p {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 10px;
+}
