@@ -60,7 +60,7 @@ export default function Products() {
       const productId = product.id || product._id;
 
       await API.patch(
-        `/products/${productId}/live`,
+        `/api/products/${productId}/live`,
         {
           stock: product.stock,
           is_live: updatedStatus,

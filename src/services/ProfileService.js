@@ -8,7 +8,13 @@ export const getVendorProfile = async () => {
 };
 
 // ✅ UPDATE vendor profile
-export const updateVendorProfile = async (payload) => {
-  const res = await api.put("/api/vendor/profile", payload);
-  return res.data;
+export const updateVendorProfile = async (data) => {
+  try {
+    const res = await api.put("/api/vendor/profile", data);
+    return res.data;
+  } catch (err) {
+    console.log("🔥 BACKEND ERROR:", err.response?.data);
+    console.log("🔥 STATUS:", err.response?.status);
+    throw err;
+  }
 };

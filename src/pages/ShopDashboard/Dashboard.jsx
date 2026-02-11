@@ -13,7 +13,7 @@ export default function Dashboard() {
   ========================= */
   const fetchOrders = async () => {
     try {
-      const res = await axios.get("/shop/orders");
+      const res = await axios.get("/api/shop/orders");
 
       // debug
       console.log("Dashboard Orders 👉", res.data);

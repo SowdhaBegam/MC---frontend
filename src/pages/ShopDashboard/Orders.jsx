@@ -11,7 +11,7 @@ export default function Orders() {
   ========================= */
   const fetchCompletedOrders = async () => {
     try {
-      const res = await axios.get("/shop/orders");
+      const res = await axios.get("/api/shop/orders");
 
       // only completed orders
       const completedOrders = res.data.filter(

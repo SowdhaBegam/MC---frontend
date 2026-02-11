@@ -1,0 +1,156 @@
+
+/* Page Background */
+.addproduct-page {
+  @apply h-screen bg-gray-100 overflow-hidden;
+}
+
+/* 🔥 Banner Styling */
+.addproduct-banner {
+  @apply max-w-6xl mx-auto mt-8
+         bg-gradient-to-r from-[#0f172a] via-[#111827] to-[#1e293b]
+         shadow-xl py-8 px-12
+         rounded-[40px];
+}
+
+
+/* Banner Inner Content */
+.banner-content {
+  @apply max-w-6xl mx-auto;
+}
+
+/* Title */
+.banner-title {
+  @apply text-3xl font-bold text-orange-400 mb-6 tracking-wide
+         transition-all duration-300;
+}
+
+/* Search Wrapper */
+.banner-search-wrapper {
+  @apply flex flex-col md:flex-row gap-6;
+}
+
+/* Search Group Container */
+.search-group {
+  @apply relative w-full md:w-1/2 transition-all duration-300;
+}
+
+/* Search Input */
+.search-input {
+  @apply w-full px-5 py-3 rounded-xl 
+         bg-[#1e293b] text-white placeholder-gray-400
+         border border-gray-600
+         focus:outline-none focus:ring-2 focus:ring-orange-400
+         transition-all duration-300 ease-in-out;
+}
+
+/* Hover Effects */
+.search-group:hover .search-input {
+  @apply border-orange-400 shadow-lg shadow-orange-500/20;
+}
+
+/* Search Icon */
+.search-icon {
+  @apply absolute right-4 top-3.5 text-orange-400 text-lg
+         transition-transform duration-300;
+}
+
+/* Icon Animation */
+.search-group:hover .search-icon {
+  transform: scale(1.2);
+}
+
+/* Body Section */
+.addproduct-body {
+  @apply p-10;
+}
+.banner-row {
+  @apply flex flex-col lg:flex-row
+         lg:items-center lg:justify-between
+         gap-6;
+}
+
+.banner-right {
+  @apply flex flex-col sm:flex-row gap-4;
+}
+
+/* ========================= */
+/* 🔥 STATE CARDS SECTION */
+/* ========================= */
+
+.stats-section {
+  @apply max-w-6xl mx-auto mt-10 px-10
+         grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5
+         gap-9;
+}
+
+.stat-card {
+  @apply bg-white rounded-2xl p-4
+         flex items-center gap-5
+         shadow-md border border-gray-200
+         transition-all duration-300 ease-in-out;
+         max-width: 190px;
+}
+
+.stat-card:hover {
+  @apply shadow-xl -translate-y-2;
+  box-shadow: 0 15px 30px rgba(255, 115, 0, 0.15);
+}
+
+/* Icon Circle */
+.stat-icon {
+  @apply flex items-center justify-center
+         text-5xl transition-all duration-300;
+}
+.food-icon {
+  color: #ff7a00;
+  text-shadow: 0 0 15px rgba(255, 122, 0, 0.7);
+}
+.grocery-icon {
+  color: #16a34a;
+  text-shadow: 0 0 15px rgba(22, 163, 74, 0.7);
+}
+
+.pharmacy-icon {
+  color: #3b82f6;
+  text-shadow: 0 0 15px rgba(59, 130, 246, 0.7);
+}
+
+.electronics-icon {
+  color: #a855f7;
+  text-shadow: 0 0 15px rgba(168, 85, 247, 0.7);
+}
+
+.cosmetics-icon {
+  color: #ef4444;
+  text-shadow: 0 0 15px rgba(239, 68, 68, 0.7);
+}
+
+/* Icon Background Variants */
+.bg-blue {
+  @apply bg-gradient-to-r from-blue-500 to-indigo-500;
+}
+
+.bg-green {
+  @apply bg-gradient-to-r from-green-500 to-emerald-500;
+}
+
+.bg-orange {
+  @apply bg-gradient-to-r from-orange-500 to-red-500;
+}
+
+.bg-purple {
+  @apply bg-gradient-to-r from-purple-500 to-pink-500;
+}
+
+.bg-red {
+  @apply bg-gradient-to-r from-red-500 to-rose-500;
+}
+
+/* Text Styling */
+.stat-label {
+  @apply text-sm text-gray-500;
+}
+
+.stat-number {
+  @apply text-xl font-bold text-gray-800;
+}

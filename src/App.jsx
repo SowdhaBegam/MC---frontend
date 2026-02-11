@@ -11,6 +11,7 @@ import Orders from "./pages/ShopDashboard/Orders";
 import Products from "./pages/ShopDashboard/Products";
 import AdminLayout from "./layouts/Admin/AdminLayout";
 import ForgotPass from "./components/ForgotPass";
+import AddProduct from "./components/admin/AddProduct";
 
 const DashboardHome = () => <h2 style={{color:"white"}}>Dashboard Overview</h2>;
 const OrdersPage = () => <h2 style={{color:"white"}}>Orders Page</h2>;
@@ -52,6 +53,7 @@ export default function App() {
 >
   <Route path="dashboard" element={<DashboardHome />} />
   <Route path="shops" element={<AdminDashboard />} />
+  <Route path="add-product" element={<AddProduct />} />
   <Route path="orders" element={<OrdersPage />} />
   <Route path="settings" element={<SettingsPage />} />
 </Route>

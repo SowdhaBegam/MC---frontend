@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { vendorRegister } from "../services/authService";
 import { createPortal } from "react-dom";
@@ -20,6 +20,8 @@ export default function Register() {
     address: "",
     opensAt: "10:00",
     closesAt: "22:00",
+    latitude: "",
+    longitude: "",
   });
 
    const [errors, setErrors] = useState({});
@@ -61,14 +63,33 @@ export default function Register() {
   }
 
   // Step 3 validations
-  if (step === 3) {
-    if (!formData.address.trim()) newErrors.address = "Address is required";
-  }
+if (step === 3) {
+  if (!formData.address.trim()) newErrors.address = "Address is required";
+  if (!formData.latitude) newErrors.latitude = "Latitude is required";
+  if (!formData.longitude) newErrors.longitude = "Longitude is required";
+}
+
 
   setErrors(newErrors);
   return Object.keys(newErrors).length === 0;
 };
 
+useEffect(() => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setFormData((prev) => ({
+          ...prev,
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude,
+        }));
+      },
+      (err) => {
+        console.log("Location permission denied");
+      }
+    );
+  }
+}, []);
 
   const handleSubmit = async (e) => {
   e.preventDefault();
@@ -84,6 +105,8 @@ export default function Register() {
         address: formData.address,
         opening_time: formData.opensAt,
         closing_time: formData.closesAt,
+        latitude:  parseFloat(formData.latitude),
+        longitude: parseFloat(formData.longitude),
       };
     const res = await vendorRegister(payload);
 
@@ -333,6 +356,40 @@ const dropdownStyle = categoryOpen
               </div>
               {errors.address && <p className="error">{errors.address}</p>}
           </div>
+          <div className="field-row">
+  <div className="field">
+    <label>LATITUDE *</label>
+    <div className="input-pro">
+      <span className="icon">📍</span>
+      <input
+        type="text"
+        placeholder="e.g. 11.0168"
+        value={formData.latitude}
+        onChange={(e) =>
+          setFormData({ ...formData, latitude: e.target.value })
+        }
+      />
+    </div>
+    {errors.latitude && <p className="error">{errors.latitude}</p>}
+  </div>
+
+  <div className="field">
+    <label>LONGITUDE *</label>
+    <div className="input-pro">
+      <span className="icon">📍</span>
+      <input
+        type="text"
+        placeholder="e.g. 76.9558"
+        value={formData.longitude}
+        onChange={(e) =>
+          setFormData({ ...formData, longitude: e.target.value })
+        }
+      />
+    </div>
+    {errors.longitude && <p className="error">{errors.longitude}</p>}
+  </div>
+</div>
+
 
           <div className="field-row">
             <div className="field">

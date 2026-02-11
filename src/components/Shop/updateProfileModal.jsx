@@ -36,7 +36,18 @@ export default function UpdateProfileModal({ open, onClose, profile }) {
   // ✅ Update handler (same logic + sync added)
   const handleUpdate = async () => {
     try {
-      await updateVendorProfile(formData);
+      const payload = {
+  ...formData,
+  opening_time: formData.opening_time
+    ? formData.opening_time + ":00"
+    : null,
+  closing_time: formData.closing_time
+    ? formData.closing_time + ":00"
+    : null,
+};
+
+await updateVendorProfile(payload);
+
 
       // 🆕 NEW: Sync updated profile into localStorage
       const oldProfile = JSON.parse(localStorage.getItem("profileData")) || {};
