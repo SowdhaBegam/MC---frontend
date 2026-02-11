@@ -3,13 +3,13 @@ import API from "../api/axios";
 // No token needed here — interceptor already adds it
 
 export const getPendingShops = () =>
-  API.get("/admin/pending");
+  API.get("/api/admin/pending");
 
 export const approveShop = (id) =>
-  API.put(`/admin/approve/${id}`);
+  API.put(`/api/admin/approve/${id}`);
 
 export const declineShop = (id) =>
-  API.put(`/admin/decline/${id}`);
+  API.put(`/api/admin/decline/${id}`);
 
 export const getApprovedShops = () =>
-  API.get("/admin/vendors/approved");
+  API.get("/api/admin/vendors/approved");

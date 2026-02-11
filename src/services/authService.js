@@ -7,10 +7,10 @@ export const vendorRegister = (data) => {
 
 // LOGIN
 export const vendorLogin = (data) => {
-  return api.post("/vendor/login", data);
+  return api.post("/api/vendor/login", data);
 };
 
 // ADMIN LOGIN  ✅ ADD THIS
 export const adminLogin = (data) => {
-  return api.post("/admin/login", data);
+  return api.post("/api/admin/login", data);
 };
