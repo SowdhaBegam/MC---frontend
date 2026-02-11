@@ -39,7 +39,7 @@ const [subCategories, setSubCategories] = useState([]);
     setType(product.food_type === "NON-VEG" ? "nonveg" : "veg");
 
     if (product.image && product.image !== "image.jpg") {
-  setPreview(`${process.env.REACT_APP_IMAGE_URL}/uploads/${product.image}`);
+  setPreview(`${import.meta.env.VITE_IMAGE_URL}/uploads/${product.image}`);
 } else {
   setPreview("/image.jpg");
 }

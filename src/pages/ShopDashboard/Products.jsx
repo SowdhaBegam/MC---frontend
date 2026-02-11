@@ -188,7 +188,7 @@ export default function Products() {
 
               <div className="products-grid">
                 {items.map((p) => {
-                  const IMAGE_BASE = process.env.REACT_APP_IMAGE_URL; 
+                  const IMAGE_BASE = import.meta.env.VITE_IMAGE_URL ; 
                   const imageUrl =
   !p.image || p.image === "default-product.png" || p.image === "image.jpg"
     ? "/image.jpg"
