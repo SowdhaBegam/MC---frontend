@@ -9,21 +9,18 @@
 .admin-layout {
   display: flex;
   height: 100vh;
-  overflow: hidden;
 }
 
 .admin-content {
   margin-left: 230px;
   width: 100%;
   height: 100vh;
-  overflow: hidden;
 }
 
 .admin-container {
   padding: 30px;
   font-family: Arial, sans-serif;
   height: 100%;
-  overflow: hidden;
   background: var(--bg-light);
 }
 

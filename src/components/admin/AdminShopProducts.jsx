@@ -4,7 +4,22 @@ import "../../styles/AdminShopProducts.css";
 import NewProductModal from "../../components/Shop/NewProductModal";
 
 const AdminShopProducts = () => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([
+  {
+    name: "Chicken Biryani",
+    category: "Food",
+    price: 200,
+    preparationTime: "20 mins",
+    foodType: "Non-Veg",
+  },
+  {
+    name: "Laptop",
+    category: "Electronics",
+    price: 50000,
+    availableStock: 10,
+  },
+]);
+
   const [openModal, setOpenModal] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
 
@@ -48,28 +63,61 @@ console.log("Shop ID:", id);
           </button>
         </div>
       </div>
-      {/* 🔥 FOOD SUB CATEGORY SECTION ADDED HERE */}
-      <div className="category-section">
-        <h3 className="category-title">Food Categories</h3>
+      
+      {/* 🔥 PRODUCTS TABLE SECTION */}
+<div className="products-table-section">
+  <h3 className="table-title">Product List</h3>
 
-        <div className="category-cards">
-          {[
-            { name: "Fruits", icon: "🍎" },
-            { name: "Vegetables", icon: "🥦" },
-            { name: "Dairy", icon: "🥛" },
-            { name: "Snacks", icon: "🍟" },
-            { name: "Beverages", icon: "🥤" },
-            { name: "Spices", icon: "🌶️" },
-            { name: "Bakery", icon: "🍞" },
-            { name: "Meat", icon: "🍗" },
-          ].map((item, index) => (
-            <div key={index} className="category-card">
-              <div className="category-icon">{item.icon}</div>
-              <span>{item.name}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+  <table className="products-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price</th>
+
+        {/* If any product is Food */}
+        {products.some(p => p.category === "Food") && (
+          <>
+            <th>Preparation Time</th>
+            <th>Food Type</th>
+          </>
+        )}
+
+        {/* If any product is NOT Food */}
+        {products.some(p => p.category !== "Food") && (
+          <th>Available Stock</th>
+        )}
+
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {products.map((product, index) => (
+        <tr key={index}>
+          <td>{product.name}</td>
+          <td>{product.category}</td>
+          <td>₹ {product.price}</td>
+
+          {product.category === "Food" ? (
+            <>
+              <td>{product.preparationTime}</td>
+              <td>{product.foodType}</td>
+            </>
+          ) : (
+            <td>{product.availableStock}</td>
+          )}
+
+          <td>
+            <button className="edit-btn">Edit</button>
+            <button className="delete-btn">Delete</button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
 
       {/* 🔥 Modal */}
       <NewProductModal

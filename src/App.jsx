@@ -10,6 +10,7 @@ import Dashboard from "./pages/ShopDashboard/Dashboard";
 import Orders from "./pages/ShopDashboard/Orders";
 import Products from "./pages/ShopDashboard/Products";
 import AdminLayout from "./layouts/Admin/AdminLayout";
+import FullPageLayout from "./layouts/Admin/FullPageLayout";
 import ForgotPass from "./components/ForgotPass";
 import AddProduct from "./components/admin/AddProduct";
 import AdminShopProducts from "./components/admin/AdminShopProducts";
@@ -44,6 +45,7 @@ export default function App() {
 </Route>
 
 
+{/* ADMIN ROUTES WITH SIDEBAR */}
 <Route
   path="/admin"
   element={
@@ -55,12 +57,22 @@ export default function App() {
   <Route path="dashboard" element={<DashboardHome />} />
   <Route path="shops" element={<AdminDashboard />} />
   <Route path="add-product" element={<AddProduct />} />
-  <Route path="shop/:id" element={<AdminShopProducts />} />
   <Route path="orders" element={<OrdersPage />} />
   <Route path="settings" element={<SettingsPage />} />
-  
 </Route>
 
+
+{/* SHOP VIEW WITHOUT SIDEBAR */}
+<Route
+  path="/shop/:id"
+  element={
+    <ProtectedRoute>
+      <FullPageLayout />
+    </ProtectedRoute>
+  }
+>
+  <Route index element={<AdminShopProducts />} />
+</Route>
 
 
 

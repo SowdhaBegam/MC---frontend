@@ -181,7 +181,7 @@ const filteredShops = shops.filter((shop) =>
         <td>
           <button
   className="view-btn"
-  onClick={() => navigate(`/admin/shop/${shop.id}`)}
+  onClick={() => navigate(`/shop/${shop.id}`)}
 >
   View
 </button>
