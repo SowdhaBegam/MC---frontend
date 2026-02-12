@@ -46,30 +46,33 @@
          focus:ring-pink-400;
 }
 
-
 /* ============================= */
 /* 🔥 ADD PRODUCT BUTTON */
 /* ============================= */
 
 .new-product-btn {
-  @apply font-semibold
-         px-6 py-2 rounded-full
-         shadow-md transition-all duration-300;
-
-  background: linear-gradient(to right, #ff4d6d, #ff6b9c);
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: 999px;
+  transition: 0.3s ease;
   color: white;
+  border: none;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
 }
 
 .new-product-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(255, 77, 109, 0.4);
+  transform: scale(1.07);
+  box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
 }
 
 
 .products-table {
-  width: 100%;
+  width: 97%;
   border-collapse: collapse;
   margin-top: 20px;
+  margin-left: 20px;
 }
 
 .products-table th,
@@ -83,6 +86,7 @@
   background-color: #1f3b64;
   color: white;
 }
+
 
 .edit-btn {
   background: #4caf50;
@@ -99,4 +103,181 @@
   padding: 5px 10px;
   border: none;
   border-radius: 6px;
+}
+/* Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+  height: 22px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #1D3A68;
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Common Icon Button Style */
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+
+/* Edit Button */
+.edit-icon {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+}
+
+.edit-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 15px rgba(34, 197, 94, 0.4);
+}
+
+/* Delete Button */
+.delete-icon {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+.delete-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 15px rgba(239, 68, 68, 0.4);
+}
+.shop-banner {
+  width: 97%;
+  margin: 0 auto;
+  padding: 10px 35px;
+  border-radius: 10px;
+  height: 100px;
+
+  background: linear-gradient(
+    135deg,
+    #152b4f 0%,
+    #244a7f 35%,
+    #2f5d8f 65%,
+    #152a47 100%
+  );
+
+  box-shadow:
+    0 10px 40px rgba(29, 58, 104, 0.35),
+    inset 0 0 30px rgba(184, 237, 244, 0.08);
+
+  position: relative;
+  overflow: hidden;
+}
+
+.shop-banner::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -30%;
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(184,237,244,0.25), transparent 70%);
+  transform: rotate(25deg);
+}
+
+.shop-banner-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  position: relative;
+  z-index: 1;
+}
+
+.shop-banner-title {
+  font-size: 28px;
+  font-weight: 700;
+    margin-left: 7px;
+}
+
+.shop-banner-subtitle {
+  margin-top: 5px;
+  color: #f9fcfd;
+  text-align: left;
+  margin-left: 7px;
+  font-size: 14px;
+}
+
+.shop-banner-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.shop-search {
+  padding: 10px 18px;
+  border-radius: 30px;
+  border: none;
+  outline: none;
+  background: #d7eaf4;
+  color: #1d3a68;
+}
+
+.shop-new-btn {
+  padding: 10px 22px;
+  border-radius: 30px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(to right, #ff4d6d, #ff6b9c);
+  color: white;
+  transition: 0.3s;
+}
+
+.shop-new-btn:hover {
+  transform: scale(1.05);
+}
+.products-table-section {
+  margin-top: 27px;
+  margin-left: 5px;   /* increase value if you want more space */
 }

@@ -14,7 +14,7 @@ import FullPageLayout from "./layouts/Admin/FullPageLayout";
 import ForgotPass from "./components/ForgotPass";
 import AddProduct from "./components/admin/AddProduct";
 import AdminShopProducts from "./components/admin/AdminShopProducts";
-
+import AdminSettings from "./pages/AdminSettings";
 const DashboardHome = () => <h2 style={{color:"white"}}>Dashboard Overview</h2>;
 const OrdersPage = () => <h2 style={{color:"white"}}>Orders Page</h2>;
 const SettingsPage = () => <h2 style={{color:"white"}}>Settings Page</h2>;
@@ -58,7 +58,7 @@ export default function App() {
   <Route path="shops" element={<AdminDashboard />} />
   <Route path="add-product" element={<AddProduct />} />
   <Route path="orders" element={<OrdersPage />} />
-  <Route path="settings" element={<SettingsPage />} />
+  <Route path="settings" element={<AdminSettings />} />
 </Route>
 
 

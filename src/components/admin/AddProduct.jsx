@@ -181,7 +181,12 @@ const filteredShops = shops.filter((shop) =>
         <td>
           <button
   className="view-btn"
-  onClick={() => navigate(`/shop/${shop.id}`)}
+  onClick={() =>
+  navigate(`/shop/${shop.id}`, {
+    state: { category: shop.business_type }
+  })
+}
+
 >
   View
 </button>
