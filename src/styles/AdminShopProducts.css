@@ -1,0 +1,154 @@
+/* ============================= */
+/* 🔥 MAIN PAGE */
+/* ============================= */
+
+.admin-products-page {
+  @apply p-10 bg-gray-100 min-h-screen;
+}
+
+
+/* ============================= */
+/* 🔥 HEADER SECTION */
+/* ============================= */
+
+.products-header {
+  @apply flex justify-between items-center mb-10;
+}
+
+/* Shop Name */
+.products-title {
+  @apply text-3xl font-bold text-gray-900;
+}
+
+/* Active Listings Text */
+.products-subtitle {
+  @apply text-sm mt-2 font-medium;
+  color: #ff6b35;
+}
+
+
+/* ============================= */
+/* 🔥 RIGHT SIDE ACTIONS */
+/* ============================= */
+
+.products-actions {
+  @apply flex items-center gap-4;
+}
+
+/* Search Input */
+.product-search {
+  @apply px-5 py-2 rounded-full
+         bg-gray-200
+         text-gray-700
+         border border-gray-300
+         focus:outline-none
+         focus:ring-2
+         focus:ring-pink-400;
+}
+
+
+/* ============================= */
+/* 🔥 ADD PRODUCT BUTTON */
+/* ============================= */
+
+.new-product-btn {
+  @apply font-semibold
+         px-6 py-2 rounded-full
+         shadow-md transition-all duration-300;
+
+  background: linear-gradient(to right, #ff4d6d, #ff6b9c);
+  color: white;
+}
+
+.new-product-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(255, 77, 109, 0.4);
+}
+
+
+/* ===================================================== */
+/* 🔥🔥🔥 FOOD CATEGORY SECTION (NEW ADDITION) */
+/* ===================================================== */
+
+.category-section {
+  margin-top: 40px;
+}
+
+.category-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.category-cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+
+/* ============================= */
+/* 🔥 CATEGORY CARD DESIGN */
+/* ============================= */
+
+.category-card {
+  width: 140px;
+  height: 130px;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  /* Soft Premium Gradient */
+  background: linear-gradient(135deg, #ffecd2, #fcb69f);
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s ease;
+}
+
+/* Icon */
+.category-icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+/* Text */
+.category-card span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #444;
+}
+
+
+/* 🔥 Hover Animation */
+.category-card:hover {
+  transform: translateY(-12px) scale(1.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+
+/* 🔥 Shine Effect */
+.category-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.3)
+  );
+  transition: 0.6s;
+}
+
+.category-card:hover::before {
+  left: 100%;
+}

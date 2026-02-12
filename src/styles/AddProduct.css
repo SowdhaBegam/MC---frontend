@@ -1,15 +1,33 @@
-
-/* Page Background */
-.addproduct-page {
-  @apply h-screen bg-gray-100 overflow-hidden;
-}
-
 /* 🔥 Banner Styling */
 .addproduct-banner {
-  @apply max-w-6xl mx-auto mt-8
-         bg-gradient-to-r from-[#0f172a] via-[#111827] to-[#1e293b]
-         shadow-xl py-8 px-12
-         rounded-[40px];
+  @apply mt-6 py-6 shadow-xl rounded-[40px];
+width: 93%;          /* 🔥 control banner width */
+  margin: 24px auto;
+  background: linear-gradient(
+    135deg,
+    #152b4f 0%,     /* deep navy */
+    #244a7f 35%,    /* smooth mid tone */
+    #2f5d8f 65%,    /* soft blend */
+    #152a47 100%    /* dark edge depth */
+  );
+  
+
+  box-shadow:
+    0 10px 40px rgba(29, 58, 104, 0.35),
+    inset 0 0 30px rgba(184, 237, 244, 0.08);
+    position: relative;
+    overflow : hidden;
+}
+.addproduct-banner::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -30%;
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(184,237,244,0.25), transparent 70%);
+  transform: rotate(25deg);
+  pointer-events: none;
 }
 
 
@@ -20,7 +38,7 @@
 
 /* Title */
 .banner-title {
-  @apply text-3xl font-bold text-orange-400 mb-6 tracking-wide
+  @apply text-3xl font-bold text-white mb-6 tracking-wide
          transition-all duration-300;
 }
 
@@ -37,9 +55,10 @@
 /* Search Input */
 .search-input {
   @apply w-full px-5 py-3 rounded-xl 
-         bg-[#1e293b] text-white placeholder-gray-400
-         border border-gray-600
-         focus:outline-none focus:ring-2 focus:ring-orange-400
+         bg-[#D7EAF4] text-white placeholder-gray-400
+         border-[#5891A5]
+         focus:outline-none focus:ring-2 focus:ring-[#5891A5] 
+         text-[#1D3A68]
          transition-all duration-300 ease-in-out;
 }
 
@@ -50,7 +69,7 @@
 
 /* Search Icon */
 .search-icon {
-  @apply absolute right-4 top-3.5 text-orange-400 text-lg
+  @apply absolute right-4 top-3.5 text-[#5891A5] text-lg
          transition-transform duration-300;
 }
 
@@ -78,7 +97,7 @@
 /* ========================= */
 
 .stats-section {
-  @apply max-w-6xl mx-auto mt-10 px-10
+  @apply max-w-6xl mx-auto mt-5 px-9
          grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5
          gap-9;
 }
@@ -86,14 +105,14 @@
 .stat-card {
   @apply bg-white rounded-2xl p-4
          flex items-center gap-5
-         shadow-md border border-gray-200
+         shadow-md border border-[#5891A5]
          transition-all duration-300 ease-in-out;
-         max-width: 190px;
+         max-width: 180px;
 }
 
 .stat-card:hover {
   @apply shadow-xl -translate-y-2;
-  box-shadow: 0 15px 30px rgba(255, 115, 0, 0.15);
+  box-shadow: 0 15px 30px rgba(17, 116, 221, 0.15);
 }
 
 /* Icon Circle */
@@ -125,27 +144,6 @@
   text-shadow: 0 0 15px rgba(239, 68, 68, 0.7);
 }
 
-/* Icon Background Variants */
-.bg-blue {
-  @apply bg-gradient-to-r from-blue-500 to-indigo-500;
-}
-
-.bg-green {
-  @apply bg-gradient-to-r from-green-500 to-emerald-500;
-}
-
-.bg-orange {
-  @apply bg-gradient-to-r from-orange-500 to-red-500;
-}
-
-.bg-purple {
-  @apply bg-gradient-to-r from-purple-500 to-pink-500;
-}
-
-.bg-red {
-  @apply bg-gradient-to-r from-red-500 to-rose-500;
-}
-
 /* Text Styling */
 .stat-label {
   @apply text-sm text-gray-500;
@@ -153,4 +151,149 @@
 
 .stat-number {
   @apply text-xl font-bold text-gray-800;
+}
+/* ========================= */
+/* 🔥 PREVENT PAGE SCROLL */
+/* ========================= */
+.addproduct-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #f3f4f6;
+}
+
+
+/*/* ========================= */
+/* 🔥 TABLE SECTION */
+/* ========================= */
+
+.shop-table-section {
+  @apply w-full px-16 mt-6;   /* moved slightly up (was mt-10) */
+
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+
+  padding-bottom: 30px;   /* 👈 bottom gap after table */
+}
+
+.table-title {
+  @apply text-xl font-semibold text-gray-700 mb-4;  /* slightly tighter spacing */
+}
+
+
+/* ========================= */
+/* 🔥 TABLE WRAPPER */
+/* ========================= */
+
+.table-wrapper {
+  @apply w-full bg-white rounded-2xl shadow-lg border border-gray-200;
+
+  flex: 1;
+  min-height: 0;
+
+  overflow-y: auto;      /* smooth scroll */
+  overflow-x: hidden;
+
+  scrollbar-width: thin;
+  scrollbar-color: #7193b7 #e5e7eb;
+}
+
+
+/* ========================= */
+/* 🔥 TABLE LAYOUT */
+/* ========================= */
+
+.shop-table {
+  @apply w-full text-left border-separate;
+  border-spacing: 0 6px;   /* spacing between rows */
+}
+
+.shop-table thead {
+  @apply bg-gradient-to-r from-[#1D3A68] to-[#142c4d]
+         text-white sticky top-0 z-10;
+}
+
+.shop-table th {
+  @apply px-10 py-4 text-sm font-semibold tracking-wide;
+}
+
+.shop-table td {
+  @apply px-10 py-3 text-gray-700;
+}
+
+.shop-table tbody tr {
+  @apply border-b border-gray-200 transition-all duration-300;
+}
+
+.shop-table tbody tr:hover {
+  @apply bg-[#B8EDF4];
+}
+
+
+/* ========================= */
+/* 🔥 VIEW BUTTON */
+/* ========================= */
+
+.view-btn {
+  @apply px-5 py-2 rounded-xl text-sm font-medium
+         text-white shadow-md
+         transition-all duration-300;
+
+  background: linear-gradient(135deg, #5891A5, #1D3A68);
+}
+
+
+.view-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 10px 25px rgba(29, 58, 104, 0.35);
+  background: linear-gradient(135deg, #6fa9bd, #1D3A68);
+}
+
+
+
+/* ========================= */
+/* 🔥 CUSTOM SCROLLBAR */
+/* ========================= */
+
+.table-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #f97316, #ef4444);
+  border-radius: 10px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #ea580c, #dc2626);
+}
+
+/* ========================= */
+/* 🔥 CUSTOM SCROLLBAR */
+/* ========================= */
+
+.table-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #f97316, #ef4444);
+  border-radius: 10px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #ea580c, #dc2626);
 }
