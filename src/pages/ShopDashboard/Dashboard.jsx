@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import StatCard from "../../components/Shop/StatCard";
 import OrderCard from "../../components/Shop/orderCard";
 import axios from "../../api/axios";
+import "../../styles/Shop/Dashboard.css";
 
 export default function Dashboard() {
   const [orders, setOrders] = useState([]);

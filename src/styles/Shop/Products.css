@@ -178,7 +178,19 @@
   color: #374151;
 }
 
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  width: 100%;
+  align-items: stretch;
+}
 
+
+.stat-card {
+ width:100%;
+ max-width: none;
+}
 
 .status {
   padding: 4px 10px;

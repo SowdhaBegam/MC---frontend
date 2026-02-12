@@ -109,12 +109,7 @@ export default function Products() {
             onChange={(e) => setSearch(e.target.value)}
           />
 
-          <button
-            className="new-product-btn"
-            onClick={() => setOpenModal(true)}
-          >
-            + NEW PRODUCT
-          </button>
+         
         </div>
       </div>
 
