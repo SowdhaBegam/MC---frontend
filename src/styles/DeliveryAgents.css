@@ -1,0 +1,168 @@
+.agents-page {
+  padding: 30px;
+  background: #f4f7fb;
+  min-height: 100vh;
+}
+
+.agents-page h2 {
+  margin-bottom: 20px;
+}
+
+.agent-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #073068;
+}
+/* CARD */
+
+.agent-card {
+  position: relative;
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+}
+
+.agent-card:hover {
+  transform: translateY(-3px);
+}
+
+/* DELETE BUTTON */
+
+.delete-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #ef4444;
+  border: none;
+  color: white;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* DETAILS */
+
+.agent-details p {
+  margin: 6px 0;
+  color: #374151;
+}
+
+.license-link {
+  display: inline-block;
+  margin-top: 8px;
+  color: #6366f1;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* GENERATE BUTTON */
+
+.generate-btn {
+  margin-top: 15px;
+  background: linear-gradient(90deg, #4f46e5, #7c3aed);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* SLIDE PANEL */
+
+.generated-panel {
+  margin-top: 15px;
+  padding: 12px;
+  background: #eef2ff;
+  border-radius: 8px;
+  position: relative;
+
+  animation: slideDown 0.4s ease;
+}
+
+/* EDIT ICON */
+
+.edit-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #3b82f6;
+  border: none;
+  color: white;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ANIMATION */
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* GRID LAYOUT */
+
+.agents-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* Responsive for small screens */
+
+@media (max-width: 900px) {
+  .agents-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* HEADER */
+
+.agent-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* CONTACT ROW */
+
+.agent-contact {
+  margin-top: 6px;
+  display: flex;
+  gap: 10px;
+  color: #4b5563;
+  font-size: 14px;
+}
+
+/* DETAILS ROW */
+
+.agent-info-row {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  font-size: 14px;
+  color: #374151;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.agent-info-row a {
+  color: #6366f1;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.agent-info-row a:hover {
+  text-decoration: underline;
+}

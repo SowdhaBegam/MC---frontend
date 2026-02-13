@@ -9,7 +9,8 @@ const Sidebar = () => {
 
         <NavLink to="/admin/dashboard" className="side-link">📊 Dashboard</NavLink>
         <NavLink to="/admin/shops" className="side-link">🏪 Shops</NavLink>
-        <NavLink to="/admin/add-product" className="side-link">➕ Add Product</NavLink>w
+        <NavLink to="/admin/add-product" className="side-link">➕ Add Product</NavLink>
+        <NavLink to="/admin/delivery-agents" className="side-link">🚚 Delivery Agents</NavLink>
         <NavLink to="/admin/settings" className="side-link">⚙ Settings</NavLink>
       </div>
 

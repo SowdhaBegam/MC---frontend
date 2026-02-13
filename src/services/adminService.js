@@ -9,7 +9,10 @@ export const approveShop = (id) =>
   API.put(`/api/admin/approve/${id}`);
 
 export const declineShop = (id) =>
-  API.put(`/api/admin/decline/${id}`);
+  API.put(`/api/admin/vendors/${id}/decline`);
 
 export const getApprovedShops = () =>
   API.get("/api/admin/vendors/approved");
+
+export const getDeclinedShops = () =>
+  API.get("/api/admin/vendors/declined");

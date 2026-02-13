@@ -6,7 +6,6 @@
   @apply p-10 bg-gray-100 min-h-screen;
 }
 
-
 /* ============================= */
 /* 🔥 HEADER SECTION */
 /* ============================= */
@@ -15,17 +14,14 @@
   @apply flex justify-between items-center mb-10;
 }
 
-/* Shop Name */
 .products-title {
   @apply text-3xl font-bold text-gray-900;
 }
 
-/* Active Listings Text */
 .products-subtitle {
   @apply text-sm mt-2 font-medium;
   color: #ff6b35;
 }
-
 
 /* ============================= */
 /* 🔥 RIGHT SIDE ACTIONS */
@@ -35,7 +31,6 @@
   @apply flex items-center gap-4;
 }
 
-/* Search Input */
 .product-search {
   @apply px-5 py-2 rounded-full
          bg-gray-200
@@ -43,30 +38,39 @@
          border border-gray-300
          focus:outline-none
          focus:ring-2
-         focus:ring-pink-400;
+         focus:ring-blue-400;
 }
 
 /* ============================= */
-/* 🔥 ADD PRODUCT BUTTON */
+/* 🔥 ADD PRODUCT BUTTON (FINAL BLUE VERSION) */
 /* ============================= */
 
-.new-product-btn {
-  font-weight: 600;
-  padding: 10px 24px;
-  border-radius: 999px;
-  transition: 0.3s ease;
-  color: white;
+.shop-new-btn {
+  padding: 10px 22px;
+  border-radius: 30px;
   border: none;
+  font-weight: 600;
   cursor: pointer;
-
-  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  transition: all 0.3s ease;
+  outline: none;
 }
 
-.new-product-btn:hover {
-  transform: scale(1.07);
-  box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
+.shop-new-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
 }
 
+.shop-new-btn:focus,
+.shop-new-btn:active {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  outline: none;
+}
+
+/* ============================= */
+/* 🔥 TABLE STYLING */
+/* ============================= */
 
 .products-table {
   width: 97%;
@@ -87,24 +91,10 @@
   color: white;
 }
 
+/* ============================= */
+/* 🔥 TOGGLE SWITCH */
+/* ============================= */
 
-.edit-btn {
-  background: #4caf50;
-  color: white;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 6px;
-  margin-right: 5px;
-}
-
-.delete-btn {
-  background: #f44336;
-  color: white;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 6px;
-}
-/* Toggle Switch */
 .switch {
   position: relative;
   display: inline-block;
@@ -149,6 +139,11 @@ input:checked + .slider {
 input:checked + .slider:before {
   transform: translateX(22px);
 }
+
+/* ============================= */
+/* 🔥 ACTION BUTTONS */
+/* ============================= */
+
 .action-buttons {
   display: flex;
   gap: 10px;
@@ -156,7 +151,6 @@ input:checked + .slider:before {
   align-items: center;
 }
 
-/* Common Icon Button Style */
 .icon-btn {
   width: 36px;
   height: 36px;
@@ -170,7 +164,6 @@ input:checked + .slider:before {
   transition: all 0.25s ease;
 }
 
-/* Edit Button */
 .edit-icon {
   background: linear-gradient(135deg, #22c55e, #16a34a);
   color: white;
@@ -181,7 +174,6 @@ input:checked + .slider:before {
   box-shadow: 0 6px 15px rgba(34, 197, 94, 0.4);
 }
 
-/* Delete Button */
 .delete-icon {
   background: linear-gradient(135deg, #ef4444, #dc2626);
   color: white;
@@ -191,6 +183,11 @@ input:checked + .slider:before {
   transform: scale(1.1);
   box-shadow: 0 6px 15px rgba(239, 68, 68, 0.4);
 }
+
+/* ============================= */
+/* 🔵 TOP BANNER */
+/* ============================= */
+
 .shop-banner {
   width: 97%;
   margin: 0 auto;
@@ -237,7 +234,7 @@ input:checked + .slider:before {
 .shop-banner-title {
   font-size: 28px;
   font-weight: 700;
-    margin-left: 7px;
+  margin-left: 7px;
 }
 
 .shop-banner-subtitle {
@@ -263,21 +260,9 @@ input:checked + .slider:before {
   color: #1d3a68;
 }
 
-.shop-new-btn {
-  padding: 10px 22px;
-  border-radius: 30px;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-  background: linear-gradient(to right, #ff4d6d, #ff6b9c);
-  color: white;
-  transition: 0.3s;
-}
+/* ============================= */
 
-.shop-new-btn:hover {
-  transform: scale(1.05);
-}
 .products-table-section {
   margin-top: 27px;
-  margin-left: 5px;   /* increase value if you want more space */
+  margin-left: 5px;
 }
