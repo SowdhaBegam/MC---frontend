@@ -17,6 +17,42 @@ export default function Products() {
   useEffect(() => {
     loadProducts();
   }, []);
+const [dummyProducts, setDummyProducts] = useState([
+  {
+    id: 1,
+    name: "Chicken Biriyani",
+    image: "/images/biriyani.jpg",
+    price: 220,
+    final_price: 180,
+    is_live: true,
+  },
+  {
+    id: 2,
+    name: "Kerala Parotta",
+    image: "/images/parotta.jpg",
+    price: 40,
+    final_price: 30,
+    is_live: false,
+  },
+  {
+    id: 3,
+    name: "Masala Dosa",
+    image: "/images/dosa.jpg",
+    price: 120,
+    final_price: 95,
+    is_live: true,
+  },
+]);
+const toggleDummyLive = (id) => {
+  setDummyProducts((prev) =>
+    prev.map((p) =>
+      p.id === id ? { ...p, is_live: !p.is_live } : p
+    )
+  );
+};
+
+
+
 
   const loadProducts = async () => {
     try {
@@ -109,12 +145,7 @@ export default function Products() {
             onChange={(e) => setSearch(e.target.value)}
           />
 
-          <button
-            className="new-product-btn"
-            onClick={() => setOpenModal(true)}
-          >
-            + NEW PRODUCT
-          </button>
+         
         </div>
       </div>
 
@@ -122,60 +153,78 @@ export default function Products() {
       <div className="products-grid-wrapper">
         {/* EMPTY STATE */}
 {products.length === 0 && (
-  <div className="empty-state-pro">
-    <div className="empty-content">
-      <div className="empty-illustration">
-        <svg
-          width="120"
-          height="120"
-          viewBox="0 0 200 200"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            <linearGradient id="boxGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#ff7a18" />
-              <stop offset="100%" stopColor="#ff3d77" />
-            </linearGradient>
-          </defs>
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-8 max-w-5xl">
 
-          {/* Shadow */}
-          <ellipse cx="100" cy="165" rx="55" ry="12" fill="#e5e7eb" />
 
-          {/* Box */}
-          <rect
-            x="45"
-            y="70"
-            width="110"
-            height="70"
-            rx="12"
-            fill="url(#boxGrad)"
+
+    {dummyProducts.map((product) => (
+   <div
+  key={product.id}
+  className={`group relative rounded-2xl overflow-hidden
+  transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl
+  ${product.is_live
+    ? "bg-white shadow-md"
+    : "bg-gray-200 opacity-60 grayscale"}
+  max-w-[350px] w-full
+
+`}
+>
+
+
+        {/* IMAGE */}
+        <div className="h-36 overflow-hidden">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
           />
+        </div>
 
-          {/* Box lid */}
-          <rect
-            x="45"
-            y="55"
-            width="110"
-            height="25"
-            rx="10"
-            fill="#ffb37a"
-          />
+        {/* BODY */}
+        <div className="p-4">
 
-          {/* Lines */}
-          <line x1="70" y1="95" x2="130" y2="95" stroke="white" strokeWidth="4" strokeLinecap="round"/>
-          <line x1="70" y1="110" x2="120" y2="110" stroke="white" strokeWidth="4" strokeLinecap="round"/>
-        </svg>
+          <h3 className="text-lg font-semibold text-gray-800">
+            {product.name}
+          </h3>
+
+          {/* PRICE */}
+          <div className="flex items-center gap-3 mt-2">
+            <span className="text-gray-400 line-through text-sm">
+              ₹{product.price}
+            </span>
+
+            <span className="px-3 py-1 text-white text-sm font-semibold rounded-full
+              bg-gradient-to-r from-orange-500 to-pink-500 shadow-md">
+              ₹{product.final_price}
+            </span>
+          </div>
+
+          {/* LIVE TOGGLE */}
+          <div className="flex justify-between items-center mt-5">
+            <span className={`text-xs font-semibold
+              ${product.is_live ? "text-green-600" : "text-gray-500"}`}>
+              {product.is_live ? "LIVE" : "NOT LIVE"}
+            </span>
+
+     <button
+  onClick={() => toggleDummyLive(product.id)}
+  className={`relative w-11 h-6 rounded-full transition-colors duration-300
+    ${product.is_live ? "bg-green-500" : "bg-gray-400"}`}
+>
+  <span
+    className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition-transform duration-300
+      ${product.is_live ? "translate-x-5" : ""}`}
+  />
+</button>
+
+          </div>
+
+        </div>
       </div>
+    ))}
 
-      <h2>No Products Yet</h2>
-      <p>
-        Your product catalog is empty. Add items to start selling and manage your inventory.
-      </p>
-    </div>
   </div>
 )}
-
 
 
         {Object.entries(groupBySubCategory(filteredProducts)).map(
@@ -193,6 +242,7 @@ export default function Products() {
   !p.image || p.image === "default-product.png" || p.image === "image.jpg"
     ? "/image.jpg"
     : `${IMAGE_BASE}/uploads/${p.image}`;
+
 
 
                   return (

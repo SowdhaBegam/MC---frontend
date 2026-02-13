@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import StatCard from "../../components/Shop/StatCard";
+
 import OrderCard from "../../components/Shop/orderCard";
 import axios from "../../api/axios";
+import "../../styles/Shop/Dashboard.css";
 
 export default function Dashboard() {
   const [orders, setOrders] = useState([]);
@@ -53,27 +54,97 @@ export default function Dashboard() {
   return (
     <>
       {/* ================= STATS ================= */}
-      <div className="stats-grid">
-        <StatCard
-          title="NEW ORDERS"
-          value={orders.length}
-          icon="📩"
-          bg="bg-blue"
-        />
-        <StatCard
-          title="ORDERS IN PROCESS"
-          value={activeOrders.length}
-          icon="📌"
-          bg="bg-orange"
-        />
+<div className="grid grid-cols-3 gap-6 mb-8">
 
-        <StatCard
-          title="TODAY'S REVENUE"
-          value={`₹${totalRevenue}`}
-          icon="💰"
-          bg="bg-green"
-        />
+  {/* ================= NEW ORDERS ================= */}
+  <div className="group relative overflow-hidden
+    bg-white/70 backdrop-blur-xl
+    rounded-2xl p-6
+    shadow-lg transition-all duration-300
+    hover:-translate-y-2 hover:shadow-2xl">
+
+    <div className="absolute inset-0 rounded-2xl opacity-0
+      group-hover:opacity-100 transition duration-500
+      bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-pink-500/20 blur-xl">
+    </div>
+
+    <div className="relative flex items-center gap-5">
+      <div className="w-14 h-14 rounded-xl flex items-center justify-center
+        text-xl text-white
+        bg-gradient-to-br from-indigo-500 to-purple-600 shadow-md">
+        📩
       </div>
+      <div>
+        <p className="text-xs tracking-wider font-semibold text-gray-500">
+          NEW ORDERS
+        </p>
+        <h3 className="text-2xl font-bold text-gray-800">
+          {orders.length}
+        </h3>
+      </div>
+    </div>
+  </div>
+
+  {/* ================= ORDERS IN PROCESS ================= */}
+  <div className="group relative overflow-hidden
+    bg-white/70 backdrop-blur-xl
+    rounded-2xl p-6
+    shadow-lg transition-all duration-300
+    hover:-translate-y-2 hover:shadow-2xl">
+
+    <div className="absolute inset-0 rounded-2xl opacity-0
+      group-hover:opacity-100 transition duration-500
+      bg-gradient-to-r from-orange-500/20 via-pink-500/20 to-red-500/20 blur-xl">
+    </div>
+
+    <div className="relative flex items-center gap-5">
+      <div className="w-14 h-14 rounded-xl flex items-center justify-center
+        text-xl text-white
+        bg-gradient-to-br from-orange-500 to-pink-500 shadow-md">
+        📌
+      </div>
+      <div>
+        <p className="text-xs tracking-wider font-semibold text-gray-500">
+          ORDERS IN PROCESS
+        </p>
+        <h3 className="text-2xl font-bold text-gray-800">
+          {activeOrders.length}
+        </h3>
+      </div>
+    </div>
+  </div>
+
+  {/* ================= TODAY REVENUE ================= */}
+  <div className="group relative overflow-hidden
+    bg-white/70 backdrop-blur-xl
+    rounded-2xl p-6
+    shadow-lg transition-all duration-300
+    hover:-translate-y-2 hover:shadow-2xl">
+
+    <div className="absolute inset-0 rounded-2xl opacity-0
+      group-hover:opacity-100 transition duration-500
+      bg-gradient-to-r from-emerald-500/20 via-teal-500/20 to-green-500/20 blur-xl">
+    </div>
+
+    <div className="relative flex items-center gap-5">
+      <div className="w-14 h-14 rounded-xl flex items-center justify-center
+        text-xl text-white
+        bg-gradient-to-br from-emerald-500 to-teal-500 shadow-md">
+        💰
+      </div>
+      <div>
+        <p className="text-xs tracking-wider font-semibold text-gray-500">
+          TODAY'S REVENUE
+        </p>
+        <h3 className="text-2xl font-bold text-gray-800">
+          ₹{totalRevenue}
+        </h3>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 
       {/* ================= HEADER ================= */}
       <div className="pipeline-header">
