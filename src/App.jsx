@@ -15,6 +15,8 @@ import ForgotPass from "./components/ForgotPass";
 import AddProduct from "./components/admin/AddProduct";
 import AdminShopProducts from "./components/admin/AdminShopProducts";
 import AdminSettings from "./pages/AdminSettings";
+import Admindb from "./pages/Admindb";
+
 const DashboardHome = () => <h2 style={{color:"white"}}>Dashboard Overview</h2>;
 const OrdersPage = () => <h2 style={{color:"white"}}>Orders Page</h2>;
 const SettingsPage = () => <h2 style={{color:"white"}}>Settings Page</h2>;
@@ -54,7 +56,7 @@ export default function App() {
     </ProtectedRoute>
   }
 >
-  <Route path="dashboard" element={<DashboardHome />} />
+  <Route path="dashboard" element={<Admindb />} />
   <Route path="shops" element={<AdminDashboard />} />
   <Route path="add-product" element={<AddProduct />} />
   <Route path="orders" element={<OrdersPage />} />

@@ -1,0 +1,257 @@
+/* BASE */
+.admin-dashboard {
+  padding: 28px 32px;
+  background: #f4f7fb;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+  color: #1e293b;
+}
+
+/* HEADER */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.dashboard-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.dashboard-header p {
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* KPI GRID */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+/* KPI CARD — visible like second image */
+.kpi-card {
+  background: #dbeafe;
+  padding: 16px 18px;
+  border-radius: 12px;
+  height: 88px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+  transition: 0.2s;
+}
+
+.kpi-card:nth-child(2) { background: #c7f9cc; }
+.kpi-card:nth-child(3) { background: #e0f2fe; }
+.kpi-card:nth-child(4) { background: #ede9fe; }
+.kpi-card:nth-child(5) { background: #ffe4e6; }
+
+.kpi-card:hover {
+  transform: translateY(-3px);
+}
+
+/* KPI TEXT */
+.kpi-title {
+  font-size: 13px;
+  color: #475569;
+}
+
+.kpi-value {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.kpi-change {
+  font-size: 12px;
+  margin-top: 2px;
+  color: #16a34a;
+}
+
+/* ===== CHART SECTION IMPROVEMENT ===== */
+
+/* More spacing between graphs */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 26px; /* increased spacing */
+  margin-bottom: 30px;
+}
+
+/* Reduce graph height */
+.chart-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px 18px;
+  height: 210px;   /* reduced from 260 */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: 0.2s;
+}
+
+.chart-card:hover {
+  transform: translateY(-4px);
+}
+
+/* ===== BOTTOM CARDS COLORFUL ===== */
+
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px; /* more spacing */
+}
+
+/* base */
+.card-box {
+  border-radius: 16px;
+  padding: 16px 18px;
+  height: 190px; /* reduced height */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  transition: 0.25s;
+  color: #1e293b;
+}
+
+/* different soft colors per card */
+.card-box:nth-child(1) {
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+}
+
+.card-box:nth-child(2) {
+  background: linear-gradient(135deg, #ecfeff, #cffafe);
+}
+
+.card-box:nth-child(3) {
+  background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+}
+
+.card-box:hover {
+  transform: translateY(-4px);
+}
+
+/* BAR STYLE UPGRADE */
+.bar {
+  height: 7px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 6px;
+  margin-top: 6px;
+}
+
+.bar-fill {
+  height: 7px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+}
+
+/* list spacing */
+.list-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 9px 0;
+  font-size: 13px;
+}
+
+/* GLOBAL TEXT IMPROVEMENT */
+body {
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0.2px;
+}
+
+/* HEADER TEXT */
+.dashboard-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.dashboard-header p {
+  font-size: 14px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* KPI TEXT ARRANGEMENT */
+.kpi-card {
+  line-height: 1.2;
+}
+
+.kpi-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: #475569;
+  margin-bottom: 6px;
+}
+
+.kpi-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.kpi-change {
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 4px;
+  color: #16a34a;
+}
+
+/* CHART CARD TEXT */
+.chart-card h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 12px;
+}
+
+/* BOTTOM CARD TITLES */
+.card-box h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 12px;
+}
+
+/* LIST TEXT (orders / shops) */
+.list-row span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.list-row small {
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* BAR LABEL TEXT */
+.bar-row span {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+/* ORDER STATUS TEXT */
+.status {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 14px;
+}
+
+/* COMPLETED */
+.status.completed {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+/* PENDING */
+.status.pending {
+  background: #fef9c3;
+  color: #ca8a04;
+}
