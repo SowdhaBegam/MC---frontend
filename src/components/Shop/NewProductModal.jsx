@@ -1,11 +1,13 @@
 import { useState,useEffect, useRef} from "react";
 import "../../styles/Shop/newProductModal.css";
-import { addProductAPI, updateProductAPI } from "../../services/productService";
+import { 
+  addShopProduct,
+  updateShopProduct   // ✅ NEW ADDED
+} from "../../services/adminShopProductService";
 import { getCategoriesAPI, getSubCategoriesAPI } from "../../services/productService";
 
+export default function NewProductModal({ open, onClose, onDeploy, product, shopId }) {
 
-
-export default function NewProductModal({ open, onClose, onDeploy, product }) {
   const [imageFile, setImageFile] = useState(null);
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
@@ -18,206 +20,192 @@ export default function NewProductModal({ open, onClose, onDeploy, product }) {
   const [subCategory, setSubCategory] = useState("");
   const [preview, setPreview] = useState(null);
   const [errors, setErrors] = useState({});
-const [openCategory, setOpenCategory] = useState(false);
-const [openSubCategory, setOpenSubCategory] = useState(false);
-const categoryRef = useRef(null);
-const subCategoryRef = useRef(null);
-const [categories, setCategories] = useState([]);
-const [subCategories, setSubCategories] = useState([]);
-
-
+  const [openCategory, setOpenCategory] = useState(false);
+  const [openSubCategory, setOpenSubCategory] = useState(false);
+  const categoryRef = useRef(null);
+  const subCategoryRef = useRef(null);
+  const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
 
   useEffect(() => {
-  if (product) {
-    setName(product.name || "");
-    setDesc(product.description || "");
-    setBase(product.price || "");
-    setRebate(product.final_price || "");
-    setStock(product.stock || 0);
-    setCategory(product.category || "Food");
-    setSubCategory(product.subcategory || "");
-    setType(product.food_type === "NON-VEG" ? "nonveg" : "veg");
+    if (product) {
+      setName(product.name || "");
+      setDesc(product.description || "");
+      setBase(product.price || "");
+      setRebate(product.final_price || "");
+      setStock(product.stock || 0);
+      setCategory(product.category || "Food");
+      setSubCategory(product.subcategory || "");
+      setType(product.food_type === "NON-VEG" ? "nonveg" : "veg");
 
-    if (product.image && product.image !== "image.jpg") {
-  setPreview(`${import.meta.env.VITE_IMAGE_URL}/uploads/${product.image}`);
-} else {
-  setPreview("/image.jpg");
-}
-
-  } else {
-    // 🔥 ADD MODE RESET (this is the only new part)
-    setName("");
-    setDesc("");
-    setBase("");
-    setRebate("");
-    setStock("");
-    setTime("");
-    setCategory("");
-    setSubCategory("");
-    setType("veg");
-    setPreview(null);
-    setErrors({});
-  }
-}, [product]);
-useEffect(() => {
-  const handleClickOutside = (e) => {
-    if (
-      categoryRef.current &&
-      !categoryRef.current.contains(e.target)
-    ) {
-      setOpenCategory(false);
+      if (product.image && product.image !== "image.jpg") {
+        setPreview(`${import.meta.env.VITE_IMAGE_URL}/uploads/${product.image}`);
+      } else {
+        setPreview("/image.jpg");
+      }
+    } else {
+      setName("");
+      setDesc("");
+      setBase("");
+      setRebate("");
+      setStock("");
+      setTime("");
+      setCategory("");
+      setSubCategory("");
+      setType("veg");
+      setPreview(null);
+      setErrors({});
     }
+  }, [product]);
 
-    if (
-      subCategoryRef.current &&
-      !subCategoryRef.current.contains(e.target)
-    ) {
-      setOpenSubCategory(false);
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (categoryRef.current && !categoryRef.current.contains(e.target)) {
+        setOpenCategory(false);
+      }
+      if (subCategoryRef.current && !subCategoryRef.current.contains(e.target)) {
+        setOpenSubCategory(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (open) {
+      loadCategories();
+    }
+  }, [open]);
+
+  const loadCategories = async () => {
+    try {
+      const data = await getCategoriesAPI();
+      setCategories(data);
+    } catch (err) {
+      console.error("Category fetch error", err);
     }
   };
 
-  document.addEventListener("mousedown", handleClickOutside);
-
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, []);
-
-useEffect(() => {
-  if (open) {
-    loadCategories();
-  }
-}, [open]);
-
-const loadCategories = async () => {
-  try {
-    const data = await getCategoriesAPI();
-    setCategories(data);
-  } catch (err) {
-    console.error("Category fetch error", err);
-  }
-};
-
-
-// 🔥 Reset stock if category is Food
-useEffect(() => {
-  if (category === "Food") {
-    setStock("");
-  }
-}, [category]);
-
+  useEffect(() => {
+    if (category === "Food") {
+      setStock("");
+    }
+  }, [category]);
 
   if (!open) return null;
 
-  const finalPrice = base - (rebate || 0);
-  // Map UI category → Backend category
-const backendCategoryMap = {
-  Food: "Food",     // default mapping
-  Grocery: "Grocery",
-  Pharmacy: "Pharmacy",
-  Electronics: "Electronics",
-  Cosmetics: "Cosmetics"
-};
-
-const isEditMode = !!product;
-
-  const deploy = async () => {
-  let newErrors = {};
-
-if (!name.trim()) newErrors.name = "Product name required";
-if (!desc.trim()) newErrors.desc = "Description required";
-if (!category) newErrors.category = "Select category";
-if (!subCategory) newErrors.subCategory = "Select sub-category";
-if (!base) newErrors.base = "Enter MRP";
-if (!rebate) newErrors.rebate = "Enter Selling Price";
-
-if (category === "Food") {
-  if (!time) newErrors.time = "Enter preparation time";
-} else {
-  if (!stock) newErrors.stock = "Enter stock quantity";
-}
-
-if (Object.keys(newErrors).length > 0) {
-  setErrors(newErrors);
-  return;
-}
-
-setErrors({});
-
-  const mrp = parseInt(base, 10);
-  const sp = parseInt(rebate, 10);
-
-  if (isNaN(mrp) || isNaN(sp)) {
-    alert("Enter valid price values");
-    return;
-  }
-
-  if (sp > mrp) {
-    alert("Selling price cannot be greater than MRP");
-    return;
-  }
-
-  const discount = mrp - sp;
-
-  const payload = {
-    name: name,
-    description: desc,
-    price: mrp,
-    final_price: sp,
-    discount: discount,
-    stock: stock || 0,
-    preparing_minutes: time || 0,   // ✅ YOUR backend key
-    food_type: type === "veg" ? "VEG" : "NON-VEG",
-    category: backendCategoryMap[category],
-    subcategory: subCategory || "",
-    is_live: true,
-    image: "image.jpg"
+  const backendCategoryMap = {
+    Food: "Food",
+    Grocery: "Grocery",
+    Pharmacy: "Pharmacy",
+    Electronics: "Electronics",
+    Cosmetics: "Cosmetics"
   };
 
-  try {
-    if (product) {
-  await updateProductAPI(product.id, payload); // EDIT MODE
-} else {
-  await addProductAPI(payload); // ADD MODE
-}
+  const isEditMode = !!product;
 
-    alert(isEditMode ? "✅ Product Updated Successfully!" : "✅ Product Added Successfully!");
-    onDeploy();
-    onClose();
-  } catch (error) {
-    console.error(error);
-    alert("❌ Failed to add product");
-  }
-};
-const categoryIconMap = {
-  Food: "🍔",
-  Grocery: "🛒",
-  Pharmacy: "💊",
-  Electronics: "📱",
-  Cosmetics: "💄",
-};
-const selectedSubIcon =
-  subCategories.find(s => s.name === subCategory)?.icon;
+  const deploy = async () => {
+    let newErrors = {};
 
+    if (!name.trim()) newErrors.name = "Product name required";
+    if (!desc.trim()) newErrors.desc = "Description required";
+    if (!category) newErrors.category = "Select category";
+    if (!subCategory) newErrors.subCategory = "Select sub-category";
+    if (!base) newErrors.base = "Enter MRP";
+    if (!rebate) newErrors.rebate = "Enter Selling Price";
 
-const handleCategorySelect = async (cat) => {
-  setCategory(cat.name);
-  setSubCategory("");
+    if (category === "Food") {
+      if (!time) newErrors.time = "Enter preparation time";
+    } else {
+      if (!stock) newErrors.stock = "Enter stock quantity";
+    }
 
-  try {
-    const subData = await getSubCategoriesAPI(cat.id);
-    setSubCategories(subData);
-  } catch (err) {
-    console.error("Subcategory fetch error", err);
-  }
-};
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
 
+    setErrors({});
+
+    const mrp = parseInt(base, 10);
+    const sp = parseInt(rebate, 10);
+
+    if (isNaN(mrp) || isNaN(sp)) {
+      alert("Enter valid price values");
+      return;
+    }
+
+    if (sp > mrp) {
+      alert("Selling price cannot be greater than MRP");
+      return;
+    }
+
+    const discount = mrp - sp;
+
+    const payload = {
+      name: name,
+      description: desc,
+      price: mrp,
+      final_price: sp,
+      discount: discount,
+      stock: stock || 0,
+      preparing_minutes: time || 0,
+      food_type: type === "veg" ? "VEG" : "NON-VEG",
+      category: backendCategoryMap[category],
+      subcategory: subCategory || "",
+      is_live: true,
+      image: "image.jpg"
+    };
+
+    try {
+
+      // ✅ NEW ADDED UPDATE SUPPORT
+      if (product) {
+        await updateShopProduct(product.id, payload);
+      } else {
+        await addShopProduct(shopId, payload);
+      }
+
+      alert(isEditMode ? "✅ Product Updated Successfully!" : "✅ Product Added Successfully!");
+      onDeploy();
+      onClose();
+
+    } catch (error) {
+      console.error(error);
+      alert("❌ Failed to process product");
+    }
+  };
+
+  const categoryIconMap = {
+    Food: "🍔",
+    Grocery: "🛒",
+    Pharmacy: "💊",
+    Electronics: "📱",
+    Cosmetics: "💄",
+  };
+
+  const selectedSubIcon =
+    subCategories.find(s => s.name === subCategory)?.icon;
+
+  const handleCategorySelect = async (cat) => {
+    setCategory(cat.name);
+    setSubCategory("");
+
+    try {
+      const subData = await getSubCategoriesAPI(cat.id);
+      setSubCategories(subData);
+    } catch (err) {
+      console.error("Subcategory fetch error", err);
+    }
+  };
 
   return (
     <div className="big-modal-overlay">
       <div className="big-modal-card">
 
-        {/* HEADER */}
         <div className="big-header">
           <h2>{product ? "Edit Product Details" : "Add New Product"}</h2>
           <button onClick={onClose}>✕</button>
