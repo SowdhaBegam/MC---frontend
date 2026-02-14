@@ -19,6 +19,7 @@ const AdminShopProducts = () => {
   const [openModal, setOpenModal] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
   const [shopCategory, setShopCategory] = useState("");
+  const [shopCategoryId, setShopCategoryId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
 
@@ -44,6 +45,8 @@ useEffect(() => {
         ? shopData.category.charAt(0).toUpperCase() + shopData.category.slice(1).toLowerCase()
         : "";
       setShopCategory(formattedCategory);
+      setShopCategoryId(shopData.category_id);
+
  
 
     } catch (error) {
@@ -281,7 +284,7 @@ const handleToggle = async (productId) => {
         </div>
       )}
 
-     <NewProductModal
+   <NewProductModal
   open={openModal}
   onClose={() => {
     setOpenModal(false);
@@ -290,7 +293,8 @@ const handleToggle = async (productId) => {
   onDeploy={handleDeploy}
   product={editProduct}
   shopId={id}
-  shopCategory={shopCategory}   // ⭐ ADD THIS
+  shopCategory={shopCategory}
+  shopCategoryId={shopCategoryId}   // 🔥 ADD THIS
 />
 
 
