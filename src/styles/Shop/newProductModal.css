@@ -38,7 +38,7 @@
 
 /* ===== HEADER ===== */
 .big-header {
-  background: linear-gradient(90deg,#ff7a18,#ff3d6a);
+  background: linear-gradient(90deg,#36b1de,#468ac5);
   padding: 16px 24px;
   display: flex;
   justify-content: space-between;
@@ -89,8 +89,8 @@
 }
 
 .upload-box:hover {
-  border-color: #ff3d6a;
-  color: #ff3d6a;
+  border-color: #36b1de;
+  color: #36b1de;
 }
 
 /* FORM */
@@ -119,8 +119,8 @@
 
 .form-section input:focus,
 .form-section textarea:focus {
-  border-color: #ff3d6a;
-  box-shadow: 0 0 0 3px rgba(255,61,106,0.15);
+  border-color: #36b1de;
+  box-shadow: 0 0 0 3px rgba(54,177,222,0.15);
   outline: none;
 }
 
@@ -132,7 +132,7 @@
 
 /* FINAL PRICE */
 .final-price {
-  background: linear-gradient(90deg,#ff7a18,#ff3d6a);
+  background: linear-gradient(90deg,#36b1de,#468ac5);
   color: white;
   font-weight: 600;
   text-align: center;
@@ -157,7 +157,7 @@
 
 
 .toggle .active {
-  background: linear-gradient(90deg,#ff7a18,#ff3d6a);
+  background: linear-gradient(90deg,#36b1de,#468ac5);
   color: white;
 }
 
@@ -183,7 +183,7 @@
   border: none;
   padding: 12px;
   border-radius: 14px;
-  background: linear-gradient(90deg,#ff7a18,#ff3d6a);
+  background: linear-gradient(90deg,#36b1de,#468ac5);
   color: white;
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -214,8 +214,8 @@
 
 /* Remove default blue focus */
 .category:focus {
-  border-color: #ff3d6a;
-  box-shadow: 0 0 0 3px rgba(255,61,106,0.15);
+  border-color: #468ac5;
+  box-shadow: 0 0 0 3px rgba(54,177,222,0.15);
   outline: none;
 }
 
@@ -246,7 +246,7 @@
 
 .upload-icon {
   font-size: 28px;
-  color: #ff3d6a;
+  color: #468ac5;
 }
 
 .upload-subtext {
@@ -321,8 +321,8 @@
 
 /* Focus */
 .category:focus {
-  border-color: #ff3d6a;
-  box-shadow: 0 0 0 3px rgba(255,61,106,0.15);
+  border-color: #36b1de;
+  box-shadow: 0 0 0 3px rgba(54,177,222,0.15);
   outline: none;
 }
 
@@ -352,7 +352,7 @@
 
 /* selected option */
 #new-product-modal select.category option:checked {
-  background-color: #ff7a18;
+  background-color: #36b1de;
   color: #ffffff;
 }
 /* ===================================== */
@@ -375,8 +375,8 @@
 }
 
 .food-input:focus {
-  border-color: #ff3d6a;
-  box-shadow: 0 0 0 3px rgba(255,61,106,0.15);
+  border-color: #36b1de;
+  box-shadow: 0 0 0 3px rgba(54,177,222,0.15);
   outline: none;
 }
 .form-section h4 {
@@ -399,7 +399,7 @@
 }
 
 .dropdown-btn:hover {
-  border-color: #ff3d6a;
+  border-color: #36b1de;
 }
 .dropdown-btn.disabled {
   opacity: 0.5;
@@ -445,7 +445,7 @@
 }
 
 .dropdown-menu li:hover {
-  background: linear-gradient(90deg,#ff7a18,#ff3d6a);
+  background: linear-gradient(90deg,#36b1de,#468ac5);
   color: white;
 }
 
@@ -459,7 +459,7 @@
   justify-content: center;
 
   border-radius: 50%;
-  background: #ef4444;
+  background: #36b1de;
   color: #ffffff;
 
   font-size: 11px;
@@ -490,8 +490,8 @@ textarea + .error-text {
 
 /* focus effect */
 .big-modal-card select.category:focus {
-  border-color: #ff3d6a;
-  box-shadow: 0 0 0 3px rgba(255,61,106,0.15);
+  border-color: #468ac5;
+  box-shadow: 0 0 0 3px rgba(54,177,222,0.15);
   outline: none;
 }
 
@@ -521,8 +521,8 @@ textarea + .error-text {
 
 /* input error state */
 .has-error {
-  border-color: #ef4444 !important;
-  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.12);
+  border-color: #468ac5 !important;
+  box-shadow: 0 0 0 2px rgba(54,177,222,0.12);
 }
 
 /* error text */
@@ -547,7 +547,7 @@ line-height: 1.2;
   justify-content: center;
 
   border-radius: 50%;
-  background: #ef4444;
+  background: #36b1de;
   color: white;
 
   font-size: 10px;
