@@ -18,6 +18,8 @@ const AdminShopProducts = () => {
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
+  const [shopCategory, setShopCategory] = useState("");
+
 
   // 🔥 DELETE MODAL STATES
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -37,6 +39,12 @@ useEffect(() => {
       // 🔥 2. Fetch shop details
       const shopData = await getSingleShop(id);
       setShopName(shopData.shop_name);
+      const formattedCategory =
+  shopData.category?.charAt(0).toUpperCase() +
+  shopData.category?.slice(1).toLowerCase();
+
+setShopCategory(formattedCategory);
+ 
 
     } catch (error) {
       console.error("Failed to fetch data 👉", error);
@@ -164,7 +172,15 @@ const handleToggle = async (productId) => {
               <th>Subcategory</th>
               <th>Final Price</th>
               <th>Price</th>
-              <th>Stock</th>
+              {products.some(p => p.category === "Food") ? (
+  <>
+    <th>Prep Time</th>
+    <th>Food Type</th>
+  </>
+) : (
+  <th>Stock</th>
+)}
+
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -179,7 +195,15 @@ const handleToggle = async (productId) => {
                 <td>{product.subcategory || "-"}</td>
                 <td>₹ {product.final_price}</td>
                 <td>₹ {product.price}</td>
-                <td>{product.stock}</td>
+                {product.category === "Food" ? (
+  <>
+    <td>{product.prep_time || "-"}</td>
+    <td>{product.food_type || "-"}</td>
+  </>
+) : (
+  <td>{product.stock}</td>
+)}
+
 
                 <td>
                   <label className="switch">
@@ -195,7 +219,7 @@ const handleToggle = async (productId) => {
 
                 <td className="action-buttons">
                   <button
-                    className="icon-btn edit-icon"
+                    className="table-edit-btn"
                     onClick={() => handleEdit(product)}
                   >
                     ✏️
@@ -252,16 +276,18 @@ const handleToggle = async (productId) => {
         </div>
       )}
 
-      <NewProductModal
-        open={openModal}
-        onClose={() => {
-          setOpenModal(false);
-          setEditProduct(null);
-        }}
-        onDeploy={handleDeploy}
-        product={editProduct}
-        shopId={id}
-      />
+     <NewProductModal
+  open={openModal}
+  onClose={() => {
+    setOpenModal(false);
+    setEditProduct(null);
+  }}
+  onDeploy={handleDeploy}
+  product={editProduct}
+  shopId={id}
+  shopCategory={shopCategory}   // ⭐ ADD THIS
+/>
+
 
     </div>
   );

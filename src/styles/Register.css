@@ -441,7 +441,7 @@ select option {
 }
 
 
-.error {
+.reg-error {
   color: #ef4444;
   font-size: 12px;
   padding-left: 28px;
@@ -450,7 +450,7 @@ select option {
   top: 8px;
 }
 
-.error::before {
+.reg-error::before {
   content: "!";
   position: absolute;
   left: 5px;

@@ -6,7 +6,7 @@ import {
 } from "../../services/adminShopProductService";
 import { getCategoriesAPI, getSubCategoriesAPI } from "../../services/productService";
 
-export default function NewProductModal({ open, onClose, onDeploy, product, shopId }) {
+export default function NewProductModal({ open, onClose, onDeploy, product, shopId,shopCategory }) {
 
   const [imageFile, setImageFile] = useState(null);
   const [name, setName] = useState("");
@@ -44,19 +44,23 @@ export default function NewProductModal({ open, onClose, onDeploy, product, shop
         setPreview("/image.jpg");
       }
     } else {
-      setName("");
-      setDesc("");
-      setBase("");
-      setRebate("");
-      setStock("");
-      setTime("");
-      setCategory("");
-      setSubCategory("");
-      setType("veg");
-      setPreview(null);
-      setErrors({});
-    }
-  }, [product]);
+  setName("");
+  setDesc("");
+  setBase("");
+  setRebate("");
+  setStock("");
+  setTime("");
+
+  // ⭐ USE shopCategory for ADD MODE
+
+
+  setSubCategory("");
+  setType("veg");
+  setPreview(null);
+  setErrors({});
+}
+
+}, [product, shopCategory]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -74,11 +78,19 @@ export default function NewProductModal({ open, onClose, onDeploy, product, shop
     };
   }, []);
 
+
   useEffect(() => {
     if (open) {
       loadCategories();
     }
   }, [open]);
+  // ⭐ STEP-2: Force category from shop when modal opens
+useEffect(() => {
+  if (!product && open) {
+    setCategory(shopCategory || "");
+  }
+}, [open, product, shopCategory]);
+
 
   const loadCategories = async () => {
     try {
@@ -88,6 +100,24 @@ export default function NewProductModal({ open, onClose, onDeploy, product, shop
       console.error("Category fetch error", err);
     }
   };
+  useEffect(() => {
+  const loadSubs = async () => {
+    if (!category) return;
+
+    const selectedCat = categories.find(c => c.name === category);
+    if (!selectedCat) return;
+
+    try {
+      const subData = await getSubCategoriesAPI(selectedCat.id);
+      setSubCategories(subData);
+    } catch (err) {
+      console.error("Subcategory fetch error", err);
+    }
+  };
+
+  loadSubs();
+}, [category, categories]);
+
 
   useEffect(() => {
     if (category === "Food") {
@@ -241,44 +271,62 @@ export default function NewProductModal({ open, onClose, onDeploy, product, shop
           {/* RIGHT FORM */}
           <div className="form-section">
             <div className="row two-col">
-  
-<div className="field relative" ref={categoryRef}>
-  <h4>PRODUCT CATEGORY *</h4>
+{/* 🔥 CATEGORY FIELD */}
 
-  <div
-    className="dropdown-btn"
-    onClick={() => setOpenCategory(!openCategory)}
-  >
-    {category ? (
-  <span>
-    {categoryIconMap[category]} &nbsp;{category}
-  </span>
-) : (
-  <span className="placeholder">Select a Category</span>
-)}
+{!shopCategory ? (
 
-    <span className="arrow">▾</span>
+  /* 👉 Show dropdown ONLY if category not fixed */
+  <div className="field relative" ref={categoryRef}>
+    <h4>PRODUCT CATEGORY *</h4>
+
+    <div
+      className="dropdown-btn"
+      onClick={() => setOpenCategory(!openCategory)}
+    >
+      {category ? (
+        <span>
+          {categoryIconMap[category]} &nbsp;{category}
+        </span>
+      ) : (
+        <span className="placeholder">Select a Category</span>
+      )}
+
+      <span className="arrow">▾</span>
+    </div>
+
+    {openCategory && (
+      <ul className="dropdown-menu dropdown-animate">
+        {categories.map((cat) => (
+          <li
+            key={cat.id}
+            onClick={() => {
+              handleCategorySelect(cat);
+              setOpenCategory(false);
+            }}
+          >
+            {cat.icon || "📦"} &nbsp;{cat.name}
+          </li>
+        ))}
+      </ul>
+    )}
+
+    {errors.category && <p className="error">{errors.category}</p>}
   </div>
 
-  {openCategory && (
-    <ul className="dropdown-menu dropdown-animate">
-      {categories.map((cat) => (
-  <li
-    key={cat.id}
-    onClick={() => {
-      handleCategorySelect(cat);
-      setOpenCategory(false);
-    }}
-  >
-    {cat.icon || "📦"} &nbsp;{cat.name}
-  </li>
-))}
+) : (
 
-    </ul>
-  )}
+  /* 👉 Show fixed category (no dropdown) */
+  <div className="field">
+    <h4>PRODUCT CATEGORY</h4>
 
-  {errors.category && <p className="error">{errors.category}</p>}
-</div> 
+    <div className="dropdown-btn disabled">
+      {categoryIconMap[shopCategory]} &nbsp;{shopCategory}
+    </div>
+
+  </div>
+
+)}
+
 
 <div className="field relative" ref={subCategoryRef}>
   <h4>SUB-CATEGORY *</h4>

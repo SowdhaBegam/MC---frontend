@@ -181,7 +181,7 @@ const dropdownStyle = categoryOpen
                   }
                 />
                 </div>
-                {errors.shopName && <p className="error">{errors.shopName}</p>}
+                {errors.shopName && <p className="reg-error">{errors.shopName}</p>}
 
               
             </div>
@@ -235,7 +235,7 @@ const dropdownStyle = categoryOpen
   )}
 
 
-  {errors.category && <p className="error">{errors.category}</p>}
+  {errors.category && <p className="reg-error">{errors.category}</p>}
 </div>
 
 
@@ -256,7 +256,7 @@ const dropdownStyle = categoryOpen
                 }
               />
               </div>
-              {errors.phone && <p className="error">{errors.phone}</p>}
+              {errors.phone && <p className="reg-error">{errors.phone}</p>}
 
             
           </div>
@@ -293,7 +293,7 @@ const dropdownStyle = categoryOpen
                 }
               />
               </div>
-              {errors.fullName && <p className="error">{errors.fullName}</p>}
+              {errors.fullName && <p className="reg-error">{errors.fullName}</p>}
             
           </div>
 
@@ -310,7 +310,7 @@ const dropdownStyle = categoryOpen
                 }
               />
               </div>
-              {errors.email && <p className="error">{errors.email}</p>}
+              {errors.email && <p className="reg-error">{errors.email}</p>}
             
           </div>
 
@@ -327,7 +327,7 @@ const dropdownStyle = categoryOpen
                 }
               />
               </div>
-              {errors.password && <p className="error">{errors.password}</p>}
+              {errors.password && <p className="reg-error">{errors.password}</p>}
           </div>
 
           <div className="btn-row">
@@ -354,7 +354,7 @@ const dropdownStyle = categoryOpen
                 }
               />
               </div>
-              {errors.address && <p className="error">{errors.address}</p>}
+              {errors.address && <p className="reg-error">{errors.address}</p>}
           </div>
           <div className="field-row">
   <div className="field">
@@ -370,7 +370,7 @@ const dropdownStyle = categoryOpen
         }
       />
     </div>
-    {errors.latitude && <p className="error">{errors.latitude}</p>}
+    {errors.latitude && <p className="reg-error">{errors.latitude}</p>}
   </div>
 
   <div className="field">
@@ -386,7 +386,7 @@ const dropdownStyle = categoryOpen
         }
       />
     </div>
-    {errors.longitude && <p className="error">{errors.longitude}</p>}
+    {errors.longitude && <p className="reg-error">{errors.longitude}</p>}
   </div>
 </div>
 

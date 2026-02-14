@@ -30,11 +30,39 @@
   width: 100%;
   margin-top: 6px;
 }
-.error {
-  color: red;
-  font-size: 12px;
-  margin-top: 4px;
+/* LOGIN ERROR STYLE WITH ICON */
+
+.login-error {
+  color: #ef4444;
+  font-size: 13px;
+  margin-top: 6px;
+  padding-left: 24px;
+  position: relative;
+  font-weight: 500;
 }
+
+/* Red circular icon */
+.login-error::before {
+  content: "!";
+  position: absolute;
+  left: 0;
+  top: 3px;
+
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+
+  background: #ef4444;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
 .forgot-wrap {
   text-align: right;
   margin-top: 6px;

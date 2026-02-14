@@ -114,7 +114,7 @@ export default function Login() {
             }
           />
         </div>
-        {errors.email && <p className="error">{errors.email}</p>}
+        {errors.email && <p className="login-error">{errors.email}</p>}
       </div>
 
       <div className="field">
@@ -132,13 +132,14 @@ export default function Login() {
           
           
         </div>
+        {errors.password && <p className="login-error">{errors.password}</p>}
         <p className="forgot-wrap">
   <span onClick={() => navigate("/forgot-password")} className="forgot-link">
     Forgot Password?
   </span>
 </p>
 
-        {errors.password && <p className="error">{errors.password}</p>}
+        
       </div>
 
       <button className="create-btn login-btn" onClick={handleLogin}>
