@@ -177,7 +177,7 @@ const filteredShops = shops.filter((shop) =>
         <td>{shop.shop_name}</td>
         <td>{shop.email}</td>
         <td>{shop.business_type}</td>
-        <td>--</td>
+        <td>{shop.product_count}</td>
         <td>
           <button
   className="view-btn"
