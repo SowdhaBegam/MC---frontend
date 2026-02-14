@@ -193,21 +193,24 @@ const handleToggle = async (productId) => {
                   </label>
                 </td>
 
-                <td className="action-buttons">
-                  <button
-                    className="icon-btn edit-icon"
-                    onClick={() => handleEdit(product)}
-                  >
-                    ✏️
-                  </button>
+                <td>
+  <div className="action-buttons">
+    <button
+      className="icon-btn edit-icon"
+      onClick={() => handleEdit(product)}
+    >
+      ✏️
+    </button>
 
-                  <button
-                    className="icon-btn delete-icon"
-                    onClick={() => handleDelete(product.id)}
-                  >
-                    🗑️
-                  </button>
-                </td>
+    <button
+      className="icon-btn delete-icon"
+      onClick={() => handleDelete(product.id)}
+    >
+      🗑️
+    </button>
+  </div>
+</td>
+
 
               </tr>
             ))}
