@@ -19,6 +19,7 @@ const AdminShopProducts = () => {
   const [openModal, setOpenModal] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
   const [shopCategory, setShopCategory] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
 
   // 🔥 DELETE MODAL STATES
@@ -39,11 +40,10 @@ useEffect(() => {
       // 🔥 2. Fetch shop details
       const shopData = await getSingleShop(id);
       setShopName(shopData.shop_name);
-      const formattedCategory =
-  shopData.category?.charAt(0).toUpperCase() +
-  shopData.category?.slice(1).toLowerCase();
-
-setShopCategory(formattedCategory);
+      const formattedCategory = shopData.category
+        ? shopData.category.charAt(0).toUpperCase() + shopData.category.slice(1).toLowerCase()
+        : "";
+      setShopCategory(formattedCategory);
  
 
     } catch (error) {
@@ -147,6 +147,8 @@ const handleToggle = async (productId) => {
               type="text"
               placeholder="Search by product"
               className="shop-search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
 
             <button
@@ -187,7 +189,11 @@ const handleToggle = async (productId) => {
           </thead>
 
           <tbody>
-            {products.map((product, index) => (
+            {products
+              .filter(product =>
+                product.name.toLowerCase().includes(searchQuery.toLowerCase())
+              )
+              .map((product, index) => (
               <tr key={product.id}>
                 <td>{index + 1}</td>
                 <td>{product.name}</td>
@@ -210,29 +216,28 @@ const handleToggle = async (productId) => {
                     <input
                       type="checkbox"
                       checked={product.is_live}
-                    onChange={() => handleToggle(product.id)}
-  
+                      onChange={() => handleToggle(product.id)}
                     />
                     <span className="slider"></span>
                   </label>
                 </td>
 
-                <td className="action-buttons">
-                  <button
-                    className="table-edit-btn"
-                    onClick={() => handleEdit(product)}
-                  >
-                    ✏️
-                  </button>
-
-                  <button
-                    className="icon-btn delete-icon"
-                    onClick={() => handleDelete(product.id)}
-                  >
-                    🗑️
-                  </button>
+                <td>
+                  <div className="action-buttons">
+                    <button
+                      className="table-edit-btn"
+                      onClick={() => handleEdit(product)}
+                    >
+                      ✏️
+                    </button>
+                    <button
+                      className="icon-btn delete-icon"
+                      onClick={() => handleDelete(product.id)}
+                    >
+                      🗑️
+                    </button>
+                  </div>
                 </td>
-
               </tr>
             ))}
           </tbody>

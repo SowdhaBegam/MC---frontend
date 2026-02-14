@@ -87,6 +87,11 @@ export default function Navbar() {
 
         {/* RIGHT */}
         <div className="flex items-center gap-5">
+          {/* ✅ WELCOME TEXT ADDED HERE */}
+<span className="text-lg font-semibold bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+
+    Welcome {profileData?.owner_name || "User"}
+  </span>
 
           {/* STATUS TOGGLE */}
           <div className="flex items-center gap-3 text-xs w-[150px] justify-end">
