@@ -24,13 +24,22 @@ const DeliveryAgents = () => {
 
   // 🔹 FETCH FUNCTION (Moved ABOVE useEffect — only change)
   const fetchAgents = async () => {
-    try {
-      const data = await getDeliveryAgents();
-      setAgents(data);
-    } catch (error) {
-      console.error("Error fetching agents:", error);
-    }
-  };
+  try {
+    const res = await getDeliveryAgents();
+
+    console.log("API RESPONSE:", res);
+
+    // Handle all possible API formats
+    const data = res?.data || res?.agents || res || [];
+
+    setAgents(Array.isArray(data) ? data : []);
+
+  } catch (error) {
+    console.error("Error fetching agents:", error);
+    setAgents([]);
+  }
+};
+
 
   // 🔹 EFFECT
   useEffect(() => {

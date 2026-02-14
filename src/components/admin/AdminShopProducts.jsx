@@ -203,7 +203,7 @@ const handleToggle = async (productId) => {
                 <td>₹ {product.price}</td>
                 {product.category === "Food" ? (
   <>
-    <td>{product.prep_time || "-"}</td>
+    <td>{product.preparing_minutes || "-"}</td>
     <td>{product.food_type || "-"}</td>
   </>
 ) : (
