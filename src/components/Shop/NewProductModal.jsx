@@ -6,7 +6,7 @@ import {
 } from "../../services/adminShopProductService";
 import { getCategoriesAPI, getSubCategoriesAPI } from "../../services/productService";
 
-export default function NewProductModal({ open, onClose, onDeploy, product, shopId,shopCategory }) {
+export default function NewProductModal({ open, onClose, onDeploy, product, shopId,shopCategory,shopCategoryId }) {
 
   const [imageFile, setImageFile] = useState(null);
   const [name, setName] = useState("");
@@ -78,45 +78,32 @@ export default function NewProductModal({ open, onClose, onDeploy, product, shop
     };
   }, []);
 
-
-  useEffect(() => {
-    if (open) {
-      loadCategories();
-    }
-  }, [open]);
   // ⭐ STEP-2: Force category from shop when modal opens
 useEffect(() => {
-  if (!product && open) {
-    setCategory(shopCategory || "");
+  if (open && shopCategory && !product) {
+    setCategory(shopCategory);
+    setSubCategory("");
   }
-}, [open, product, shopCategory]);
+}, [open, shopCategory, product]);
 
-
-  const loadCategories = async () => {
-    try {
-      const data = await getCategoriesAPI();
-      setCategories(data);
-    } catch (err) {
-      console.error("Category fetch error", err);
-    }
-  };
+  
   useEffect(() => {
   const loadSubs = async () => {
-    if (!category) return;
-
-    const selectedCat = categories.find(c => c.name === category);
-    if (!selectedCat) return;
+    if (!shopCategoryId) return;
 
     try {
-      const subData = await getSubCategoriesAPI(selectedCat.id);
+      const subData = await getSubCategoriesAPI(shopCategoryId);
       setSubCategories(subData);
     } catch (err) {
       console.error("Subcategory fetch error", err);
     }
   };
 
-  loadSubs();
-}, [category, categories]);
+  if (open) {
+    loadSubs();
+  }
+}, [shopCategoryId, open]);
+
 
 
   useEffect(() => {
@@ -142,7 +129,6 @@ useEffect(() => {
 
     if (!name.trim()) newErrors.name = "Product name required";
     if (!desc.trim()) newErrors.desc = "Description required";
-    if (!category) newErrors.category = "Select category";
     if (!subCategory) newErrors.subCategory = "Select sub-category";
     if (!base) newErrors.base = "Enter MRP";
     if (!rebate) newErrors.rebate = "Enter Selling Price";
