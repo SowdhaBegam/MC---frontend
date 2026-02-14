@@ -257,7 +257,7 @@
   height: 50px;
   font-size: 15px;
   border-radius: 16px;
-  box-shadow: 0 12px 30px rgba(255,61,106,0.4);
+  box-shadow: 0 12px 30px rgba(37,99,235,0.35);
 }
 .image-section {
   margin-top: -10px;
@@ -533,7 +533,7 @@ textarea + .error-text {
 line-height: 1.2;
   font-size: 12px;
   font-weight: 500;
-  color: #ef4444;
+  color: #468ac5;
 }
 
 /* error icon */
@@ -567,7 +567,7 @@ line-height: 1.2;
 }
 
 .dropdown-menu::-webkit-scrollbar-thumb {
-  background: #ff7a7a;
+  background: #1d7ce2;
   border-radius: 10px;
 }
 
