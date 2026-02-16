@@ -1,9 +1,11 @@
-import api from "../api/axios"; // your axios instance
+import api from "../api/axios";
 
 // 🔹 GET All Delivery Agents
 export const getDeliveryAgents = async () => {
   const response = await api.get("/api/admin/deliveries");
-  return response.data;
+
+  // RETURN ONLY ARRAY
+  return response.data.data;
 };
 
 // 🔹 DELETE Delivery Agent
