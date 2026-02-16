@@ -6,6 +6,7 @@ import {
   deleteDeliveryAgent
 } from "../services/deliveryAgentService";
 import { FaSearch } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 
 const DeliveryAgents = () => {
@@ -15,6 +16,7 @@ const DeliveryAgents = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [deleteAgentId, setDeleteAgentId] = useState(null);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [editingCreds, setEditingCreds] = useState(null);
   const [credData, setCredData] = useState({
@@ -66,6 +68,15 @@ const DeliveryAgents = () => {
       )
     );
   };
+  const generatePassword = () => {
+  const newPass = Math.random().toString(36).slice(-8);
+
+  setCredData(prev => ({
+    ...prev,
+    password: newPass
+  }));
+};
+
 
   const handleDelete = async () => {
     try {
@@ -107,7 +118,6 @@ const DeliveryAgents = () => {
         agent.id === editingCreds.id
           ? {
               ...agent,
-              uniqueId: credData.uniqueId,
               password: credData.password,
             }
           : agent
@@ -225,23 +235,40 @@ const DeliveryAgents = () => {
         <div className="modal-overlay">
           <div className="modal">
 
-            <h3 className="modal-title">Edit Credentials</h3>
-
-            <label>Unique ID</label>
-            <input
-              name="uniqueId"
-              value={credData.uniqueId}
-              onChange={handleCredChange}
-              placeholder="Unique ID"
-            />
+            <h3 className="modal-title">Edit Password</h3>
 
             <label>Password</label>
-            <input
-              name="password"
-              value={credData.password}
-              onChange={handleCredChange}
-              placeholder="Password"
-            />
+
+<div className="password-field">
+
+  <input
+    type={showPassword ? "text" : "password"}
+    name="password"
+    value={credData.password}
+    onChange={handleCredChange}
+    placeholder="Enter new password"
+  />
+
+  {/* 👁️ Show / Hide Icon */}
+  <button
+    type="button"
+    className="eye-btn"
+    onClick={() => setShowPassword(!showPassword)}
+  >
+    {showPassword ? <FaEyeSlash /> : <FaEye />}
+  </button>
+
+</div>
+
+{/* 🔑 Generate Password Button */}
+<button
+  className="generate-pass-btn"
+  onClick={generatePassword}
+>
+  🔐 Generate New Password
+</button>
+
+
 
             <div className="modal-actions">
               <button

@@ -415,3 +415,31 @@ input:checked + .slider:before {
     opacity: 1;
   }
 }
+.shop-table th:first-child,
+.shop-table td:first-child {
+  width: 70px;
+  text-align: center;
+}
+.table-scroll {
+  max-height: 510px;   /* Adjust as needed */
+  overflow-y: auto;
+  border-radius: 12px;
+}
+.shop-table thead th {
+  position: sticky;
+  top: 0;
+  background: #243e6b;   /* same as header color */
+  z-index: 2;
+}
+.admin-dashboard-page {
+  height: 100vh;
+  overflow: hidden;
+}
+.table-scroll {
+  border: none;              /* ❌ remove outline */
+  border-radius: 14px;
+  background: #ffffff;
+
+  /* ⭐ Bottom soft blue shadow */
+  box-shadow: 0 12px 24px rgba(76, 124, 255, 0.25);
+}

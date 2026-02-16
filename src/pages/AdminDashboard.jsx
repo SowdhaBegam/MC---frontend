@@ -22,7 +22,14 @@ const AdminDashboard = () => {
   const loadPendingShops = async () => {
     try {
       const res = await getPendingShops(token);
-      setShops(res.data.pending_vendors || []);
+      const data = res.data.pending_vendors || [];
+
+data.sort(
+  (a, b) => new Date(b.created_at) - new Date(a.created_at)
+);
+
+setShops(data);
+
     } catch (err) {
       console.error("Error loading shops:", err);
     }
@@ -31,7 +38,14 @@ const AdminDashboard = () => {
   const loadApprovedShops = async () => {
     try {
       const res = await getApprovedShops(token);
-      setApprovedShops(res.data.data || []);
+      const data = res.data.data || [];
+
+data.sort(
+  (a, b) => new Date(b.created_at) - new Date(a.created_at)
+);
+
+setApprovedShops(data);
+
     } catch (err) {
       console.error("Error loading approved shops:", err);
     }
@@ -39,7 +53,7 @@ const AdminDashboard = () => {
 
   const handleApprove = async (id) => {
     await approveShop(id, token);
-    alert("Shop Approved!");
+    alert("✅Shop Approved!");
     loadPendingShops();
     loadApprovedShops();
   };
@@ -48,7 +62,7 @@ const AdminDashboard = () => {
   try {
     await declineShop(id, token);
 
-    alert("Shop Declined!");
+    alert("❌Shop Declined!");
 
     // Remove from pending list
     const declinedShop = shops.find((s) => s.id === id);
@@ -65,7 +79,14 @@ const AdminDashboard = () => {
 const loadDeclinedShops = async () => {
   try {
     const res = await getDeclinedShops();
-    setDeclinedShops(res.data.data || []);
+    const data = res.data.data || [];
+
+data.sort(
+  (a, b) => new Date(b.created_at) - new Date(a.created_at)
+);
+
+setDeclinedShops(data);
+
   } catch (err) {
     console.error("Error loading declined shops:", err);
   }
@@ -130,11 +151,12 @@ const filterShops = (shopsArray) => {
   shops.length === 0 ? (
     <p className="no-data">No shops waiting for approval.</p>
   ) : (
+<div className="table-scroll">
   <table className="shop-table">
 
     <thead>
       <tr>
-        <th>ID</th>
+        <th>S.No</th>
         <th>Shop Name</th>
         <th>Owner</th>
         <th>Email</th>
@@ -146,11 +168,10 @@ const filterShops = (shopsArray) => {
     </thead>
 
     <tbody>
-      {filterShops(shops).map((shop) => (
+      {filterShops(shops).map((shop, index) => (
         <tr key={shop.id}>
 
-          <td>{shop.id}</td>
-
+          <td>{index + 1}</td>
           <td className="shop-name">
             {shop.shop_name}
           </td>
@@ -190,6 +211,7 @@ const filterShops = (shopsArray) => {
     </tbody>
 
   </table>
+  </div>
   )
 )}
       
@@ -201,11 +223,12 @@ const filterShops = (shopsArray) => {
   approvedShops.length === 0 ? (
     <p className="no-data">No approved shops yet.</p>
   ) : (
+    <div className="table-scroll">
     <table className="shop-table">
 
       <thead>
         <tr>
-          <th>ID</th>
+          <th>S.No</th>
           <th>Shop Name</th>
           <th>Owner</th>
           <th>Email</th>
@@ -216,11 +239,10 @@ const filterShops = (shopsArray) => {
       </thead>
 
       <tbody>
-        {filterShops(approvedShops).map((shop) => (
+        {filterShops(approvedShops).map((shop, index) => (
           <tr key={shop.id}>
 
-            <td>{shop.id}</td>
-
+            <td>{index + 1}</td>
             <td className="shop-name">
               {shop.shop_name}
             </td>
@@ -242,6 +264,7 @@ const filterShops = (shopsArray) => {
       </tbody>
 
     </table>
+    </div>
   )
 )}
 
@@ -252,10 +275,11 @@ const filterShops = (shopsArray) => {
   declinedShops.length === 0 ? (
     <p className="no-data">No declined shops.</p>
   ) : (
+    <div className="table-scroll">
     <table className="shop-table">
       <thead>
         <tr>
-          <th>ID</th>
+          <th>S.No</th>
           <th>Shop Name</th>
           <th>Owner</th>
           <th>Email</th>
@@ -266,9 +290,9 @@ const filterShops = (shopsArray) => {
       </thead>
 
       <tbody>
-        {filterShops(declinedShops).map((shop) => (
+        {filterShops(declinedShops).map((shop, index) => (
           <tr key={shop.id}>
-            <td>{shop.id}</td>
+            <td>{index + 1}</td>
             <td className="shop-name">{shop.shop_name}</td>
             <td>{shop.owner_name}</td>
             <td>{shop.email}</td>
@@ -279,6 +303,7 @@ const filterShops = (shopsArray) => {
         ))}
       </tbody>
     </table>
+    </div>
   )
 )}
 
