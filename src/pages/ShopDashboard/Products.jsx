@@ -106,103 +106,121 @@ export default function Products() {
           />
         </div>
       </div>
+<div className="products-grid-wrapper">
 
-      <div className="products-grid-wrapper">
-        {Object.entries(groupBySubCategory(filteredProducts)).map(
-          ([subCategory, items]) => (
-            <div key={subCategory} className="subcategory-section">
-              <h3 className="subcategory-title">
-                {subCategory}
-                <span className="count"> ({items.length})</span>
-              </h3>
+  {filteredProducts.length === 0 ? (
 
-              <div className="products-grid">
-                {items.map((p) => {
-                  const IMAGE_BASE = import.meta.env.VITE_IMAGE_URL;
-                  const imageUrl =
-                    !p.image || p.image === "default-product.png"
-                      ? "/image.jpg"
-                      : `${IMAGE_BASE}/uploads/${p.image}`;
+    /* ⭐ EMPTY STATE (LIKE YOUR SCREENSHOT) */
+    <div className="empty-state">
+      <div className="empty-icon">📦</div>
 
-                  const finalPrice =
-                    p.final_price !== null && p.final_price !== undefined
-                      ? p.final_price
-                      : p.price;
+      <h3>No Products Yet</h3>
 
-                  const hasDiscount =
-                    p.final_price &&
-                    p.price &&
-                    p.final_price < p.price;
+      <p>
+        Your product catalog is empty. Add items to start selling and
+        manage your inventory.
+      </p>
+    </div>
 
-                  return (
-                    <div
-                      key={p.id || p._id}
-                      className={`product-card ${!p.is_live ? "card-off" : ""}`}
-                    >
-                      <div className="img-wrapper">
-                        <img src={imageUrl} alt={p.name} />
+  ) : (
 
-                        {hasDiscount && (
-                          <div className="discount-badge">
-                            -{Math.round(
-                              ((p.price - p.final_price) / p.price) * 100
-                            )}%
-                          </div>
-                        )}
+    Object.entries(groupBySubCategory(filteredProducts)).map(
+      ([subCategory, items]) => (
+        <div key={subCategory} className="subcategory-section">
+          <h3 className="subcategory-title">
+            {subCategory}
+            <span className="count"> ({items.length})</span>
+          </h3>
+
+          <div className="products-grid">
+            {items.map((p) => {
+              const IMAGE_BASE = import.meta.env.VITE_IMAGE_URL;
+              const imageUrl =
+                !p.image || p.image === "default-product.png"
+                  ? "/image.jpg"
+                  : `${IMAGE_BASE}/uploads/${p.image}`;
+
+              const finalPrice =
+                p.final_price !== null && p.final_price !== undefined
+                  ? p.final_price
+                  : p.price;
+
+              const hasDiscount =
+                p.final_price &&
+                p.price &&
+                p.final_price < p.price;
+
+              return (
+                <div
+                  key={p.id || p._id}
+                  className={`product-card ${!p.is_live ? "card-off" : ""}`}
+                >
+                  <div className="img-wrapper">
+                    <img src={imageUrl} alt={p.name} />
+
+                    {hasDiscount && (
+                      <div className="discount-badge">
+                        -{Math.round(
+                          ((p.price - p.final_price) / p.price) * 100
+                        )}%
                       </div>
+                    )}
+                  </div>
 
-                      <div className="card-body">
-                        <h3>{p.name}</h3>
+                  <div className="card-body">
+                    <h3>{p.name}</h3>
 
-                        <div className="price-row">
-                          <span className="final-price">
-                            ₹{finalPrice}
+                    <div className="price-row">
+                      <span className="final-price">
+                        ₹{finalPrice}
+                      </span>
+
+                      {hasDiscount && (
+                        <span className="mrp">
+                          ₹{p.price}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="bottom-row">
+                      <div className="stock-section">
+                        {p.category === "Food" ? (
+                          <span className="units-text">
+                            ⏱ {p.preparing_minutes || p.prep_time || 0} min
                           </span>
+                        ) : (
+                          <span className="units-text">
+                            Available: {p.stock}
+                          </span>
+                        )}
 
-                          {hasDiscount && (
-                            <span className="mrp">
-                              ₹{p.price}
-                            </span>
-                          )}
-                        </div>
-
-                        {/* 🔥 FIXED BOTTOM SECTION ONLY */}
-                        <div className="bottom-row">
-                          <div className="stock-section">
-                            {p.category === "Food" ? (
-                              <span className="units-text">
-                                ⏱ {p.preparing_minutes || p.prep_time || 0} min
-                              </span>
-                            ) : (
-                              <span className="units-text">
-                                Available: {p.stock}
-                              </span>
-                            )}
-
-                            <button
-                              onClick={() => toggleLiveStatus(p)}
-                              className={`relative inline-flex h-6 w-11 items-center rounded-full
-                              transition-colors duration-300
-                              ${p.is_live ? "bg-green-500" : "bg-gray-300"}`}
-                            >
-                              <span
-                                className={`inline-block h-5 w-5 transform rounded-full bg-white shadow
-                                transition-transform duration-300
-                                ${p.is_live ? "translate-x-5" : "translate-x-1"}`}
-                              />
-                            </button>
-                          </div>
-                        </div>
-                        {/* 🔥 END FIX */}
+                        <button
+                          onClick={() => toggleLiveStatus(p)}
+                          className={`relative inline-flex h-6 w-11 items-center rounded-full
+                          transition-colors duration-300
+                          ${p.is_live ? "bg-green-500" : "bg-gray-300"}`}
+                        >
+                          <span
+                            className={`inline-block h-5 w-5 transform rounded-full bg-white shadow
+                            transition-transform duration-300
+                            ${p.is_live ? "translate-x-5" : "translate-x-1"}`}
+                          />
+                        </button>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
-            </div>
-          )
-        )}
-      </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )
+    )
+
+  )}
+
+</div>
+
 
       {deleteId && (
         <div className="confirm-overlay">
