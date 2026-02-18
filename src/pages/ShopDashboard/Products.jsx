@@ -221,7 +221,6 @@ export default function Products() {
 
 </div>
 
-
       {deleteId && (
         <div className="confirm-overlay">
           <div className="confirm-box">

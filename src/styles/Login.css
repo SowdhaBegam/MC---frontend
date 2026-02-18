@@ -11,16 +11,21 @@
   font-size: 36px;
   font-weight: 700;
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 5px;
   color: #3f0607;
   letter-spacing: -0.5px;
   
 }
-
+.subtitle {
+  font-size: 16px;
+  color: #555;
+  text-align: center;
+  margin-bottom: 24px;
+}
 
 .or-text {
   text-align: center;
-  margin: 18px 0;
+  margin: 15px 0;
   color: #020812;
   font-size: 15px;
   font-weight: 700;

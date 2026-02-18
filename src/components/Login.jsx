@@ -100,6 +100,7 @@ export default function Login() {
   return (
     <>
       <h1 className="login-title">Login</h1>
+      <p className="subtitle">Welcome back! Sign in to your account</p>
 
       <div className="field">
         <label>Email Address *</label>
