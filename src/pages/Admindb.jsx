@@ -6,7 +6,7 @@ import RecentShops from "../components/admin/RecentShops";
 import LatestOrders from "../components/admin/LatestOrders";
 
 
-import "../styles/admindb.css";
+import "../styles/Admindb.css";
 
 export default function Admindb() {
   return (
